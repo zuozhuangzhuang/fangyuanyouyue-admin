@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="zh-cn">
+
+<head>
+    <title>店铺认证</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="author" content="admui.com">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 禁止搜索引擎抓取 -->
+    <meta name="robots" content="nofollow">
+    <!-- 禁止百度SiteAPP转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <link rel="icon" type="image/png" href="../../public/images/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <link rel="icon" sizes="192x192" href="../../public/images/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Admui">
+    <!-- Win8标题栏及ICON图标 -->
+    <link rel="apple-touch-icon-precomposed" href="../../public/images/apple-touch-icon.png">
+    <meta name="msapplication-TileImage" content="../../public/images/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#62a8ea">
+
+    <!--[if lte IE 9]>
+    <meta http-equiv="refresh" content="0; url='http://www.admui.com/ie'"/>
+    <![endif]-->
+    <!--[if lt IE 10]>
+    <script src="../../public/vendor/media-match/media.match.min.js"></script>
+    <script src="../../public/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- 样式 -->
+    <link rel="stylesheet" href="../../public/themes/classic/global/css/bootstrap.css">
+    <link rel="stylesheet" href="../../public/themes/classic/base/css/site.css" id="admui-siteStyle">
+
+    <link rel="stylesheet" href="../../public/fonts/web-icons/web-icons.css">
+    <link rel="stylesheet" href="../../public/fonts/font-awesome/font-awesome.css">
+    <link rel="stylesheet" href="../../public/vendor/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="../../public/vendor/select2/select2.css">
+    <link rel="stylesheet" href="../../public/vendor/datatables-bootstrap/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="../../public/vendor/datatables-responsive/dataTables.responsive.css">
+
+    <script src="../../public/vendor/jquery/jquery.min.js"></script>
+    <script src="../../public/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="page animation-fade page-logs">
+    <div class="page-header">
+        <h1 class="page-title">店铺认证</h1>
+        <div class="page-header-actions">
+            <button type="button" class="btn btn-icon btn-info collapsed" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                <i class="icon fa-filter"></i>
+            </button>
+        </div>
+    </div>
+    <div class="page-content">
+        <div class="collapse" id="collapseFilter" aria-expanded="true">
+            <div class="panel">
+                <div class="panel-body">
+                    <form class="form-inline" id="logForm">
+                        <div class="form-group">
+                            <div class="input-daterange input-group">
+                                <span class="input-group-addon"><i class="icon wb-calendar" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" id="filter-date" placeholder="注册日期">
+                                <input type="hidden" name="startDate">
+                                <input type="hidden" name="endDate">
+                                <a class="input-group-addon padding-horizontal-10" role="button">
+                                    <i class="icon wb-close date-close"></i></a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        		<input class="form-control" type="text" name="keyword" placeholder="输入关键字搜索"/>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="status" data-plugin="select2">
+                                <option value="">所有用户</option>
+                                <option value="1">正常</option>
+                                <option value="2">冻结</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success"><i class="icon fa-search"></i> 查找</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <!--<header class="panel-heading">
+                <h3 class="panel-title">信息</h3>
+            </header>-->
+            <div class="panel-body">
+                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="dataList" data-column-defs='[{ "orderable": false, "targets": 2}]'>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>用户昵称</th>
+                        <th>手机号码</th>
+                        <th>状态</th>
+                        <th>申请时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+     <div class="modal" id="detailForm" aria-hidden="true" aria-labelledby="detailForm" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-center">
+            <form class="modal-content " id="compileRoleForm">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">编辑用户</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form form-horizontal logs-settings">
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">昵称</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="nickName" placeholder="输入用户的ID">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">手机号码</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="phone" placeholder="输入手机号码">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">保存</button>
+                    <a class="btn btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script src="../../public/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../../public/vendor/jquery-validation/jquery.validate.min.js"></script>
+<script src="../../public/vendor/datatables-bootstrap/dataTables.bootstrap.min.js"></script>
+<script src="../../public/vendor/datatables-responsive/dataTables.responsive.min.js"></script>
+<script src="../../public/vendor/bootstrap-daterangepicker/moment.min.js"></script>
+<script src="../../public/vendor/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+<script src="../../public/vendor/select2/select2.min.js"></script>
+<script src="../../public/vendor/select2/i18n/zh-CN.min.js"></script>
+<script src="../../public/themes/classic/base/js/app.js"></script>
+<script src="../../public/js/common.js"></script>
+<script src="../../public/js/utils.js"></script>
+<script src="../../public/js/user/shop-apply.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+[
+    {
+        "layer": "04",
+        "icon": "wb-book",
+        "id": 1,
+        "text": "系统管理",
+        "children": [
+            {
+                "layer": "0401",
+                "icon": "",
+                "id": 2,
+                "text": "系统信息",
+                "children": [
+                    {
+                        "layer": "040101",
+                        "icon": "fa-automobile",
+                        "url": "/system/menu",
+                        "id": 4,
+                        "text": "菜单管理",
+                        "children": null
+                    },
+                    {
+                        "layer": "040102",
+                        "icon": "fa-street-view",
+                        "url": "/system/user",
+                        "id": 5,
+                        "text": "用户管理",
+                        "children": null
+                    },
+                    {
+                        "layer": "040103",
+                        "icon": "fa-file-text-o",
+                        "url": "/system/log",
+                        "id": 6,
+                        "text": "日志信息",
+                        "children": null
+                    },
+                    {
+                        "layer": "040104",
+                        "icon": "fa-shield",
+                        "url": "/system/blacklist",
+                        "id": 7,
+                        "text": "黑名单",
+                        "children": null
+                    },
+                    {
+                        "layer": "040105",
+                        "icon": "fa-gear",
+                        "id": 8,
+                        "text": "系统设置",
+                        "children": [
+                            {
+                                "layer": "04010501",
+                                "icon": "",
+                                "url": "/system/settings/display",
+                                "id": 10,
+                                "text": "显示设置",
+                                "children": null
+                            },
+                            {
+                                "layer": "04010502",
+                                "icon": "",
+                                "url": "/system/settings/log",
+                                "id": 11,
+                                "text": "日志设置",
+                                "children": null
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

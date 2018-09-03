@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="zh-cn">
+
+<head>
+    <title>用户管理</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="author" content="admui.com">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 禁止搜索引擎抓取 -->
+    <meta name="robots" content="nofollow">
+    <!-- 禁止百度SiteAPP转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <link rel="icon" type="image/png" href="../../../public/images/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <link rel="icon" sizes="192x192" href="../../../public/images/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Admui">
+    <!-- Win8标题栏及ICON图标 -->
+    <link rel="apple-touch-icon-precomposed" href="../../../public/images/apple-touch-icon.png">
+    <meta name="msapplication-TileImage" content="../../../public/images/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#62a8ea">
+
+    <!--[if lte IE 9]>
+    <meta http-equiv="refresh" content="0; url='http://www.admui.com/ie'"/>
+    <![endif]-->
+    <!--[if lt IE 10]>
+    <script src="../../../public/vendor/media-match/media.match.min.js"></script>
+    <script src="../../../public/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- 样式 -->
+    <link rel="stylesheet" href="../../../public/themes/classic/global/css/bootstrap.css">
+    <link rel="stylesheet" href="../../../public/themes/classic/base/css/site.css" id="admui-siteStyle">
+
+    <link rel="stylesheet" href="../../../public/fonts/web-icons/web-icons.css">
+    <link rel="stylesheet" href="../../../public/fonts/font-awesome/font-awesome.css">
+    <link rel="stylesheet" href="../../../public/vendor/datatables-bootstrap/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="../../../public/vendor/datatables-responsive/dataTables.responsive.css">
+    <link rel="stylesheet" href="../../../public/css/system/user.css">
+
+    <script src="../../../public/vendor/jquery/jquery.min.js"></script>
+    <script src="../../../public/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+
+<body class="layout-full">
+
+<div class="page bg-white animation-fade page-users">
+    <div class="page-aside">
+        <div class="page-aside-switch">
+            <i class="icon wb-chevron-left" aria-hidden="true"></i>
+            <i class="icon wb-chevron-right" aria-hidden="true"></i>
+        </div>
+        <div class="page-aside-inner height-full" data-plugin="slimScroll">
+            <div class="page-aside-section">
+                <div class="list-group">
+                    <a class="list-group-item active" href="javascript:;">
+                        <span class="item-right" data-allUsers="61">61</span><i class="icon wb-tag" aria-hidden="true"></i>所有用户
+                    </a>
+                </div>
+            </div>
+            <div class="page-aside-section">
+                <h5 class="page-aside-title">角色</h5>
+                <div class="list-group has-actions role-contents">
+                    <div class="list-group-item" data-user="10" data-id="0" data-url="">
+                        <div class="list-content">
+                            <span class="item-right">10</span> <span class="list-text">超级管理员</span>
+                            <div class="item-actions">
+                                <span class="btn btn-pure btn-icon btn-edit" data-toggle="modal" data-target="#roleForm" data-page-height="520" data-page="./html/system/user/_role-info.html"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item" data-user="5" data-id="1" data-url="">
+                        <div class="list-content">
+                            <span class="item-right">5</span> <span class="list-text">普通管理员</span>
+                            <div class="item-actions">
+                                <span class="btn btn-pure btn-icon btn-edit" data-toggle="modal" data-target="#roleForm" data-page-height="520" data-page="./html/system/user/_role-info.html"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/html" id="roleTpl">
+                    <div class="list-group-item" data-user="0" data-id="{{role.id}}" data-url="">
+                        <div class="list-content">
+                            <span class="item-right">0</span> <span class="list-text">{{role.name}}</span>
+                            <div class="item-actions">
+                                <span class="btn btn-pure btn-icon btn-edit" data-toggle="modal" data-target="#roleForm" data-page-height="520" data-page="./html/system/user/_role-info.html"><i class="icon wb-edit" aria-hidden="true"></i></span>
+                                <span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </script>
+            </div>
+            <div class="page-aside-section hidden-xs">
+                <a class="list-group-item" href="#" data-toggle="modal" data-target="#roleForm" data-page-height="520" data-page="./html/system/user/_role-info.html" id="addRoleToggle">
+                    <i class="icon wb-plus" aria-hidden="true"></i> 添加新角色
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="page-main">
+        <div class="page-header">
+            <h3 class="page-title">用户列表</h3>
+        </div>
+        <div class="page-content" id="user_tables">
+            <table class="table table-bordered table-hover text-nowrap dataTable table-striped margin-vertical-10 width-full print-hidden-first-column print-hidden-last-column" data-selectable="selectable" data-column-defs='[{ "orderable": false, "targets": 0},{ "orderable": false, "targets": 6}]'>
+                <thead>
+                <tr>
+                    <th width="20" data-order="false">
+                        <span class="checkbox-custom checkbox-primary user-select-all">
+                            <input type="checkbox" class="user-checkbox selectable-all">
+                            <label></label>
+                        </span>
+                    </th>
+                    <th>用户名</th>
+                    <th>创建日期</th>
+                    <th>最后登录</th>
+                    <th>登录次数</th>
+                    <th>登录IP</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <div class="site-action">
+        <button type="button" class="site-action-toggle btn-raised btn btn-success btn-floating">
+            <i class="front-icon wb-plus animation-scale-up" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="添加"></i>
+            <i class="back-icon wb-close animation-scale-up" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="关闭"></i>
+        </button>
+        <div class="site-action-buttons">
+            <button type="button" data-action="delete" class="btn-raised btn btn-success btn-floating animation-slide-bottom" data-toggle="tooltip" data-placement="left" title="删除所选用户">
+                <i class="icon wb-trash" aria-hidden="true"></i>
+            </button>
+            <button type="button" data-action="move" class="btn-raised btn btn-success btn-floating animation-slide-bottom" data-toggle="tooltip" data-placement="left" title="禁用所选用户">
+                <i class="icon wb-lock" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-fall modal-fill-in" id="userInfoForm" aria-hidden="true" aria-labelledby="userInfoForm" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-center">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="roleForm" aria-hidden="true" aria-labelledby="roleForm" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-center">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<script src="../../../public/vendor/artTemplate/template.min.js"></script>
+<script src="../../../public/vendor/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../../../public/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../public/vendor/datatables-bootstrap/dataTables.bootstrap.min.js"></script>
+<script src="../../../public/vendor/datatables-responsive/dataTables.responsive.min.js"></script>
+<script src="../../../public/vendor/datatables-buttons/dataTables.buttons.min.js"></script>
+<script src="../../../public/vendor/datatables-buttons/buttons.print.min.js"></script>
+<script src="../../../public/vendor/datatables-buttons/buttons.html5.min.js"></script>
+<script src="../../../public/vendor/jszip/jszip.min.js"></script>
+<script src="../../../public/themes/classic/global/js/plugins/action-btn.js"></script>
+<script src="../../../public/themes/classic/global/js/plugins/selectable.js"></script>
+<script src="../../../public/themes/classic/base/js/app.js"></script>
+<script src="../../../public/js/system/user/index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="zh-cn">
+
+<head>
+    <title>日志设置</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="author" content="admui.com">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 禁止搜索引擎抓取 -->
+    <meta name="robots" content="nofollow">
+    <!-- 禁止百度SiteAPP转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <link rel="icon" type="image/png" href="../../../public/images/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <link rel="icon" sizes="192x192" href="../../../public/images/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Admui">
+    <!-- Win8标题栏及ICON图标 -->
+    <link rel="apple-touch-icon-precomposed" href="../../../public/images/apple-touch-icon.png">
+    <meta name="msapplication-TileImage" content="../../../public/images/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#62a8ea">
+
+    <!--[if lte IE 9]>
+    <meta http-equiv="refresh" content="0; url='http://www.admui.com/ie'"/>
+    <![endif]-->
+    <!--[if lt IE 10]>
+    <script src="../../../public/vendor/media-match/media.match.min.js"></script>
+    <script src="../../../public/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- 样式 -->
+    <link rel="stylesheet" href="../../../public/themes/classic/global/css/bootstrap.css">
+    <link rel="stylesheet" href="../../../public/themes/classic/base/css/site.css" id="admui-siteStyle">
+
+    <link rel="stylesheet" href="../../../public/fonts/web-icons/web-icons.css">
+    <link rel="stylesheet" href="../../../public/vendor/datatables-bootstrap/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="../../../public/vendor/datatables-responsive/dataTables.responsive.css">
+    <link rel="stylesheet" href="../../../public/css/system/settings/log.css">
+
+    <script src="../../../public/vendor/jquery/jquery.min.js"></script>
+    <script src="../../../public/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="page animation-fade bg-white page-logs">
+    <div class="page-header">
+        <h1 class="page-title">系统日志</h1>
+        <div class="page-header-actions">
+            <button type="button" class="btn btn-sm btn-outline btn-default add-row" data-target="#logsForm" data-toggle="modal" aria-hidden="true" role="button">
+                <i class="icon wb-plus"></i> 新增
+            </button>
+        </div>
+    </div>
+    <hr class="margin-0">
+    <div class="page-content">
+        <table class="table table-bordered table-hover text-nowrap dataTable table-striped width-full" id="logList" data-column-defs='[{ "orderable": false, "targets": 2},{ "orderable": false, "targets": 3},{ "orderable": false, "targets": 4}]'>
+            <thead>
+                <tr>
+                    <th>路径</th>
+                    <th>类型</th>
+                    <th>用户</th>
+                    <th>时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="2" role="row" class="odd">
+                    <td tabindex="0" class="sorting_1">/log/saveConfig</td>
+                    <td>保存日志配置</td>
+                    <td>dk</td>
+                    <td>2016-12-26 18:13:07</td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" class="btn btn-icon btn-pure btn-default edit-row" data-target="#logsForm" data-toggle="modal">
+                                <i class="icon wb-edit" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-icon btn-pure btn-default delete-row">
+                                <i class="icon wb-close" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr id="1" role="row" class="even">
+                    <td tabindex="0" class="sorting_1">/system/login</td>
+                    <td>登录</td>
+                    <td>dk</td>
+                    <td>2016-12-3 15:29:50</td>
+                    <td><div class="btn-group btn-group-sm"><button type="button" class="btn btn-icon btn-pure btn-default edit-row" data-target="#logsForm" data-toggle="modal"><i class="icon wb-edit" aria-hidden="true"></i></button><button type="button" class="btn btn-icon btn-pure btn-default delete-row"><i class="icon wb-close" aria-hidden="true"></i></button></div></td>
+                </tr>
+                <tr id="4" role="row" class="odd">
+                    <td tabindex="0" class="sorting_1">/system/menu</td>
+                    <td>你不知道的</td>
+                    <td>dk</td>
+                    <td>2017-3-27 13:28:48</td>
+                    <td><div class="btn-group btn-group-sm"><button type="button" class="btn btn-icon btn-pure btn-default edit-row" data-target="#logsForm" data-toggle="modal"><i class="icon wb-edit" aria-hidden="true"></i></button><button type="button" class="btn btn-icon btn-pure btn-default delete-row"><i class="icon wb-close" aria-hidden="true"></i></button></div></td>
+                </tr>
+                <tr id="3" role="row" class="even">
+                    <td tabindex="0" class="sorting_1">wgweg</td>
+                    <td>gwegw</td>
+                    <td>dk</td>
+                    <td>2017-3-27 13:28:02</td>
+                    <td><div class="btn-group btn-group-sm"><button type="button" class="btn btn-icon btn-pure btn-default edit-row" data-target="#logsForm" data-toggle="modal"><i class="icon wb-edit" aria-hidden="true"></i></button><button type="button" class="btn btn-icon btn-pure btn-default delete-row"><i class="icon wb-close" aria-hidden="true"></i></button></div></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal" id="logsForm" aria-hidden="true" aria-labelledby="logsForm" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-center">
+            <form class="modal-content " id="compileRoleForm">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">日志设置</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form form-horizontal logs-settings">
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">路径</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="url" placeholder="请填写需要记录日志的URL">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">名称</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="type" placeholder="请填写URL对应的显示名称">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">保存</button>
+                    <a class="btn btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script src="../../../public/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../../../public/vendor/datatables-bootstrap/dataTables.bootstrap.min.js"></script>
+<script src="../../../public/vendor/datatables-responsive/dataTables.responsive.min.js"></script>
+<script src="../../../public/vendor/jquery-validation/jquery.validate.min.js"></script>
+<script src="../../../public/vendor/jquery-validation/localization/messages_zh.js"></script>
+<script src="../../../public/themes/classic/base/js/app.js"></script>
+<script src="../../../public/js/system/settings/log.js"></script>
+</body>
+
+</html>

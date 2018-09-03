@@ -1,0 +1,23 @@
+/**
+ * Admui-iframe v1.2.0 (http://www.admui.com/)
+ * Copyright 2015-2018 Admui Team
+ * Licensed under the Admui License 1.0 (http://www.admui.com/about/#license)
+ */
+.panel-body .btn:not(.btn-block) {
+	margin: 0 5px 10px 0;
+}
+.panel-body .btn-block {
+	margin-bottom: 10px;
+}
+.layui-layer-content .layer_notice .close {
+	display: none;
+}
+.layui-layer-content .alert {
+	margin-bottom: 0;
+}
+.layui-layer-wrap {
+	display: block!important;
+}
+.city {
+	display: none !important;
+}

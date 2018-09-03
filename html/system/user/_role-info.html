@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="zh-cn">
+
+<head>
+    <title>角色信息</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="author" content="admui.com">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 禁止搜索引擎抓取 -->
+    <meta name="robots" content="nofollow">
+    <!-- 禁止百度SiteAPP转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <link rel="icon" type="image/png" href="../../../public/images/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <link rel="icon" sizes="192x192" href="../../../public/images/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Admui">
+    <!-- Win8标题栏及ICON图标 -->
+    <link rel="apple-touch-icon-precomposed" href="../../../public/images/apple-touch-icon.png">
+    <meta name="msapplication-TileImage" content="../../../public/images/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#62a8ea">
+
+    <!--[if lte IE 9]>
+    <meta http-equiv="refresh" content="0; url='http://www.admui.com/ie'"/>
+    <![endif]-->
+    <!--[if lt IE 10]>
+    <script src="../../../public/vendor/media-match/media.match.min.js"></script>
+    <script src="../../../public/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- 样式 -->
+    <link rel="stylesheet" href="../../../public/themes/classic/global/css/bootstrap.css">
+    <link rel="stylesheet" href="../../../public/themes/classic/base/css/site.css" id="admui-siteStyle">
+
+    <link rel="stylesheet" href="../../../public/fonts/web-icons/web-icons.css">
+    <link rel="stylesheet" href="../../../public/fonts/font-awesome/font-awesome.css">
+    <link rel="stylesheet" href="../../../public/vendor/jstree/jstree.css">
+    <link rel="stylesheet" href="../../../public/css/system/user.css">
+
+    <script src="../../../public/vendor/jquery/jquery.min.js"></script>
+    <script src="../../../public/vendor/bootstrap/bootstrap.min.js"></script>
+
+    <style>
+        .pagetree {
+            height: 200px;
+            overflow: hidden;
+        }
+        .jstree-box {
+            border: solid 1px @border-color-base;
+            border-radius: @border-radius-base;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="modal-header">
+    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+    <h4 class="modal-title">角色信息</h4>
+</div>
+<form action="" method="post" id="roleInfo">
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="control-label">角色名称：</label>
+            <input type="text" class="form-control" name="roleName">
+        </div>
+        <div class="form-group">
+            <label class="control-label">权限分配：</label>
+            <div class="jstree-box">
+                <div class="jstree-tools clearfix">
+                    <div class="btn-group btn-group-sm pull-right" role="group">
+                        <button type="button" class="btn btn-icon btn-outline btn-default btn-unfold">
+                            <i class="icon fa-angle-down"></i></button>
+                        <button type="button" class="btn btn-icon btn-outline btn-default btn-fold">
+                            <i class="icon fa-angle-up"></i></button>
+                    </div>
+                    <div class="pull-left">
+                        <div class="input-search">
+                            <button type="button" class="input-search-btn">
+                                <i class="icon wb-search" aria-hidden="true"></i></button>
+                            <input type="text" class="form-control input-sm" name="jstree_search" placeholder="快速查找...">
+                        </div>
+                    </div>
+                </div>
+                <div class="pagetree margin-top-10">
+                    <div id="slimScroll">
+                        <div id="jstree"></div>
+                    </div>
+                    <input type="hidden" name="roleId">
+                    <input type="hidden" name="roleAuth">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary btn-jstree" type="submit">保存</button>
+        <a class="btn btn-default" data-dismiss="modal">取消</a>
+    </div>
+</form>
+
+<script src="../../../public/vendor/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../../../public/vendor/jstree/jstree.min.js"></script>
+<script src="../../../public/vendor/jquery-validation/jquery.validate.min.js"></script>
+<script src="../../../public/vendor/jquery-validation/localization/messages_zh.js"></script>
+<script src="../../../public/themes/classic/base/js/app.js"></script>
+<script src="../../../public/js/system/user/role-modal.js"></script>
+</body>
+
+</html>
