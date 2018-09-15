@@ -14,11 +14,14 @@
         
     function setStatus(data){
     		if(data==1){
-    			return "<span class='label label-success'>正常</span>"
+    			return "<span class='label label-danger'>待审核</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已冻结</span>"
+    			return "<span class='label label-success'>审核通过</span>"
+    		}else if(data==3){
+    			return "<span class='label label-default'>审核不通过</span>"
     		}else{
-    			return "<span class='label label-default'>未知</span>"
+    			
+    			return "<span class='label label-default'>状态有误</span>"
     		}
     };
 
@@ -31,16 +34,8 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
-                {"data": "nickName"},
-                {"data": "phone"},
-                {
-                		"data": "headImgUrl",
-                		"render": setImg
-                },
-                {
-                		"data": "gender",
-                		"render": setGender
-                },
+                {"data": "name"},
+                {"data": "identity"},
 //              {
 //                  "data": "user",
 //                  "render": function (data) {
@@ -56,12 +51,10 @@
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
+                			if(data==1){
+							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="审核通过"><i class="icon wb-check" aria-hidden="true"></i></button>';
+                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="审核不通过"><i class="icon wb-close" aria-hidden="true"></i></button>';
                 			}
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
 						return html;
                 		}
                 }
@@ -89,7 +82,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/admin/user/list?'+param,
+                    url: SERVER_PATH+'/user/adminUser/auth/list?'+param,
                     method:'get',
                     cache: false,
                     //data: param,
@@ -138,7 +131,7 @@
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/admin/user/modify',
+                url: SERVER_PATH + '/adminUser/modify',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -190,26 +183,18 @@
 	    		changeStatus(data.id,1);
 	    		
 	    });
-	    
-	    // 编辑所选用户
-	    $(document).on('click', '.modify', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
-        		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
-	    		
-	    });
     
 	}
     
     //改变状态
     function changeStatus(id,status){
-	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
+    		var msg = "确定通过审核吗？";
+    		if(status==2){
+    			msg = "确定不通过审核吗？";
+    		}
+	    parent.layer.confirm(msg, function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/admin/user/delete',
+		        url: SERVER_PATH + '/user/adminUser/auth/status',
 		        type: 'POST',
 		        data: {id: id,status:status},
 		        traditional: true,

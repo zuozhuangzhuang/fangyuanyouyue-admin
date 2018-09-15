@@ -13,16 +13,23 @@
         $detailForm = $('#compileRoleForm');
         
     function setStatus(data){
-    		if(data==1){
-    			return "<span class='label label-danger'>待认证</span>"
-    		}else if(data==2){
-    			return "<span class='label label-success'>认证成功</span>"
-    		}else if(data==3){
-    			return "<span class='label label-default'>认证失败</span>"
+    		if(data==0){
+    			return "<span class='label label-success'>正常</span>"
+    		}else if(data==1){
+    			return "<span class='label label-danger'>禁用</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
     };
+    
+            
+    function setType(data){
+    		if(data==1){
+    			return "<span class='label label-success'>普通</span>"
+    		}else if(data==2){
+    			return "<span class='label label-danger'>热门</span>"
+    		}
+    }
 
     var callback = function () {
         return $('.dataTable').DataTable($.po('dataTable', {
@@ -33,8 +40,16 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
-                {"data": "nickName"},
-                {"data": "phone"},
+                {"data": "parentId"},
+                {"data": "name"},
+                {
+                		"data": "imgUrl",
+                		"render": setImg
+                },
+                {"data": "sort"},
+                {"data": "type",
+                	"render": setType
+                },
 //              {
 //                  "data": "user",
 //                  "render": function (data) {
@@ -45,15 +60,16 @@
                 		"data": "status",
                 		"render":setStatus
                 },
-                {"data": "addTime"},
                 {
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			if(data==0){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="通过审核"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="不通过审核"><i class="icon wb-close" aria-hidden="true"></i></button>';
+                			if(data==2){
+							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
+                			}else {
+                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
                 			}
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
 						return html;
                 		}
                 }
@@ -81,11 +97,11 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/user/adminUser/auth/order/list?'+param,
+                    url: SERVER_PATH+'/goods/adminGoods/categoryList?'+param,
                     method:'get',
                     cache: false,
                     //data: param,
-                    //dataType: "JSON",
+                   // dataType: "jsoup",
                     success: function (result) {
                         var tableData = null;
                         if (result.code==0) {
@@ -130,7 +146,7 @@
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/adminUser/modify',
+                url: SERVER_PATH + '/user/adminUser/modify',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -201,7 +217,7 @@
     function changeStatus(id,status){
 	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/adminUser/delete',
+		        url: SERVER_PATH + '/user/adminUser/delete',
 		        type: 'POST',
 		        data: {id: id,status:status},
 		        traditional: true,

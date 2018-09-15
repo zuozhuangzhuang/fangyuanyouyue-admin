@@ -13,10 +13,12 @@
         $detailForm = $('#compileRoleForm');
         
     function setStatus(data){
-    		if(data==1){
-    			return "<span class='label label-success'>正常</span>"
+    		if(data==0){
+    			return "<span class='label label-danger'>待审核</span>"
+    		}else if(data==1){
+    			return "<span class='label label-success'>审核通过</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已冻结</span>"
+    			return "<span class='label label-warm'>审核不通过</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
@@ -33,20 +35,8 @@
                 {"data": "id"},
                 {"data": "nickName"},
                 {"data": "phone"},
-                {
-                		"data": "headImgUrl",
-                		"render": setImg
-                },
-                {
-                		"data": "gender",
-                		"render": setGender
-                },
-//              {
-//                  "data": "user",
-//                  "render": function (data) {
-//                      return data === null ? null : data.loginName;
-//                  }
-//              },
+                {"data": "columnName"},
+                {"data": "typeName"},
                 {
                 		"data": "status",
                 		"render":setStatus
@@ -56,12 +46,10 @@
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
+                			if(data==0){
+							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="审核通过"><i class="icon wb-check" aria-hidden="true"></i></button>';
+                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="审核不通过"><i class="icon wb-close" aria-hidden="true"></i></button>';
                 			}
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
 						return html;
                 		}
                 }
@@ -89,7 +77,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/admin/user/list?'+param,
+                    url: SERVER_PATH+'/forum/adminAppraisal/applyList?'+param,
                     method:'get',
                     cache: false,
                     //data: param,
@@ -138,7 +126,7 @@
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/admin/user/modify',
+                url: SERVER_PATH + '/adminUser/modify',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -209,7 +197,7 @@
     function changeStatus(id,status){
 	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/admin/user/delete',
+		        url: SERVER_PATH + '/adminUser/delete',
 		        type: 'POST',
 		        data: {id: id,status:status},
 		        traditional: true,

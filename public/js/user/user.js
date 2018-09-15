@@ -34,6 +34,13 @@
                 {"data": "nickName"},
                 {"data": "phone"},
                 {
+                		"data": "level"
+                },
+                {
+                		"data": "vipStatus",
+                		"render": setYesNo
+                },
+                {
                 		"data": "headImgUrl",
                 		"render": setImg
                 },
@@ -61,7 +68,7 @@
                 			}else {
                 				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
                 			}
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
+                			//html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
 						return html;
                 		}
                 }
@@ -89,11 +96,11 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/admin/user/list?'+param,
+                    url: SERVER_PATH+'/user/adminUser/list?'+param,
                     method:'get',
                     cache: false,
                     //data: param,
-                    //dataType: "JSON",
+                   // dataType: "jsoup",
                     success: function (result) {
                         var tableData = null;
                         if (result.code==0) {
@@ -138,7 +145,7 @@
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/admin/user/modify',
+                url: SERVER_PATH + '/user/adminUser/modify',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -209,7 +216,7 @@
     function changeStatus(id,status){
 	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/admin/user/delete',
+		        url: SERVER_PATH + '/user/adminUser/delete',
 		        type: 'POST',
 		        data: {id: id,status:status},
 		        traditional: true,

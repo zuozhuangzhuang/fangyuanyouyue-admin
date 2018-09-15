@@ -83,6 +83,16 @@ function setImg(data){
 	}
 }
 
+
+function setImg2(data){
+	if (data == null || data.length == 0) {
+		return ''
+	} else { 
+		return "<img src="+data+" onclick='showPic(\""+data+"\")' height=30 width=30  />";
+	}
+}
+
+
 function showBigPic(name) {
 	var com = document.getElementById(name);
 	window.open(com.src, "image", 'fullscreen=1,top=0,left=0,height=600,width=1000, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no,titlebar=no');
