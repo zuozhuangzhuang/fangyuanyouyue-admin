@@ -88,7 +88,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/goods/adminGoods/goodsList?'+param,
+                    url: SERVER_PATH+'/goods/adminGoods/goodsList?type=1'+param,
                     method:'get',
                     cache: false,
                     //data: param,

@@ -30,28 +30,14 @@
             searching: false,
             pagingType: "simple_numbers",
             columns: [
-                {"data": "id"},
-                {"data": "nickName"},
-                {"data": "phone"},
-                {
-                		"data": "headImgUrl",
-                		"render": setImg
-                },
-                {
-                		"data": "gender",
-                		"render": setGender
-                },
-//              {
-//                  "data": "user",
-//                  "render": function (data) {
-//                      return data === null ? null : data.loginName;
-//                  }
-//              },
+                {"data": "companyId"},
+                {"data": "name"},
+                {"data": "companyNo"},
+                {"data": "price"},
                 {
                 		"data": "status",
                 		"render":setStatus
                 },
-                {"data": "addTime"},
                 {
                 		"data": "status",
                 		"render":function(data){
@@ -89,7 +75,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/user/adminUser/list?'+param,
+                    url: SERVER_PATH+'/order/adminOrder/companyList?'+param,
                     method:'get',
                     cache: false,
                     //data: param,
@@ -138,7 +124,7 @@
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/user/adminUser/modify',
+                url: SERVER_PATH + '/order/adminOrder/companyList',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',

@@ -31,22 +31,15 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
-                {"data": "nickName"},
-                {"data": "phone"},
                 {
-                		"data": "headImgUrl",
+                		"data": "coverImgUrl",
                 		"render": setImg
                 },
-                {
-                		"data": "gender",
-                		"render": setGender
-                },
-//              {
-//                  "data": "user",
-//                  "render": function (data) {
-//                      return data === null ? null : data.loginName;
-//                  }
-//              },
+                {"data": "name"},
+                {"data": "nickName"},
+                {"data": "totalCount"},
+                {"data": "baseCount"},
+                {"data": "realCount"},
                 {
                 		"data": "status",
                 		"render":setStatus

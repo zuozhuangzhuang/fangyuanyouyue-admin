@@ -30,17 +30,16 @@
             searching: false,
             pagingType: "simple_numbers",
             columns: [
-                {"data": "id"},
+                {"data": "goodsId"},
+                {
+                		"data": "mainUrl",
+                		"render": setImg2
+                },
+                {"data": "name"},
+                {"data": "price"},
                 {"data": "nickName"},
-                {"data": "phone"},
-                {
-                		"data": "headImgUrl",
-                		"render": setImg
-                },
-                {
-                		"data": "gender",
-                		"render": setGender
-                },
+                {"data": "authType"},
+                {"data": "isAppraisal"},
 //              {
 //                  "data": "user",
 //                  "render": function (data) {
@@ -89,7 +88,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/user/adminUser/list?'+param,
+                    url: SERVER_PATH+'/goods/adminGoods/goodsList?type=2'+param,
                     method:'get',
                     cache: false,
                     //data: param,
