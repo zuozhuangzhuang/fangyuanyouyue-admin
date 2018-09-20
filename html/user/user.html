@@ -131,15 +131,34 @@
                         <div class="form-group row">
                             <label class="col-xs-2 control-label">昵称</label>
                             <div class="col-xs-9">
-                                <input type="text" class="form-control" name="nickName" placeholder="输入用户的ID">
+                                <input type="text" class="form-control" name="nickName" placeholder="输入用户的ID" disabled="disabled"> 
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-xs-2 control-label">手机号码</label>
                             <div class="col-xs-9">
-                                <input type="text" class="form-control" name="phone" placeholder="输入手机号码">
+                                <input type="text" class="form-control" name="phone" placeholder="输入手机号码" disabled="disabled">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">增减金额</label>
+                        		<div class="col-xs-3 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosUnchecked" name="inputRadios">
+                                <label for="inputRadiosUnchecked">增加</label>
+                            </div>
+                            <div class="radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosChecked" name="inputRadios" checked>
+                                <label for="inputRadiosChecked">扣除</label>
+                            </div> 
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">金额</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="amount" placeholder="输入增加/扣除的金额数量">
+                            </div>
+                        </div>
+                            
+                        
                         
                     </div>
                 </div>

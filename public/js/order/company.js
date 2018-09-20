@@ -105,26 +105,26 @@
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            nickName: {
+            number: {
                 required: true
             },
-            phone: {
+            name: {
                 required: true
             }
         },
         messages: {
-            nickName: {
-                required: '请填写URL地址'
+            number: {
+                required: '请填写公司名称'
             },
-            phone: {
-                required: '请填写URL对应名称'
+            name: {
+                required: '请填写物流编码'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/order/adminOrder/companyList',
+                url: SERVER_PATH + '/order/adminOrder/addCompany',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -183,9 +183,13 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
+        		$detailForm.find('input[name="number"]').val(data.companyNo);
         		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
+        		$detailForm.find('input[name="name"]').val(data.name);
+        		
+        		$detailForm.find('input[name="price"]').val(data.price);
+        		
+        		$detailForm.find('input[name="id"]').val(data.companyId);
 	    		
 	    });
     
