@@ -12,11 +12,26 @@
         $detailModal = $('#detailForm'),
         $detailForm = $('#compileRoleForm');
         
+    
+    function setPayType(data){
+    		if(data==1){
+    			return "微信"
+    		}else if(data==2){
+    			return "支付宝"
+    		}else if(data==3){
+    			return "余额"
+    		}else{
+    			return "<span class='label label-default'>未知</span>"
+    		}
+    };    
+    
     function setStatus(data){
     		if(data==1){
-    			return "<span class='label label-success'>正常</span>"
+    			return "<span class='label label-danger'>申请中</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已冻结</span>"
+    			return "<span class='label label-success'>申请成功</span>"
+    		}else if(data==3){
+    			return "<span class='label label-default'>申请拒绝</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
@@ -32,21 +47,11 @@
             columns: [
                 {"data": "id"},
                 {"data": "nickName"},
-                {"data": "phone"},
-                {
-                		"data": "headImgUrl",
-                		"render": setImg
-                },
-                {
-                		"data": "gender",
-                		"render": setGender
-                },
-//              {
-//                  "data": "user",
-//                  "render": function (data) {
-//                      return data === null ? null : data.loginName;
-//                  }
-//              },
+                {"data": "realName"},
+                {"data": "amount"},
+                {"data": "payType","render":setPayType},
+                {"data": "account"},
+                {"data": "content"},
                 {
                 		"data": "status",
                 		"render":setStatus
@@ -89,7 +94,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/user/adminUser/list?'+param,
+                    url: SERVER_PATH+'/wallet/adminWallet/withdrawList?'+param,
                     method:'get',
                     cache: false,
                     //data: param,

@@ -12,11 +12,41 @@
         $detailModal = $('#detailForm'),
         $detailForm = $('#compileRoleForm');
         
-    function setStatus(data){
+         
+    function setPayType(data){
     		if(data==1){
-    			return "<span class='label label-success'>正常</span>"
+    			return "微信"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已冻结</span>"
+    			return "支付宝"
+    		}else if(data==3){
+    			return "余额"
+    		}else if(data==4){
+    			return "小程序"
+    		}else{
+    			return "<span class='label label-default'>未知</span>"
+    		}
+    };    
+    function setType(data){
+    		if(data==1){
+    			return "商品"
+    		}else if(data==2){
+    			return "官方鉴定"
+    		}else if(data==3){
+    			return "商品议价"
+    		}else if(data==4){
+    			return "全民鉴定"
+    		}else if(data==5){
+    			return "专栏"
+    		}else if(data==6){
+    			return "充值"
+    		}else if(data==7){
+    			return "提现"
+    		}else if(data==8){
+    			return "开通会员"
+    		}else if(data==9){
+    			return "续费会员"
+    		}else if(data==10){
+    			return "认证店铺"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
@@ -30,41 +60,12 @@
             searching: false,
             pagingType: "simple_numbers",
             columns: [
-                {"data": "id"},
-                {"data": "nickName"},
-                {"data": "phone"},
-                {
-                		"data": "headImgUrl",
-                		"render": setImg
-                },
-                {
-                		"data": "gender",
-                		"render": setGender
-                },
-//              {
-//                  "data": "user",
-//                  "render": function (data) {
-//                      return data === null ? null : data.loginName;
-//                  }
-//              },
-                {
-                		"data": "status",
-                		"render":setStatus
-                },
-                {"data": "addTime"},
-                {
-                		"data": "status",
-                		"render":function(data){
-                			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
-                			}
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
-						return html;
-                		}
-                }
+                {"data": "orderNo"},
+                {"data": "title"},
+                {"data": "type","render":setType},
+                {"data": "amount"},
+                {"data": "payType","render":setPayType},
+                {"data": "addTime"}
             ],
             ajax: function (data, callback) {
                 var param, column, dir,
@@ -89,7 +90,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/user/adminUser/list?'+param,
+                    url: SERVER_PATH+'/wallet/adminWallet/platformFinance?'+param,
                     method:'get',
                     cache: false,
                     //data: param,
