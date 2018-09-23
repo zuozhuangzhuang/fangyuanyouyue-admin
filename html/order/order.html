@@ -55,7 +55,7 @@
 
 <div class="page animation-fade page-logs">
     <div class="page-header">
-        <h1 class="page-title">分类信息</h1>
+        <h1 class="page-title">订单信息</h1>
         <div class="page-header-actions">
             <button type="button" class="btn btn-icon btn-info collapsed" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                 <i class="icon fa-filter"></i>
@@ -70,7 +70,7 @@
                         <div class="form-group">
                             <div class="input-daterange input-group">
                                 <span class="input-group-addon"><i class="icon wb-calendar" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" id="filter-date" placeholder="注册日期">
+                                <input type="text" class="form-control" id="filter-date" placeholder="下单日期">
                                 <input type="hidden" name="startDate">
                                 <input type="hidden" name="endDate">
                                 <a class="input-group-addon padding-horizontal-10" role="button">
@@ -82,9 +82,12 @@
                         </div>
                         <div class="form-group">
                             <select class="form-control" name="status" data-plugin="select2">
-                                <option value="">所有用户</option>
-                                <option value="1">正常</option>
-                                <option value="2">冻结</option>
+                                <option value="">所有订单</option>
+                                <option value="1">待支付</option>
+                                <option value="2">待发货</option>
+                                <option value="3">待收货</option>
+                                <option value="4">已完成</option>
+                                <option value="5">已取消</option>
                             </select>
                         </div>
                         <div class="form-group">

@@ -22,6 +22,29 @@
     		}
     };
 
+
+    function setAuth(data){
+    		if(data==1){
+    			return "<span class='label label-success'>已认证</span>"
+    		}else if(data==2){
+    			return "<span class='label label-danger'>未认证</span>"
+    		}else{
+    			return "<span class='label label-default'>未知</span>"
+    		}
+    };
+    
+    
+
+    function setAppraisal(data){
+    		if(data==1){
+    			return "<span class='label label-success'>已鉴定</span>"
+    		}else if(data==2){
+    			return "<span class='label label-danger'>未鉴定</span>"
+    		}else{
+    			return "<span class='label label-default'>未知</span>"
+    		}
+    };
+    
     var callback = function () {
         return $('.dataTable').DataTable($.po('dataTable', {
             autoWidth: false,
@@ -32,14 +55,15 @@
             columns: [
                 {"data": "goodsId"},
                 {
-                		"data": "mainUrl",
-                		"render": setImg2
+                		"data": "goodsImgDtos",
+                		"render": setImgs
                 },
                 {"data": "name"},
                 {"data": "price"},
+                {"data": "postage"},
                 {"data": "nickName"},
-                {"data": "authType"},
-                {"data": "isAppraisal"},
+                {"data": "authType","render":setAuth},
+                {"data": "isAppraisal","render":setAppraisal},
 //              {
 //                  "data": "user",
 //                  "render": function (data) {
@@ -88,7 +112,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/goods/adminGoods/goodsList?type=1'+param,
+                    url: SERVER_PATH+'/goods/adminGoods/goodsList?type=1&'+param,
                     method:'get',
                     cache: false,
                     //data: param,

@@ -42,6 +42,7 @@
 
     <link rel="stylesheet" href="public/fonts/web-icons/web-icons.css">
     <link rel="stylesheet" href="public/css/login.css">
+    <link rel="stylesheet" href="public/vendor/toastr/toastr.css">
 
     <!-- 插件 -->
     <link rel="stylesheet" href="public/vendor/animsition/animsition.css">
@@ -67,8 +68,7 @@
                     </li>
                 </ul>
                 <div class="hidden-sm">
-                    <a href="http://www.admui.com" class="btn btn-primary margin-right-5" target="_blank"><i class="icon wb-home"></i> 访问官网</a>
-                    <a href="http://docs.admui.com/iframe" class="btn btn-success" target="_blank"><i class="icon wb-book"></i> 开发文档</a>
+                    <a href="http://www.fangyuanyouyue.com" class="btn btn-primary margin-right-5" target="_blank"><i class="icon wb-home"></i> 访问官网</a>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@
                     </div>
                     <h3 class="hidden-xs">登录 </h3>
                     <p class="hidden-xs">方圆有约运营管理后台</p>
-                    <form class="login-form" action="/system/loginValidate" method="post" id="loginForm">
+                    <div class="login-form">
                         <div class="form-group">
                             <label class="sr-only" for="username">用户名</label>
                             <input type="text" class="form-control" id="username" name="loginName" placeholder="请输入用户名">
@@ -115,8 +115,8 @@
                                 请联系管理员重置密码。
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block margin-top-30">立即登录</button>
-                    </form>
+                        <button class="btn btn-primary btn-block margin-top-30" id="loginBtn">立即登录</button>
+                        </div>
                 </div>
             </div>
             <footer class="page-copyright">
@@ -133,6 +133,8 @@
 <script src="public/vendor/bootstrap/bootstrap.min.js"></script>
 <script src="public/vendor/jquery-validation/jquery.validate.min.js"></script>
 <script src="public/vendor/jquery-validation/localization/messages_zh.js"></script>
+
+<script src="public/vendor/toastr/toastr.min.js"></script>
 <script src="public/js/login.js"></script>
 </body>
 

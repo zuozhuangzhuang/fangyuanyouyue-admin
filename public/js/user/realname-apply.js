@@ -34,8 +34,18 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
+                {"data": "phone"},
                 {"data": "name"},
                 {"data": "identity"},
+                {
+                		"data": "identityImgCover",
+                		"render": setImg2
+                },
+                {
+                		"data": "identityImgBack",
+                		"render": setImg2
+                },
+                {"data": "rejectDesc"},
 //              {
 //                  "data": "user",
 //                  "render": function (data) {
@@ -164,23 +174,23 @@
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
-       // 删除所选用户
+       // 不通过审核
 	    $(document).on('click', '.frozen', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,2);
+	    		changeStatus(data.id,3);
 	    		
 	    });
 	    
-	    // 删除所选用户
+	    // 通过审核
 	    $(document).on('click', '.unfrozen', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,1);
+	    		changeStatus(data.id,2);
 	    		
 	    });
     
@@ -189,7 +199,7 @@
     //改变状态
     function changeStatus(id,status){
     		var msg = "确定通过审核吗？";
-    		if(status==2){
+    		if(status==3){
     			msg = "确定不通过审核吗？";
     		}
 	    parent.layer.confirm(msg, function (index) {

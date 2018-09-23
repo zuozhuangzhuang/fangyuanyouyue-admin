@@ -27,6 +27,22 @@
     			return "<span class='label label-default'>未知</span>"
     		}
     };
+    
+    //支付类型 1微信 2支付宝 3余额 4小程序
+    function setPayType(data){
+    		var type = data.payType;
+    		if(type==1){
+    			return "<span class='label label-success'>微信</span>"
+    		}else if(type==2){
+    			return "<span class='label label-success'>支付宝</span>"
+    		}else if(type==3){
+    			return "<span class='label label-success'>余额</span>"
+    		}else if(type==4){
+    			return "<span class='label label-success'>小程序</span>"
+    		}else{
+    			return ""
+    		}
+    }
 
     var callback = function () {
         return $('.dataTable').DataTable($.po('dataTable', {
@@ -36,19 +52,28 @@
             searching: false,
             pagingType: "simple_numbers",
             columns: [
-                {"data": "id"},
+                {"data": "orderId"},
                 {"data": "orderNo"},
-                {"data": "buyer"},
+                {"data": "nickName"},
                 {"data": "seller"},
-                {"data": "address"},
-                {"data": "content"},
-                {"data": "count"},
-                {"data": "amount"},
-                {"data": "payType"},
+                {
+                  "data": "orderPayDto",
+                  "render": function (data) {
+                      return data === null ? null : data.receiver;
+                  }
+                },
+                {"data": "orderDetail"},
+                {"data": "totalCount"},
+                {"data": "totalAmount"},
+                {
+                  "data": "orderPayDto",
+                  "render": setPayType
+                },
                 {
                 		"data": "status",
                 		"render":setStatus
                 },
+                {"data": "addTime"},
                 {
                 		"data": "status",
                 		"render":function(data){
@@ -61,9 +86,7 @@
                 			//html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
 						return html;
                 		}
-                },
-                
-                {"data": "addTime"}
+                }
             ],
             ajax: function (data, callback) {
                 var param, column, dir,
