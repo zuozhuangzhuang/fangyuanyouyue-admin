@@ -6,7 +6,7 @@ var token = sessionStorage.getItem("token");
 if(token&&token.length>0){
 	console.log("login already:"+token);
 }else{
-	//判断是否在框架内
+	//判断是否在框架内 
 	if (window.top !== window.self) {
         window.parent.location.href = '../../login.html';
 	}else{
