@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>小方圆</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" />
+		<script>
+		(function() {
+	        var baseFontSize = 100;
+	        var baseWidth = 320;
+	        var clientWidth = document.documentElement.clientWidth || window.innerWidth;
+	        var innerWidth = Math.max(Math.min(clientWidth, 414), 320);
+	        var rem;
+
+	        if (innerWidth <= 375) {
+	            rem = Math.floor(innerWidth/baseWidth * baseFontSize);
+	        } else {
+	            rem = Math.floor(innerWidth/baseWidth * baseFontSize * 0.9);
+	        }
+
+	        document.querySelector('html').style.fontSize = rem + 'px';
+	    })();
+		</script>
+	    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css?v=201612311211"/>
+		<script src="js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/toast.jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/Swipe.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/thumbs.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="page">
+
+			<div class="share-content">
+				<!-- addWrap -->
+			</div>
+			
+			<div class="comment">
+				<div class="title">评论:</div>
+			</div>
+			<div class="comment-not">阁下来两句呀！</div>
+			
+			<div class="down clearfix">
+				<img class="fl" src="img/logo.png"/>
+				<p class="fl">藏价值，藏文化，藏回忆</p>
+				<a class="fr" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.csym.fangyuan">立即下载</a>
+			</div>
+			
+			<div class="wechat"><img src="img/live_weixin.png"/></div>
+		</div>
+		<div class="mask"><img src="img/loading.gif"/></div>
+		<script type="text/javascript">
+		$(function () {
+			// 判断是否拍卖
+			var forumId = Request['forumId'];
+			// if (forumId==undefined||forumId=='') {
+			// 	$('.mask img').hide();
+			// 	new Toast({context:$('body'),message:'没有找到商品!'}).show();
+			// 	return false;
+			// }
+			//	load
+			$.ajax({
+				url : 'http://zuul.fangyuanyouyue.com/forum/forum/detail',
+				type : 'POST',
+				cache : false,
+				dataType : 'json',
+				data:{
+                    forumId:forumId,
+				},
+				success : function(data) {
+                    var object =data;
+					if(object.code==0){
+						// 请求成功
+						 console.log(object);
+						var goodsInfo = object.data;
+						if(goodsInfo.videoUrl!=null){
+                            var videoUrl =goodsInfo.videoUrl;
+                            var description =JSON.parse(goodsInfo.content);
+                            console.log(description);
+                            var video ='<video src="'+videoUrl+'" controls width="100%"></video>'
+                            var synopsis='<div class="synopsis">'+
+                                '<div class="name">'+goodsInfo.title+'</div>'+
+                                '<div class="description">'+description[0].content+'</div>'+
+                                '</div>'
+                            $('.share-content').append(video);
+                            $('.share-content').append(synopsis);
+						}else{
+                            var description =JSON.parse(goodsInfo.content);
+							var title ='<div class="title">'+goodsInfo.title+'</div>'
+                            $('.share-content').append(title);
+							console.log(description);
+                            $.each(description, function(idx,item) {
+								if(item.content!=undefined){
+								    var contents =item.content;
+                                    var content = '<div class="contentitle">'+contents+'</div>';
+								}
+                                if(item.imgUrl!=undefined){
+                                    var imgUrls =item.imgUrl;
+                                    var imgUrl = '<div class="imgUrlbox"><img src="'+imgUrls+'"/></div>';
+                                    console.log(imgUrl);
+                                }
+
+                                $('.share-content').append(content);
+                                $('.share-content').append(imgUrl);
+
+                            });
+                            var  attention = "<div class='clearfix' style='padding:20px .09rem;margin-top: 48px'><div class='fl'>" +
+                                "<img class='heatico' src='./img/fire.png'/>" +
+                                "<span>"+goodsInfo.viewCount+"</span></div><div class='fr'>" +
+                                "<img class='likeico' src='./img/like.png'/>" +
+                                "<span>"+goodsInfo.likesCount+"</span>" +
+                                "</div>" +
+                                "</div>"
+                            $('.share-content').append(attention);
+						}
+
+                        setTimeout("$('.mask').hide()",200);
+                    }else{
+						$('.mask img').hide();
+						new Toast({context:$('body'),message:object.reMsg}).show();
+					}
+				},
+				error : function() {
+					$('.mask img').hide();
+					new Toast({context:$('body'), message: reMsg}).show();
+				}
+			});
+			//替换所有的回车换行    
+			function TransferString(content) {
+				var string = content;
+				try {
+					string = string.replace(/\r\n/g, "<br>")
+					string = string.replace(/\n/g, "<br>");
+				}
+				catch (e) {
+					console(e.message);
+				}
+				return string;
+			}
+			// 点击购买或出价
+			$('.goods-btn a').on('click',function () {
+				app();
+			});
+			// 点击全部评论
+			$('.comment .all').on('click',function () {
+				app();
+			});
+			// 打开APP的函数
+			function app() {
+				if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+					window.location = "fangyuan://goodsId="+goodsId;
+					var userAgent = navigator.userAgent;
+			    	if (userAgent.indexOf("Safari") <= -1) {
+			    		new Toast({context:$('body'),message:'请用Safari打开'}).show();
+			    	} else {
+			    		new Toast({context:$('body'),message:'正在跳转中'}).show();
+			    	}
+				} else if (navigator.userAgent.match(/android/i)) {
+					var state = null;
+					try {
+						state = window.open("fangyuan://goodsId="+goodsId, '_blank');
+					}
+					catch (e) {}
+					if (state) {
+						new Toast({context:$('body'),message:'正在跳转中'}).show();
+						setTimeout("window.location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.csym.fangyuan';",5000);
+					} else {
+						new Toast({context:$('body'),message:'请用自带浏览器打开'}).show();
+					}
+				} else {
+					new Toast({context:$('body'),message:'请在手机端打开'}).show();
+				}
+			}
+			//点击下载
+			$('.down a').on('click',function () {
+				var ua = navigator.userAgent.toLowerCase();
+				if(ua.match(/MicroMessenger/i)=="micromessenger") {
+					$('.wechat').show();
+					$('.wechat').on('tap click',function () {
+						$('.wechat').hide();
+					});
+					return;
+				}
+				if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+					window.location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.csym.fangyuan';
+				} else if (navigator.userAgent.match(/android/i)) {
+					window.location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.csym.fangyuan';
+				} else {
+					new Toast({context:$('body'),message:'请在手机端打开'}).show();
+				}
+			});
+
+			// 点击效果
+			$('.goods-btn > a').attr('ontouchstart', 'style="color:#ebebeb;background:#cc4e4e;"');
+			$('.goods-btn > a').attr('ontouchend', 'style="color:#fff;background:#ff4546;"');
+			$('.down > a').attr('ontouchstart', 'style="color:#ebebeb;background:#cc4e4e;"');
+			$('.down > a').attr('ontouchend', 'style="color:#fff;background:#ff4546;"');
+
+		});
+		</script>
+	</body>
+</html>

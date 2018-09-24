@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>小方圆</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+		<meta name="format-detection" content="telephone=no" />
+		<script>
+		(function() {
+	        var baseFontSize = 100;
+	        var baseWidth = 320;
+	        var clientWidth = document.documentElement.clientWidth || window.innerWidth;
+	        var innerWidth = Math.max(Math.min(clientWidth, 414), 320);
+	        var rem;
+
+	        if (innerWidth <= 375) {
+	            rem = Math.floor(innerWidth/baseWidth * baseFontSize);
+	        } else {
+	            rem = Math.floor(innerWidth/baseWidth * baseFontSize * 0.9);
+	        }
+
+	        document.querySelector('html').style.fontSize = rem + 'px';
+	    })();
+		</script>
+	    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css?v=201612311211"/>
+		<script src="js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/toast.jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/Swipe.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/thumbs.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="page">
+
+			<div class="share-content">
+				<div class="bg_yellow">
+					<P>参与此鉴定最高票选出者</P>
+					<p>将获得发起人”小方圆官方“提供的50元鉴定悬赏</p>
+				</div>
+				<!-- addWrap -->
+				<div class="synopsis">
+					<div class="description"></div>
+				</div>
+				<div class="addWrap" style="height: 246px;overflow: hidden;padding: 0 12px;box-sizing: border-box;margin-bottom: 48px">
+					<img src="" alt="" width="100%">
+				</div>
+				<div class='clearfix' style='padding:20px .09rem;'>
+					<div class='fl'>
+						<img class='heatico' src='./img/fire.png'/>
+					<span class="viewCount"></span></div>
+					<div class='fr'><img class='likeico' src='./img/like.png'/>
+					<span class="likesCount"></span></div>
+				</div>
+			</div>
+			
+			<div class="comment">
+				<div class="title">鉴定:</div>
+			</div>
+			<div class="comment-not genuine"><div>真</div><div>假</div></div>
+			
+			<div class="down clearfix">
+				<img class="fl" src="img/logo.png"/>
+				<p class="fl">藏价值，藏文化，藏回忆</p>
+				<a class="fr" href="http://a.app.qq.com/o/simple.jsp?pkgname=com.csym.fangyuan">立即下载</a>
+			</div>
+			
+			<div class="wechat"><img src="img/live_weixin.png"/></div>
+		</div>
+		<div class="mask"><img src="img/loading.gif"/></div>
+		<script type="text/javascript">
+		$(function () {
+			// 判断是否拍卖
+			var appraisalId = Request['appraisalId'];
+			// if (goodsId==undefined||goodsId=='') {
+			// 	$('.mask img').hide();
+			// 	new Toast({context:$('body'),message:'没有找到商品!'}).show();
+			// 	return false;
+			// }
+			//	load
+			$.ajax({
+				url : 'http://zuul.fangyuanyouyue.com/forum/appraisal/detail',
+				type : 'POST',
+				cache : false,
+				dataType : 'json',
+				data:{
+                    appraisalId:appraisalId,
+				},
+				success : function(data) {
+					// var object = eval("("+data+")");
+                    var object =data;
+					if(object.code==0){
+						// 请求成功
+						 console.log(object);
+						var goodsInfo = object.data;
+						var newDescription = goodsInfo.content;
+						var imgurl =  goodsInfo.imgDtos[0].imgUrl;
+						$('.synopsis .description').html(newDescription);
+                        $('.viewCount').html(goodsInfo.viewCount);
+                        $('.likesCount').html(goodsInfo.likesCount);
+                        $('.addWrap img').attr("src",imgurl);
+						setTimeout("$('.mask').hide()",200);
+					}else{
+						$('.mask img').hide();
+						new Toast({context:$('body'),message:object.reMsg}).show();
+					}
+				},
+				error : function() {
+					$('.mask img').hide();
+					new Toast({context:$('body'), message: reMsg}).show();
+				}
+			});
+			//替换所有的回车换行    
+			function TransferString(content) {
+				var string = content;
+				try {
+					string = string.replace(/\r\n/g, "<br>")
+					string = string.replace(/\n/g, "<br>");
+				}
+				catch (e) {
+					console(e.message);
+				}
+				return string;
+			}
+			// 点击购买或出价
+			$('.goods-btn a').on('click',function () {
+				app();
+			});
+			// 点击全部评论
+			$('.comment .all').on('click',function () {
+				app();
+			});
+			// 打开APP的函数
+			function app() {
+				if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+					window.location = "fangyuan://goodsId="+goodsId;
+					var userAgent = navigator.userAgent;
+			    	if (userAgent.indexOf("Safari") <= -1) {
+			    		new Toast({context:$('body'),message:'请用Safari打开'}).show();
+			    	} else {
+			    		new Toast({context:$('body'),message:'正在跳转中'}).show();
+			    	}
+				} else if (navigator.userAgent.match(/android/i)) {
+					var state = null;
+					try {
+						state = window.open("fangyuan://goodsId="+goodsId, '_blank');
+					}
+					catch (e) {}
+					if (state) {
+						new Toast({context:$('body'),message:'正在跳转中'}).show();
+						setTimeout("window.location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.csym.fangyuan';",5000);
+					} else {
+						new Toast({context:$('body'),message:'请用自带浏览器打开'}).show();
+					}
+				} else {
+					new Toast({context:$('body'),message:'请在手机端打开'}).show();
+				}
+			}
+			//点击下载
+			$('.down a').on('click',function () {
+				var ua = navigator.userAgent.toLowerCase();
+				if(ua.match(/MicroMessenger/i)=="micromessenger") {
+					$('.wechat').show();
+					$('.wechat').on('tap click',function () {
+						$('.wechat').hide();
+					});
+					return;
+				}
+				if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+					window.location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.csym.fangyuan';
+				} else if (navigator.userAgent.match(/android/i)) {
+					window.location.href='http://a.app.qq.com/o/simple.jsp?pkgname=com.csym.fangyuan';
+				} else {
+					new Toast({context:$('body'),message:'请在手机端打开'}).show();
+				}
+			});
+
+
+			// 点击效果
+			$('.goods-btn > a').attr('ontouchstart', 'style="color:#ebebeb;background:#cc4e4e;"');
+			$('.goods-btn > a').attr('ontouchend', 'style="color:#fff;background:#ff4546;"');
+			$('.down > a').attr('ontouchstart', 'style="color:#ebebeb;background:#cc4e4e;"');
+			$('.down > a').attr('ontouchend', 'style="color:#fff;background:#ff4546;"');
+
+		});
+		</script>
+	</body>
+</html>

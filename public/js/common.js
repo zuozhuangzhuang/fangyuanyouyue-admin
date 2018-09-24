@@ -1,5 +1,5 @@
 //通用js
-var SERVER_PATH = "http://192.168.31.237:8769";
+var SERVER_PATH = "http://zuul.fangyuanyouyue.com";
 
 //判断是否登录
 var token = sessionStorage.getItem("token");
