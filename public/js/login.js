@@ -59,7 +59,7 @@
     		var loginCode = $("#username").val();
 	    		var password = $("#password").val();
 	    		$.ajax({
-	                url: 'http://192.168.31.237:8769/user/system/login',
+	                url: 'http://zuul.fangyuanyouyue.com/user/system/login',
 	                type: 'POST',
 	                data: {"loginCode":loginCode,"password":password},
 	                dataType: 'JSON',
