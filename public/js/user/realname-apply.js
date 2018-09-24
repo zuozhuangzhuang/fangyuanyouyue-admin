@@ -62,8 +62,8 @@
                 		"render":function(data){
                 			var html =  "";
                 			if(data==1){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="审核通过"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="审核不通过"><i class="icon wb-close" aria-hidden="true"></i></button>';
+							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="审核通过">通过</button>';
+                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="审核不通过">拒绝</button>';
                 			}
 						return html;
                 		}

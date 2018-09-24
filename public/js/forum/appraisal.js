@@ -14,9 +14,9 @@
         
     function setStatus(data){
     		if(data==1){
-    			return "<span class='label label-success'>正常</span>"
+    			return "<span class='label label-success'>进行中</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已冻结</span>"
+    			return "<span class='label label-danger'>已结束</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
@@ -38,7 +38,8 @@
                 {"data": "nickName"},
                 {"data": "title"},
                 {"data": "bonus"},
-                {"data": "peopleCount"},
+                {"data": "content"},
+                {"data": "imgDtos","render":setImgs},
                 {"data": "totalCount"},
                 {"data": "baseCount"},
                 {"data": "realCount"},

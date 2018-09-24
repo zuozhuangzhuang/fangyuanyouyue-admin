@@ -27,11 +27,11 @@
     
     function setStatus(data){
     		if(data==1){
-    			return "<span class='label label-danger'>申请中</span>"
+    			return "<span class='label label-danger'>待审核</span>"
     		}else if(data==2){
-    			return "<span class='label label-success'>申请成功</span>"
+    			return "<span class='label label-success'>审核成功</span>"
     		}else if(data==3){
-    			return "<span class='label label-default'>申请拒绝</span>"
+    			return "<span class='label label-default'>审核拒绝</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
@@ -61,12 +61,11 @@
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
+                			if(data==1){
+							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="通过">通过</button>';
+                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">拒绝</button>';
+						
                 			}
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
 						return html;
                 		}
                 }
@@ -143,7 +142,7 @@
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/user/adminUser/modify',
+                url: SERVER_PATH + '/wallet/adminWallet/updateWithdraw',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -176,8 +175,8 @@
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
-       // 删除所选用户
-	    $(document).on('click', '.frozen', function () {
+	    // 审核通过
+	    $(document).on('click', '.unfrozen', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
@@ -186,25 +185,15 @@
 	    		
 	    });
 	    
-	    // 删除所选用户
-	    $(document).on('click', '.unfrozen', function () {
+	    // 审核不通过
+	    $(document).on('click', '.frozen', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,1);
-	    		
-	    });
-	    
-	    // 编辑所选用户
-	    $(document).on('click', '.modify', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
+        		$detailForm.find('input[name="status"]').val(3);
         		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
+        		$detailForm.find('input[name="id"]').val(data.id);
 	    		
 	    });
     
@@ -212,9 +201,9 @@
     
     //改变状态
     function changeStatus(id,status){
-	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
+	    parent.layer.confirm("您确定要通过审核吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/user/adminUser/delete',
+		        url: SERVER_PATH + '/wallet/adminWallet/updateWithdraw',
 		        type: 'POST',
 		        data: {id: id,status:status},
 		        traditional: true,

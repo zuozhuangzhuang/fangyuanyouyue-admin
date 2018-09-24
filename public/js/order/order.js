@@ -10,7 +10,7 @@
     var oTable, searchData,
         $filterDate = $('#filter-date'),
         $detailModal = $('#detailForm'),
-        $detailForm = $('#compileRoleForm');
+        $detailForm = $('#orderForm');
     //1待支付 2待发货 3待收货 4已完成 5已取消
     function setStatus(data){
     		if(data==1){
@@ -53,9 +53,11 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "orderId"},
-                {"data": "orderNo"},
+                {
+                		"data": "status",
+                		"render":setStatus
+                },
                 {"data": "nickName"},
-                {"data": "seller"},
                 {
                   "data": "orderPayDto",
                   "render": function (data) {
@@ -69,21 +71,12 @@
                   "data": "orderPayDto",
                   "render": setPayType
                 },
-                {
-                		"data": "status",
-                		"render":setStatus
-                },
                 {"data": "addTime"},
                 {
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
-                			}
-                			//html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">查看详情</button>';
 						return html;
                 		}
                 }
@@ -219,9 +212,19 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
+        		$detailForm.find('input[name="orderNo"]').val(data.orderNo);
+        		$detailForm.find('input[name="addTime"]').val(data.addTime);
+        		$detailForm.find('input[name="seller"]').val(data.seller);
+        		$detailForm.find('input[name="status"]').val(data.status);
+        		
+        		$detailForm.find('input[name="totalCount"]').val(data.totalCount);
+        		$detailForm.find('input[name="orderDetail"]').val(data.orderDetail);
+        		
+        		$detailForm.find('input[name="payType"]').val(data.payType);
+        		$detailForm.find('input[name="totalAmount"]').val(data.totalAmount);
+        		$detailForm.find('input[name="postage"]').val(data.postage);
         		$detailForm.find('input[name="nickName"]').val(data.nickName);
         		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
 	    		
 	    });
     

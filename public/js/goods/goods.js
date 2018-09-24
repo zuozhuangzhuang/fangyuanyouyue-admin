@@ -23,25 +23,15 @@
     };
 
 
-    function setAuth(data){
-    		if(data==1){
-    			return "<span class='label label-success'>已认证</span>"
-    		}else if(data==2){
-    			return "<span class='label label-danger'>未认证</span>"
-    		}else{
-    			return "<span class='label label-default'>未知</span>"
-    		}
-    };
-    
     
 
     function setAppraisal(data){
     		if(data==1){
-    			return "<span class='label label-success'>已鉴定</span>"
+    			return "是"
     		}else if(data==2){
-    			return "<span class='label label-danger'>未鉴定</span>"
+    			return "否"
     		}else{
-    			return "<span class='label label-default'>未知</span>"
+    			return "未知"
     		}
     };
     
@@ -62,7 +52,7 @@
                 {"data": "price"},
                 {"data": "postage"},
                 {"data": "nickName"},
-                {"data": "authType","render":setAuth},
+                {"data": "authType","render":setAppraisal},
                 {"data": "isAppraisal","render":setAppraisal},
 //              {
 //                  "data": "user",
@@ -79,12 +69,9 @@
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
-                			}
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default delete" data-toggle="tooltip" data-original-title="删除商品">删除</button>';
+                		
+                			//html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
 						return html;
                 		}
                 }
@@ -194,23 +181,14 @@
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
-       // 删除所选用户
-	    $(document).on('click', '.frozen', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-	    		changeStatus(data.id,2);
-	    		
-	    });
 	    
 	    // 删除所选用户
-	    $(document).on('click', '.unfrozen', function () {
+	    $(document).on('click', '.delete', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,1);
+	    		changeStatus(data.goodsId,5);
 	    		
 	    });
 	    
@@ -230,10 +208,10 @@
     
     //改变状态
     function changeStatus(id,status){
-	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
+	    parent.layer.confirm("您确定要删除商品吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/user/adminUser/delete',
-		        type: 'POST',
+		        url: SERVER_PATH + '/goods/adminGoods/updateGoods',
+		        type: 'PUT',
 		        data: {id: id,status:status},
 		        traditional: true,
 		        dataType: 'JSON',

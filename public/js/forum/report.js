@@ -22,6 +22,19 @@
     		}
     };
 
+    function setType(data){
+    		if(data==1){
+    			return "<span class='label label-success'>商品</span>"
+    		}else if(data==2){
+    			return "<span class='label label-danger'>视频</span>"
+    		}else if(data==3){
+    			return "<span class='label label-danger'>帖子</span>"
+    		}else if(data==4){
+    			return "<span class='label label-danger'>全民鉴定</span>"
+    		}else{
+    			return "<span class='label label-default'>未知</span>"
+    		}
+    };
     var callback = function () {
         return $('.dataTable').DataTable($.po('dataTable', {
             autoWidth: false,
@@ -31,22 +44,10 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
+                {"data": "type","render":setType},
                 {"data": "nickName"},
-                {"data": "phone"},
-                {
-                		"data": "headImgUrl",
-                		"render": setImg
-                },
-                {
-                		"data": "gender",
-                		"render": setGender
-                },
-//              {
-//                  "data": "user",
-//                  "render": function (data) {
-//                      return data === null ? null : data.loginName;
-//                  }
-//              },
+                {"data": "name"},
+                {"data": "reason"},
                 {
                 		"data": "status",
                 		"render":setStatus
@@ -57,11 +58,8 @@
                 		"render":function(data){
                 			var html =  "";
                 			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
+							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="标记为处理"><i class="icon wb-check" aria-hidden="true"></i></button>';
                 			}
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
 						return html;
                 		}
                 }
@@ -89,7 +87,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/forum/adminForum/reportList?'+param,
+                    url: SERVER_PATH+'/forum/adminForum/reportList?type=1&'+param,
                     method:'get',
                     cache: false,
                     //data: param,

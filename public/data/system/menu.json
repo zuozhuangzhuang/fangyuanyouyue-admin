@@ -1,73 +1,156 @@
 [
     {
+        "layer": "01",
+        "icon": "wb-dashboard",
+        "id": 11230,
+        "text": "用户管理",
+        "children": [
+            {
+                "layer": "0101",
+                "icon": "",
+                "id": 11281,
+                "text": "用户管理",
+                "children": null
+            },
+            {
+                "layer": "0102",
+                "icon": "",
+                "id": 11285,
+                "text": "申请专栏",
+                "children": null
+            },
+            {
+                "layer": "0103",
+                "icon": "",
+                "id": 11285,
+                "text": "实名认证",
+                "children": null
+            },
+            {
+                "layer": "0104",
+                "icon": "",
+                "id": 11285,
+                "text": "店铺认证",
+                "children": null
+            }
+        ]
+    },{
+        "layer": "02",
+        "icon": "wb-dashboard",
+        "id": 11230,
+        "text": "商城管理",
+        "children": [
+            {
+                "layer": "0201",
+                "icon": "",
+                "id": 11281,
+                "text": "分类管理",
+                "children": null
+            },
+            {
+                "layer": "0202",
+                "icon": "",
+                "id": 11285,
+                "text": "商品管理",
+                "children": null
+            },
+            {
+                "layer": "0203",
+                "icon": "",
+                "id": 11285,
+                "text": "抢购管理",
+                "children": null
+            }
+        ]
+    },{
         "layer": "03",
         "icon": "wb-dashboard",
         "id": 11230,
-        "text": "表格示例",
+        "text": "论坛管理",
         "children": [
             {
                 "layer": "0301",
                 "icon": "",
                 "id": 11281,
-                "text": "global",
-                "children": [
-                    {
-                        "layer": "030101",
-                        "icon": "fa-bars",
-                        "id": 11282,
-                        "text": "自定义菜单",
-                        "children": [
-                            {
-                                "layer": "03010101",
-                                "icon": "",
-                                "url": "#",
-                                "id": 11283,
-                                "text": "menu",
-                                "children": null
-                            }
-                        ]
-                    },
-                    {
-                        "layer": "030102",
-                        "icon": "fa-archive",
-                        "url": "/slider",
-                        "id": 11284,
-                        "text": "slider",
-                        "children": null
-                    }
-                ]
+                "text": "专栏管理",
+                "children": null
             },
             {
                 "layer": "0302",
                 "icon": "",
                 "id": 11285,
-                "text": "base",
-                "children": [
-                    {
-                        "layer": "030201",
-                        "icon": "fa-adjust",
-                        "url": "/taster",
-                        "id": 11286,
-                        "text": "taster",
-                        "children": null
-                    },
-                    {
-                        "layer": "030202",
-                        "icon": "fa-bars",
-                        "id": 11287,
-                        "text": "log",
-                        "children": [
-                            {
-                                "layer": "03020201",
-                                "icon": "",
-                                "url": "#",
-                                "id": 11288,
-                                "text": "display",
-                                "children": null
-                            }
-                        ]
-                    }
-                ]
+                "text": "帖子管理",
+                "children": null
+            },
+            {
+                "layer": "0302",
+                "icon": "",
+                "id": 11285,
+                "text": "视频管理",
+                "children": null
+            },
+            {
+                "layer": "0302",
+                "icon": "",
+                "id": 11285,
+                "text": "全民鉴定",
+                "children": null
+            }
+        ]
+    },{
+        "layer": "03",
+        "icon": "wb-dashboard",
+        "id": 11230,
+        "text": "订单管理",
+        "children": [
+            {
+                "layer": "0301",
+                "icon": "",
+                "id": 11281,
+                "text": "订单管理",
+                "children": null
+            },
+            {
+                "layer": "0302",
+                "icon": "",
+                "id": 11285,
+                "text": "退货管理",
+                "children": null
+            },
+            {
+                "layer": "0302",
+                "icon": "",
+                "id": 11285,
+                "text": "物流公司管理",
+                "children": null
+            }
+        ]
+    },{
+        "layer": "03",
+        "icon": "wb-dashboard",
+        "id": 11230,
+        "text": "财务管理",
+        "children": [
+            {
+                "layer": "0301",
+                "icon": "",
+                "id": 11281,
+                "text": "提现管理",
+                "children": null
+            },
+            {
+                "layer": "0302",
+                "icon": "",
+                "id": 11285,
+                "text": "平台收支",
+                "children": null
+            },
+            {
+                "layer": "0302",
+                "icon": "",
+                "id": 11285,
+                "text": "用户收支",
+                "children": null
             }
         ]
     },
@@ -96,23 +179,31 @@
                         "icon": "fa-street-view",
                         "url": "/system/user",
                         "id": 5,
-                        "text": "用户管理",
+                        "text": "后台用户",
                         "children": null
                     },
                     {
-                        "layer": "040103",
-                        "icon": "fa-file-text-o",
-                        "url": "/system/log",
-                        "id": 6,
-                        "text": "日志信息",
+                        "layer": "040102",
+                        "icon": "fa-street-view",
+                        "url": "/system/user",
+                        "id": 5,
+                        "text": "意见反馈",
                         "children": null
                     },
                     {
-                        "layer": "040104",
-                        "icon": "fa-shield",
-                        "url": "/system/blacklist",
-                        "id": 7,
-                        "text": "黑名单",
+                        "layer": "040102",
+                        "icon": "fa-street-view",
+                        "url": "/system/user",
+                        "id": 5,
+                        "text": "举报管理",
+                        "children": null
+                    },
+                    {
+                        "layer": "040102",
+                        "icon": "fa-street-view",
+                        "url": "/system/user",
+                        "id": 5,
+                        "text": "版本更新",
                         "children": null
                     },
                     {
@@ -138,22 +229,6 @@
                                 "children": null
                             }
                         ]
-                    }
-                ]
-            },
-            {
-                "layer": "0402",
-                "icon": "",
-                "id": 3,
-                "text": "我的账户",
-                "children": [
-                    {
-                        "layer": "040201",
-                        "icon": "fa-key",
-                        "url": "/system/account",
-                        "id": 12,
-                        "text": "账户信息",
-                        "children": null
                     }
                 ]
             }

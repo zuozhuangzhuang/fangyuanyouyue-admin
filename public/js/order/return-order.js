@@ -14,14 +14,31 @@
         
     function setStatus(data){
     		if(data==1){
-    			return "<span class='label label-success'>正常</span>"
+    			return "<span class='label label-danger'>申请中</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已冻结</span>"
+    			return "<span class='label label-success'>退货成功</span>"
+    		}else if(data==3){
+    			return "<span class='label label-default'>退货失败</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
     };
 
+    function setReturnStatus(data){
+    		if(data==1){
+    			return "处理中"
+    		}else if(data==2){
+    			return "同意退货"
+    		}else if(data==3){
+    			return "拒绝退货"
+    		}else if(data==4){
+    			return "默认同意"
+    		}else if(data==5){
+    			return "默认拒绝"
+    		}else{
+    			return "<span class='label label-default'>未知</span>"
+    		}
+    };
     var callback = function () {
         return $('.dataTable').DataTable($.po('dataTable', {
             autoWidth: false,
@@ -31,22 +48,18 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
-                {"data": "nickName"},
-                {"data": "phone"},
+                {"data": "serviceNo"},
+                {"data": "orderNo"},
+                {"data": "reason"},
+                {"data": "imgs","render":setImgs},
                 {
-                		"data": "headImgUrl",
-                		"render": setImg
+                		"data": "sellerReturnStatus",
+                		"render": setReturnStatus
                 },
-                {
-                		"data": "gender",
-                		"render": setGender
-                },
-//              {
-//                  "data": "user",
-//                  "render": function (data) {
-//                      return data === null ? null : data.loginName;
-//                  }
-//              },
+                {"data": "dealTime"},
+                {"data": "refuseReason"},
+                {"data": "endTime"},
+                {"data": "platformReason"},
                 {
                 		"data": "status",
                 		"render":setStatus
@@ -56,12 +69,13 @@
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
-                			}
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
+//              			if(data==2){
+//							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
+//              			}else {
+//              				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
+//              			}
+//              			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
+//						return html;
 						return html;
                 		}
                 }
@@ -89,7 +103,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/user/adminUser/list?'+param,
+                    url: SERVER_PATH+'/order/adminOrder/refundList?'+param,
                     method:'get',
                     cache: false,
                     //data: param,

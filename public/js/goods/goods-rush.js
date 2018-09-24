@@ -22,6 +22,18 @@
     		}
     };
 
+    
+
+    function setAppraisal(data){
+    		if(data==1){
+    			return "是"
+    		}else if(data==2){
+    			return "否"
+    		}else{
+    			return "未知"
+    		}
+    };
+    
     var callback = function () {
         return $('.dataTable').DataTable($.po('dataTable', {
             autoWidth: false,
@@ -32,14 +44,20 @@
             columns: [
                 {"data": "goodsId"},
                 {
-                		"data": "mainUrl",
-                		"render": setImg2
+                		"data": "goodsImgDtos",
+                		"render": setImgs
                 },
                 {"data": "name"},
                 {"data": "price"},
+                {"data": "postage"},
+                {"data": "intervalTime","render":function(data){
+                		return data/(60) + "分钟"
+                }
+                },
+                {"data": "markdown"},
                 {"data": "nickName"},
-                {"data": "authType"},
-                {"data": "isAppraisal"},
+                {"data": "authType","render":setAppraisal},
+                {"data": "isAppraisal","render":setAppraisal},
 //              {
 //                  "data": "user",
 //                  "render": function (data) {
@@ -55,12 +73,9 @@
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
-                			}
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default delete" data-toggle="tooltip" data-original-title="删除商品">删除</button>';
+                		
+                			//html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
 						return html;
                 		}
                 }
@@ -88,7 +103,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/goods/adminGoods/goodsList?type=2'+param,
+                    url: SERVER_PATH+'/goods/adminGoods/goodsList?type=2&'+param,
                     method:'get',
                     cache: false,
                     //data: param,
@@ -170,25 +185,17 @@
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
-       // 删除所选用户
-	    $(document).on('click', '.frozen', function () {
+       
+	    // 删除所选用户
+	    $(document).on('click', '.delete', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,2);
+	    		changeStatus(data.goodsId,5);
 	    		
 	    });
 	    
-	    // 删除所选用户
-	    $(document).on('click', '.unfrozen', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-	    		changeStatus(data.id,1);
-	    		
-	    });
 	    
 	    // 编辑所选用户
 	    $(document).on('click', '.modify', function () {
@@ -206,10 +213,10 @@
     
     //改变状态
     function changeStatus(id,status){
-	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
+	    parent.layer.confirm("您确定要删除商品吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/user/adminUser/delete',
-		        type: 'POST',
+		        url: SERVER_PATH + '/goods/adminGoods/updateGoods',
+		        type: 'PUT',
 		        data: {id: id,status:status},
 		        traditional: true,
 		        dataType: 'JSON',

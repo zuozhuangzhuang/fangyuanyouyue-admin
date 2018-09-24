@@ -36,11 +36,11 @@
                 		"render": setImg
                 },
                 {"data": "nickName"},
-                {
-                		"data": "gender",
-                		"render": setGender
-                },
                 {"data": "title"},
+                {
+                		"data": "videoImg",
+                		"render": setImg2
+                },
                 {"data": "totalCount"},
                 {"data": "baseCount"},
                 {"data": "realCount"},
@@ -53,10 +53,9 @@
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
-                			}
+                			
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="详情">查看详情</button>';
+						
 						return html;
                 		}
                 }
@@ -188,14 +187,15 @@
 	    
 	    // 编辑所选用户
 	    $(document).on('click', '.modify', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
-        		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
-	    		
+	    		 var index = oTable.row($(this).parent()).index(); //获取当前行的序列
+	    		 var data = oTable.rows().data()[index]; //获取当前行数据
+	    		 console.log(data.videoUrl);
+	    		 var html = '<video class="videoid" controls="controls" style="height:350px;width:100%;" autoplay="autoplay">';
+             html += '<source  src="'+data.videoUrl+'" type="video/mp4" /></video>';       
+			 //$detailForm.find('.modal-body').remove();
+        		 $detailForm.find('.modal-title').html(data.title);
+        		 $detailForm.find('.modal-body').html(html);
+        		 $detailForm.find('.videoid').load();
 	    });
     
 	}

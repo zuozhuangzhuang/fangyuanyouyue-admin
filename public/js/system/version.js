@@ -30,30 +30,24 @@
             searching: false,
             pagingType: "simple_numbers",
             columns: [
-                {"data": "id"},
-                {
-                		"data": "headImgUrl",
-                		"render": setImg
-                },
-                {"data": "nickName"},
-                {
-                		"data": "columnName"
-                },
-                {"data": "title"},
-                {"data": "totalCount"},
-                {"data": "baseCount"},
-                {"data": "realCount"},
+                {"data": "companyId"},
+                {"data": "name"},
+                {"data": "companyNo"},
+                {"data": "price"},
                 {
                 		"data": "status",
                 		"render":setStatus
                 },
-                {"data": "addTime"},
                 {
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="详情">查看详情</button>';
-						
+                			if(data==2){
+							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
+                			}else {
+                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
+                			}
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
 						return html;
                 		}
                 }
@@ -81,7 +75,8 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/forum/adminForum/forumList?'+param,
+                    //url: SERVER_PATH+'/user/adminVersion/versionList?'+param,
+                    url: SERVER_PATH+'/forum/adminForum/reportList?type=1&'+param,
                     method:'get',
                     cache: false,
                     //data: param,
@@ -111,26 +106,26 @@
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            nickName: {
+            number: {
                 required: true
             },
-            phone: {
+            name: {
                 required: true
             }
         },
         messages: {
-            nickName: {
-                required: '请填写URL地址'
+            number: {
+                required: '请填写公司名称'
             },
-            phone: {
-                required: '请填写URL对应名称'
+            name: {
+                required: '请填写物流编码'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/user/adminUser/modify',
+                url: SERVER_PATH + '/order/adminOrder/addCompany',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -189,18 +184,13 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		var json = JSON.parse(data.content);
-	    		var html = '';
-	    		json.forEach(function(value,index,array){
-	    			if(value.type==1){
-					html += '<p>'+value.content+'</p>'		 
-	    			}else if(value.type==2){
-					html += '<img src="'+value.imgUrl+'" width=100%  />';
-	    			}
-		　　});
-	    		
-        		 $detailForm.find('.modal-title').html(data.title);
-        		$detailForm.find('.modal-body').html(html);
+        		$detailForm.find('input[name="number"]').val(data.companyNo);
+        		
+        		$detailForm.find('input[name="name"]').val(data.name);
+        		
+        		$detailForm.find('input[name="price"]').val(data.price);
+        		
+        		$detailForm.find('input[name="id"]').val(data.companyId);
 	    		
 	    });
     

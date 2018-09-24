@@ -33,31 +33,19 @@
                 {"data": "id"},
                 {
                 		"data": "coverImgUrl",
-                		"render": setImg
+                		"render": setImg2
                 },
                 {"data": "name"},
+                {"data": "typeName"},
                 {"data": "nickName"},
+                {
+                		"data": "isChosen",
+                		"render":setYesNo
+                },
                 {"data": "totalCount"},
                 {"data": "baseCount"},
                 {"data": "realCount"},
-                {
-                		"data": "status",
-                		"render":setStatus
-                },
-                {"data": "addTime"},
-                {
-                		"data": "status",
-                		"render":function(data){
-                			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
-                			}
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
-						return html;
-                		}
-                }
+                {"data": "addTime"}
             ],
             ajax: function (data, callback) {
                 var param, column, dir,

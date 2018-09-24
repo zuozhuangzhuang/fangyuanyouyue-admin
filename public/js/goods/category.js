@@ -64,12 +64,8 @@
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
-                			}
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="删除分类">删除</button>';
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">编辑</button>';
 						return html;
                 		}
                 }
@@ -127,18 +123,18 @@
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            nickName: {
+            name: {
                 required: true
             },
-            phone: {
+            sort: {
                 required: true
             }
         },
         messages: {
-            nickName: {
+            name: {
                 required: '请填写URL地址'
             },
-            phone: {
+            sort: {
                 required: '请填写URL对应名称'
             }
         },
@@ -205,9 +201,9 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
+        		$detailForm.find('input[name="name"]').val(data.name);
         		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
+        		$detailForm.find('input[name="sort"]').val(data.sort);
 	    		
 	    });
     

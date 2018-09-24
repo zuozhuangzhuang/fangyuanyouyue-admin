@@ -30,19 +30,14 @@
             searching: false,
             pagingType: "simple_numbers",
             columns: [
-                {"data": "id"},
-                {"data": "nickName"},
-                {
-                		"data": "headImgUrl",
-                		"render": setImg
-                },
-                {"data": "goodsName"},
-                {"data": "reason"},
+                {"data": "companyId"},
+                {"data": "name"},
+                {"data": "companyNo"},
+                {"data": "price"},
                 {
                 		"data": "status",
                 		"render":setStatus
                 },
-                {"data": "addTime"},
                 {
                 		"data": "status",
                 		"render":function(data){
@@ -80,7 +75,8 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/goods/adminGoods/reportList?'+param,
+                  //  url: SERVER_PATH+'/user/adminSystem/feedbackList?'+param,
+                    url: SERVER_PATH+'/forum/adminForum/reportList?type=1&'+param,
                     method:'get',
                     cache: false,
                     //data: param,
@@ -110,26 +106,26 @@
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            nickName: {
+            number: {
                 required: true
             },
-            phone: {
+            name: {
                 required: true
             }
         },
         messages: {
-            nickName: {
-                required: '请填写URL地址'
+            number: {
+                required: '请填写公司名称'
             },
-            phone: {
-                required: '请填写URL对应名称'
+            name: {
+                required: '请填写物流编码'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/user/adminUser/modify',
+                url: SERVER_PATH + '/order/adminOrder/addCompany',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -188,9 +184,13 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
+        		$detailForm.find('input[name="number"]').val(data.companyNo);
         		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
+        		$detailForm.find('input[name="name"]').val(data.name);
+        		
+        		$detailForm.find('input[name="price"]').val(data.price);
+        		
+        		$detailForm.find('input[name="id"]').val(data.companyId);
 	    		
 	    });
     

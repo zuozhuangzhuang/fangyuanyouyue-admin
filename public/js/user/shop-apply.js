@@ -35,12 +35,7 @@
                 {"data": "id"},
                 {"data": "nickName"},
                 {"data": "phone"},
-//              {
-//                  "data": "user",
-//                  "render": function (data) {
-//                      return data === null ? null : data.loginName;
-//                  }
-//              },
+                {"data": "reason"},
                 {
                 		"data": "status",
                 		"render":setStatus
@@ -50,9 +45,9 @@
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			if(data==0){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="通过审核"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="不通过审核"><i class="icon wb-close" aria-hidden="true"></i></button>';
+                			if(data==1){
+							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="通过审核">通过</button>';
+                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="不通过审核">拒绝</button>';
                 			}
 						return html;
                 		}

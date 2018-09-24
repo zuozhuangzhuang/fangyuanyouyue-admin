@@ -107,15 +107,13 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>订单号</th>
+                        <th>状态</th>
                         <th>买家信息</th>
-                        <th>卖家信息</th>
                         <th>收货信息</th>
                         <th>订单内容</th>
                         <th>商品数量</th>
                         <th>订单金额</th>
                         <th>支付方式</th>
-                        <th>状态</th>
                         <th>添加时间</th>
                         <th>操作</th>
                     </tr>
@@ -126,27 +124,163 @@
     </div>
      <div class="modal" id="detailForm" aria-hidden="true" aria-labelledby="detailForm" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-center">
-            <form class="modal-content " id="compileRoleForm">
+            <form class="modal-content " id="orderForm">
                 <div class="modal-header">
                     <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                    <h4 class="modal-title">编辑用户</h4>
+                    <h4 class="modal-title">订单详情</h4>
                 </div>
                 <div class="modal-body">
-                    <div class="form form-horizontal logs-settings">
-                        <div class="form-group row">
-                            <label class="col-xs-2 control-label">昵称</label>
-                            <div class="col-xs-9">
-                                <input type="text" class="form-control" name="nickName" placeholder="输入用户的ID">
+                		
+                    <div class="example-wrap" style="height:350px;">
+                            <div class="nav-tabs-horizontal" data-approve="nav-tabs">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="active" role="presentation">
+                                        <a data-toggle="tab" href="#exampleTabsOne" aria-controls="exampleTabsOne" role="tab">
+                                            基本信息
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a data-toggle="tab" href="#exampleTabsTwo" aria-controls="exampleTabsTwo" role="tab">
+                                            商品信息
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a data-toggle="tab" href="#exampleTabsThree" aria-controls="exampleTabsThree" role="tab">
+                                            支付信息
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a data-toggle="tab" href="#exampleTabsFour" aria-controls="exampleTabsFour" role="tab">
+                                            物流信息
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" style="margin-top:10px;">
+                                    <div class="tab-pane active" id="exampleTabsOne" role="tabpanel">
+                                        <div class="form form-horizontal logs-settings">
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">订单号</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="orderNo" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">下单时间</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="addTime" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">订单状态</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="status" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">买家信息</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="nickName" placeholder="">
+					                            </div>
+					                        </div>
+					                        
+					                    </div>
+                                    </div>
+                                    <div class="tab-pane" id="exampleTabsTwo" role="tabpanel">
+                                        <div class="form form-horizontal logs-settings">
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">总数量</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="totalCount" placeholder="输入物流公司名称">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">商品详情</label>
+					                            <div class="col-xs-9">     
+					                            		<textarea style="width: 100%;height: 150px;border: #bbb solid 1px;" name="orderDetail" placeholder="" ></textarea>
+					                            </div>
+					                        </div>
+					                        
+					                    </div>
+                                    </div>
+                                    <div class="tab-pane" id="exampleTabsThree" role="tabpanel">
+                                        <div class="form form-horizontal logs-settings">
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">支付方式</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="payType" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">流水号</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="thirdNo" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">总金额</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="totalAmount" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">运费</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="postage" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">优惠金额</label>
+					                            <div class="col-xs-9">
+					                                <input type="number" class="form-control" name="" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">实际支付</label>
+					                            <div class="col-xs-9">
+					                                <input type="number" class="form-control" name="price" placeholder="">
+					                            </div>
+					                        </div>
+					                        
+					                    </div>
+                                    </div>
+                                    <div class="tab-pane" id="exampleTabsFour" role="tabpanel">
+                                    		<div class="form form-horizontal logs-settings">
+                                    			
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">收货地址</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="receiver" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">收货人</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">物流公司</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">物流单号</label>
+					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">物流详情</label>
+					                            <div class="col-xs-9">
+					                                <textarea style="width: 100%;height: 150px;border: #bbb solid 1px;" name="" placeholder="暂无物流信息" ></textarea>
+					                            </div>
+					                        </div>
+					                    </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-xs-2 control-label">手机号码</label>
-                            <div class="col-xs-9">
-                                <input type="text" class="form-control" name="phone" placeholder="输入手机号码">
-                            </div>
-                        </div>
-                        
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" type="submit">保存</button>
