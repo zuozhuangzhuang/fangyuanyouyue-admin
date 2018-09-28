@@ -10,44 +10,25 @@
     var oTable, searchData,
         $filterDate = $('#filter-date'),
         $detailModal = $('#detailForm'),
-        $detailForm = $('#compileRoleForm'),
-        
-        $vipModal = $('#vipModalForm'),
-        $vipForm = $('#vipForm'),
-        $balanceModal = $('#balanceModalForm'),
-        $balanceForm = $('#balanceForm');
+        $detailForm = $('#compileRoleForm');
         
         
-        
-        
-    function setStatus(data){
+    function setVipType(data){
     		if(data==1){
-    			return "<span class='label label-success'>正常</span>"
+    			return "<span class='label label-info'>月会员</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已冻结</span>"
-    		}else{
-    			return "<span class='label label-default'>未知</span>"
-    		}
-    };
-    
-        
-    function setAuthType(data){
-    		if(data==1){
-    			return "<span class='label label-warning'>认证中</span>"
-    		}else if(data==2){
-    			return "<span class='label label-success'>已认证</span>"
+    			return "<span class='label label-warning'>季度会员</span>"
     		}else if(data==3){
-    			return "<span class='label label-default'>未认证</span>"
+    			return "<span class='label label-success'>年费会员</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
     };
-        
-    function setVip(data){
+    function setStatus(data){
     		if(data==1){
     			return "<span class='label label-success'>已开通</span>"
     		}else if(data==2){
-    			return "<span class='label label-default'>未开通</span>"
+    			return "<span class='label label-danger'>未开通</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
@@ -62,55 +43,21 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
+                {"data": "headImgUrl","render":setImg},
                 {"data": "nickName"},
-                {"data": "phone"},
                 {
-                		"data": "level"
-                },
-                {"data": "balance"},
-                {"data": "authType","render":setAuthType},
-                {
-                		"data": "vipStatus",
-                		"render": setVip
-                },
-                {"data": "fansBaseCount"},
-                {
-                		"data": "headImgUrl",
-                		"render": setImg
+                		"data": "vipNo"
                 },
                 {
-                		"data": "gender",
-                		"render": setGender
+                		"data": "vipType",
+                		"render": setVipType
                 },
-//              {
-//                  "data": "user",
-//                  "render": function (data) {
-//                      return data === null ? null : data.loginName;
-//                  }
-//              },
                 {
-                		"data": "status",
-                		"render":setStatus
+                		"data": "levelDesc"
                 },
-                {"data": "addTime"},
-                {
-                		"data": "status",
-                		"render":function(data){
-                			var html =  "";
-                			//if(data==2){
-						//	html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结">解冻</button>';
-                			//}else {
-                			//	html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结">冻结</button>';
-                			//}
-                			
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modifyBalance" data-target="#balanceModalForm" data-toggle="modal" data-original-title="增减余额">增减余额</button>';
-
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modifyVip" data-target="#vipModalForm" data-toggle="modal" data-original-title="改变会员状态">会员信息</button>';
-                			
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑信息">信息编辑</button>';
-						return html;
-                		}
-                }
+                {"data": "startTime"},
+                {"data": "endTime"},
+                {"data": "status","render":setStatus}
             ],
             ajax: function (data, callback) {
                 var param, column, dir,
@@ -135,7 +82,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/user/adminUser/list?'+param,
+                    url: SERVER_PATH+'/wallet/adminWallet/vipList?'+param,
                     method:'get',
                     cache: false,
                     //data: param,
@@ -162,101 +109,30 @@
         }));
     };
     
-    var balanceForm = $balanceForm.validate({
-        rules: {
-            amount: {
-                required: true
-            }
-        },
-        messages: {
-            amount: {
-                required: '金额不能为空'
-            }
-        },
-        submitHandler: function (form) {
-            var $form = $(form);
-            
-            $.ajax({
-                url: SERVER_PATH + '/wallet/adminWallet/updateUserBalance',
-                type: 'POST',
-                data: $form.serialize(),
-                dataType: 'JSON',
-                success: function (data) {
-                    if (data.code==0) {
-		                toastr.success('操作成功！');
-						oTable.ajax.reload();
-                        $balanceModal.modal('hide');
-                    } else {
-		                if(data.report){
-		                    toastr.error(data.report);
-		                }else{
-		                     toastr.error('出错了，请重试！');
-		                }
-                    }
-                },
-                error: function () {
-                    toastr.error('服务器异常，请稍后再试！');
-                }
-            });
-        }
-    });
-    //修改输入框内容
-    var vipForm = $vipForm.validate({
-        rules: {
-            type: {
-                required: true
-            }
-        },
-        messages: {
-            type: {
-                required: '类型不能为空'
-            }
-        },
-        submitHandler: function (form) {
-            var $form = $(form);
-            
-            $.ajax({
-                url: SERVER_PATH + '/wallet/adminWallet/updateUserVip',
-                type: 'POST',
-                data: $form.serialize(),
-                dataType: 'JSON',
-                success: function (data) {
-                    if (data.code==0) {
-		                toastr.success('操作成功！');
-						oTable.ajax.reload();
-                        $vipModal.modal('hide');
-                    } else {
-		                if(data.report){
-		                    toastr.error(data.report);
-		                }else{
-		                     toastr.error('出错了，请重试！');
-		                }
-                    }
-                },
-                error: function () {
-                    toastr.error('服务器异常，请稍后再试！');
-                }
-            });
-        }
-    });
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            count: {
+            nickName: {
+                required: true
+            },
+            phone: {
                 required: true
             }
         },
         messages: {
-            count: {
-                required: '粉丝基数不能为空'
+            nickName: {
+                required: '请填写URL地址'
+            },
+            phone: {
+                required: '请填写URL对应名称'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/user/adminUser/updateUser',
-                type: 'PUT',
+                url: SERVER_PATH + '/user/adminUser/modify',
+                type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
                 success: function (data) {
@@ -283,17 +159,12 @@
         detailForm.resetForm();
     });
 
-    $vipModal.on('hide.bs.modal', function () { // 模态窗隐藏后
-        vipForm.resetForm();
-    });
-    $balanceModal.on('hide.bs.modal', function () { // 模态窗隐藏后
-        balanceForm.resetForm();
-    });
 
     
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
+       // 删除所选用户
 	    $(document).on('click', '.frozen', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
@@ -303,6 +174,7 @@
 	    		
 	    });
 	    
+	    // 删除所选用户
 	    $(document).on('click', '.unfrozen', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
@@ -312,6 +184,7 @@
 	    		
 	    });
 	    
+	    // 编辑所选用户
 	    $(document).on('click', '.modify', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
@@ -320,36 +193,9 @@
         		$detailForm.find('input[name="nickName"]').val(data.nickName);
         		
         		$detailForm.find('input[name="phone"]').val(data.phone);
-        		$detailForm.find('input[name="count"]').val(data.fansBaseCount);
-        		$detailForm.find('input[name="id"]').val(data.id);
 	    		
-        		$detailForm.find("input[name='status'][value="+data.status+"]").attr("checked",true); 
-        		$detailForm.find("input[name='authType'][value="+data.authType+"]").attr("checked",true); 
 	    });
     
-	    
-	    // 编辑所选用户
-	    $(document).on('click', '.modifyVip', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-        		$vipForm.find('input[name="id"]').val(data.id);
-        		
-	    		
-	    });
-	    
-	    // 编辑所选用户
-	    $(document).on('click', '.modifyBalance', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-        		$balanceForm.find('input[name="id"]').val(data.id);
-        		
-	    		
-	    });
-	    
 	}
     
     //改变状态

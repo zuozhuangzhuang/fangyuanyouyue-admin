@@ -10,7 +10,19 @@
     var oTable, searchData,
         $filterDate = $('#filter-date'),
         $detailModal = $('#detailForm'),
-        $detailForm = $('#compileRoleForm');
+        $detailForm = $('#compileRoleForm'),
+        $modifyModal = $('#modifyForm'),
+        $modifyForm = $('#modifyDetailForm');
+        
+    function setChosen(data){
+    		if(data==1){
+    			return "<span class='label label-success'>是</span>"
+    		}else if(data==2){
+    			return "<span class='label label-default'>否</span>"
+    		}else{
+    			return "<span class='label label-default'>未知</span>"
+    		}
+    };
         
     function setStatus(data){
     		if(data==1){
@@ -45,6 +57,11 @@
                 {"data": "baseCount"},
                 {"data": "realCount"},
                 {
+                		"data": "isChosen",
+                		"render":setChosen
+                },
+                {"data": "sort"},
+                {
                 		"data": "status",
                 		"render":setStatus
                 },
@@ -54,7 +71,9 @@
                 		"render":function(data){
                 			var html =  "";
                 			
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="详情">查看详情</button>';
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default show" data-target="#detailForm" data-toggle="modal" data-original-title="详情">查看详情</button>';
+						
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#modifyForm" data-toggle="modal" data-original-title="编辑">编辑</button>';
 						
 						return html;
                 		}
@@ -111,28 +130,28 @@
     };
     
     //修改输入框内容
-    var detailForm = $detailForm.validate({
-        rules: {
+    var modifyForm = $modifyForm.validate({
+        		title: {
             nickName: {
                 required: true
             },
-            phone: {
+            sort: {
                 required: true
             }
         },
         messages: {
-            nickName: {
-                required: '请填写URL地址'
+            title: {
+                required: '请填写标题'
             },
-            phone: {
-                required: '请填写URL对应名称'
+            sort: {
+                required: ''
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/user/adminUser/modify',
+                url: SERVER_PATH + '/forum/adminForum/updateForum',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -140,7 +159,7 @@
                     if (data.code==0) {
 		                toastr.success('操作成功！');
 						oTable.ajax.reload();
-                        $detailModal.modal('hide');
+                        $modifyModal.modal('hide');
                     } else {
 		                if(data.report){
 		                    toastr.error(data.report);
@@ -157,8 +176,13 @@
     });
 
     $detailModal.on('hide.bs.modal', function () { // 模态窗隐藏后
-        detailForm.resetForm();
+        
+        	$detailForm.find('.videoid').stop();
     });
+    $modifyModal.on('hide.bs.modal', function () { // 模态窗隐藏后
+        modifyForm.resetForm();
+    });
+
 
 
     
@@ -186,7 +210,7 @@
 	    });
 	    
 	    // 编辑所选用户
-	    $(document).on('click', '.modify', function () {
+	    $(document).on('click', '.show', function () {
 	    		 var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		 var data = oTable.rows().data()[index]; //获取当前行数据
 	    		 console.log(data.videoUrl);
@@ -198,6 +222,21 @@
         		 $detailForm.find('.videoid').load();
 	    });
     
+	    // 编辑所选用户
+	    $(document).on('click', '.modify', function () {
+	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
+	    		
+	    		var data = oTable.rows().data()[index]; //获取当前行数据
+	    		
+        		$modifyForm.find('input[name="title"]').val(data.title);
+        		
+        		$modifyForm.find('input[name="sort"]').val(data.sort);
+        		
+        		$modifyForm.find("input[name='isChosen'][value="+data.isChosen+"]").attr("checked",true); 
+        		
+        		$modifyForm.find('input[name="id"]').val(data.id);
+	    		
+	    });
 	}
     
     //改变状态

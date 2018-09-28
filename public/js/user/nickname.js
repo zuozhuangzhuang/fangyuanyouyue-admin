@@ -13,44 +13,17 @@
         $detailForm = $('#compileRoleForm');
         
     function setStatus(data){
-    		if(data==1){
-    			return "<span class='label label-success'>出售中</span>"
+    		if(data==0){
+    			return "<span class='label label-danger'>待审核</span>"
+    		}else if(data==1){
+    			return "<span class='label label-success'>审核通过</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已售出</span>"
-    		}else if(data==3){
-    			return "<span class='label label-danger'>已下架</span>"
-    		}else if(data==5){
-    			return "<span class='label label-default'>已删除</span>"
+    			return "<span class='label label-default'>审核不通过</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
     };
 
-
-    
-
-    function setAppraisal(data){
-    		if(data==1){
-    			return "已鉴定"
-    		}else if(data==2){
-    			return "未鉴定"
-    		}else{
-    			return "未知"
-    		}
-    };
-    
-    
-
-    function setType(data){
-    		if(data==1){
-    			return "已认证"
-    		}else if(data==2){
-    			return "未认证"
-    		}else{
-    			return "未知"
-    		}
-    };
-    
     var callback = function () {
         return $('.dataTable').DataTable($.po('dataTable', {
             autoWidth: false,
@@ -59,41 +32,10 @@
             searching: false,
             pagingType: "simple_numbers",
             columns: [
-                {"data": "goodsId"},
-                {
-                		"data": "goodsImgDtos",
-                		"render": setImgs
-                },
-                {"data": "name"},
-                {"data": "description"},
-                {"data": "price"},
-                {"data": "postage"},
                 {"data": "nickName"},
-                {"data": "authType","render":setType},
-                {"data": "isAppraisal","render":setAppraisal},
-//              {
-//                  "data": "user",
-//                  "render": function (data) {
-//                      return data === null ? null : data.loginName;
-//                  }
-//              },
-                {"data": "sort"},
-                {
-                		"data": "status",
-                		"render":setStatus
-                },
-                {"data": "addTime"},
-                {
-                		"data": "status",
-                		"render":function(data){
-                			var html =  "";
-                		
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default delete" data-toggle="tooltip" data-original-title="删除商品">删除</button>';
-                		
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">编辑</button>';
-						return html;
-                		}
-                }
+                {"data": "oldNickName"},
+                {"data": "newNickName"},
+                {"data": "addTime"}
             ],
             ajax: function (data, callback) {
                 var param, column, dir,
@@ -118,11 +60,11 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/goods/adminGoods/goodsList?type=1&'+param,
+                    url: SERVER_PATH+'/user/adminUser/nickNameList?'+param,
                     method:'get',
                     cache: false,
                     //data: param,
-                   // dataType: "jsoup",
+                    //dataType: "JSON",
                     success: function (result) {
                         var tableData = null;
                         if (result.code==0) {
@@ -148,27 +90,27 @@
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            name: {
+            nickName: {
                 required: true
             },
-            description: {
+            phone: {
                 required: true
             }
         },
         messages: {
-            name: {
-                required: ''
+            nickName: {
+                required: '请填写URL地址'
             },
-            description: {
-                required: ''
+            phone: {
+                required: '请填写URL对应名称'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/goods/adminGoods/updateGoods',
-                type: 'PUT',
+                url: SERVER_PATH + '/adminUser/modify',
+                type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
                 success: function (data) {
@@ -200,44 +142,21 @@
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
-	    
-	    // 
-	    $(document).on('click', '.apprais', function () {
+	    $(document).on('click', '.frozen', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.goodsId,5);
+	    		changeStatus(data.id,2);
 	    		
 	    });
 	    
-	    // 删
-	    $(document).on('click', '.delete', function () {
+	    $(document).on('click', '.unfrozen', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.goodsId,5);
-	    		
-	    });
-	    
-	    // 编辑所选用户
-	    $(document).on('click', '.modify', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-        		$detailForm.find('input[name="name"]').val(data.name);
-        		
-        		$detailForm.find('input[name="description"]').val(data.description);
-        		
-        		$detailForm.find('input[name="sort"]').val(data.sort);
-        		
-        		$detailForm.find("input[name='isAppraisal'][value="+data.isAppraisal+"]").attr("checked",true); 
-        		
-        		//$detailForm.find('input[name="isAppraisal"]').val(data.isAppraisal);
-        		
-        		$detailForm.find('input[name="id"]').val(data.goodsId);
+	    		changeStatus(data.id,1);
 	    		
 	    });
     
@@ -245,11 +164,17 @@
     
     //改变状态
     function changeStatus(id,status){
-	    parent.layer.confirm("您确定要删除商品吗？", function (index) {
+    		var msg = "确定通过审核吗？";
+    		var reason = "";
+    		if(status==2){
+    			msg = "确定不通过审核吗？";
+    			reason = "系统不通过";
+    		}
+	    parent.layer.confirm(msg, function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/goods/adminGoods/updateGoods',
-		        type: 'PUT',
-		        data: {id: id,status:status},
+		        url: SERVER_PATH + '/forum/adminForum/handleApply',
+		        type: 'POST',
+		        data: {applyId: id,status:status,reason:reason},
 		        traditional: true,
 		        dataType: 'JSON',
 		        success: function (data) {

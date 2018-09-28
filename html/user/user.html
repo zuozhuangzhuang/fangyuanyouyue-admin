@@ -107,7 +107,10 @@
                         <th>用户昵称</th>
                         <th>手机号码</th>
                         <th>用户等级</th>
+                        <th>用户余额</th>
+                        <th>店铺认证</th>
                         <th>是否会员</th>
+                        <th>粉丝基数</th>
                         <th>头像</th>
                         <th>性别</th>
                         <th>状态</th>
@@ -119,7 +122,74 @@
             </div>
         </div>
     </div>
-     <div class="modal" id="detailForm" aria-hidden="true" aria-labelledby="detailForm" role="dialog" tabindex="-1">
+    <div class="modal" id="vipModalForm" aria-hidden="true" aria-labelledby="vipModalForm" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-center">
+            <form class="modal-content " id="vipForm">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">编辑会员状态</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form form-horizontal logs-settings">
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">开通状态</label>
+                        		<div class="col-xs-2 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosUnchecked" name="type" value="1" checked>
+                                <label for="inputRadiosUnchecked">开通</label>
+                            </div>
+                            <div class="col-xs-2 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosChecked" ame="type" value="2" >
+                                <label for="inputRadiosChecked">续费</label>
+                            </div> 
+                            <div class="col-xs-2 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosChecked" ame="type" value="3" >
+                                <label for="inputRadiosChecked">取消</label>
+                            </div> 
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">会员类型</label>
+                        		<div class="col-xs-2 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosUnchecked" name="vipType" value="1" checked>
+                                <label for="inputRadiosUnchecked">月</label>
+                            </div>
+                            <div class="col-xs-2 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosChecked" name="vipType"  value="2">
+                                <label for="inputRadiosChecked">季度</label>
+                            </div> 
+                            <div class="col-xs-2 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosChecked" name="vipType" value="3">
+                                <label for="inputRadiosChecked">年</label>
+                            </div> 
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">会员等级</label>
+                        		<div class="col-xs-2 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosUnchecked" name="vipLevel" value="1" checked>
+                                <label for="inputRadiosUnchecked">铂金</label>
+                            </div>
+                            <div class="col-xs-2 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosChecked" name="vipType" value="2" >
+                                <label for="inputRadiosChecked">至尊</label>
+                            </div> 
+                        </div>
+                        <div class="form-group row hide">
+                            <label for="startDate" class="col-xs-2 control-label"></label>
+                            <div class="col-xs-9">
+                            		<input type="text" class="form-control" name="id" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">保存</button>
+                    <a class="btn btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    
+    <div class="modal" id="detailForm" aria-hidden="true" aria-labelledby="detailForm" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-center">
             <form class="modal-content " id="compileRoleForm">
                 <div class="modal-header">
@@ -134,20 +204,83 @@
                                 <input type="text" class="form-control" name="nickName" placeholder="输入用户的ID" disabled="disabled"> 
                             </div>
                         </div>
+                        
+                        <div class="form-group row hide">
+                            <label for="startDate" class="col-xs-2 control-label"></label>
+                            <div class="col-xs-9">
+                            		<input type="text" class="form-control" name="id" >
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-xs-2 control-label">手机号码</label>
                             <div class="col-xs-9">
                                 <input type="text" class="form-control" name="phone" placeholder="输入手机号码" disabled="disabled">
                             </div>
                         </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">用户状态</label>
+                        		<div class="col-xs-3 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosUnchecked" name="status" value="1">
+                                <label for="inputRadiosUnchecked">正常</label>
+                            </div>
+                            <div class="radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosChecked" name="status" value="2" checked>
+                                <label for="inputRadiosChecked">冻结</label>
+                            </div> 
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">店铺认证</label>
+                        		<div class="col-xs-3 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosUnchecked" name="authType" value="1" checked>
+                                <label for="inputRadiosUnchecked">认证通过</label>
+                            </div>
+                            <div class="radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosChecked" name="authType" value="2">
+                                <label for="inputRadiosChecked">认证不通过</label>
+                            </div> 
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">粉丝基数</label>
+                            <div class="col-xs-9">
+                                <input type="number" class="form-control" name="fansCount" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">保存</button>
+                    <a class="btn btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    
+     <div class="modal" id="balanceModalForm" aria-hidden="true" aria-labelledby="balanceModalForm" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-center">
+            <form class="modal-content " id="balanceForm">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">增减余额</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form form-horizontal logs-settings">
+                    	
+                        <div class="form-group row hide">
+                            <label for="startDate" class="col-xs-2 control-label"></label>
+                            <div class="col-xs-9">
+                            		<input type="text" class="form-control" name="id" >
+                            </div>
+                        </div>
                         <div class="form-group row">
                             <label class="col-xs-2 control-label">增减金额</label>
                         		<div class="col-xs-3 radio-custom radio-primary">
-                                <input type="radio" id="inputRadiosUnchecked" name="inputRadios">
+                                <input type="radio" id="inputRadiosUnchecked" name="type" value="1" checked>
                                 <label for="inputRadiosUnchecked">增加</label>
                             </div>
                             <div class="radio-custom radio-primary">
-                                <input type="radio" id="inputRadiosChecked" name="inputRadios" checked>
+                                <input type="radio" id="inputRadiosChecked" name="type" value="2" >
                                 <label for="inputRadiosChecked">扣除</label>
                             </div> 
                         </div>
@@ -157,9 +290,6 @@
                                 <input type="text" class="form-control" name="amount" placeholder="输入增加/扣除的金额数量">
                             </div>
                         </div>
-                            
-                        
-                        
                     </div>
                 </div>
                 <div class="modal-footer">

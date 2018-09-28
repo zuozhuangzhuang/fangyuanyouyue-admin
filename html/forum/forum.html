@@ -111,6 +111,8 @@
                         <th>浏览总量</th>
                         <th>浏览量基数</th>
                         <th>实际浏览量</th>
+                        <th>是否精选</th>
+                        <th>排序</th>
                         <th>状态</th>
                         <th>发布时间</th>
                         <th>操作</th>
@@ -132,6 +134,57 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-default" data-dismiss="modal">确定</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    
+     <div class="modal" id="modifyForm" aria-hidden="true" aria-labelledby="modifyForm" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-center">
+            <form class="modal-content " id="modifyDetailForm">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">编辑</h4>
+                </div>
+                <div class="modal-body" >
+                		
+                        <div class="form-group row hide">
+                            <label class="col-xs-2 control-label">ID</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="id" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">帖子标题</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="title" placeholder="" disabled="disabled">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">排序</label>
+                            <div class="col-xs-9">
+                                <input type="number" class="form-control" name="sort" placeholder="">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">是否精选</label>
+                        		<div class="col-xs-3 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosUnchecked" name="isChosen" value="1">
+                                <label for="inputRadiosUnchecked">是</label>
+                            </div>
+                            <div class="radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosChecked" name="isChosen" value="2" checked>
+                                <label for="inputRadiosChecked">否</label>
+                            </div> 
+                        </div>
+                        
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">保存</button>
+                    <a class="btn btn-default" data-dismiss="modal">取消</a>
                 </div>
             </form>
 

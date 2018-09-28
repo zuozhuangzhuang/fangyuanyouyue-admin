@@ -14,21 +14,38 @@
         
     function setStatus(data){
     		if(data==1){
-    			return "<span class='label label-success'>正常</span>"
+    			return "<span class='label label-success'>出售中</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已冻结</span>"
+    			return "<span class='label label-danger'>已售出</span>"
+    		}else if(data==3){
+    			return "<span class='label label-danger'>已下架</span>"
+    		}else if(data==5){
+    			return "<span class='label label-default'>已删除</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
     };
 
+
     
 
     function setAppraisal(data){
     		if(data==1){
-    			return "是"
+    			return "已鉴定"
     		}else if(data==2){
-    			return "否"
+    			return "未鉴定"
+    		}else{
+    			return "未知"
+    		}
+    };
+    
+    
+
+    function setType(data){
+    		if(data==1){
+    			return "已认证"
+    		}else if(data==2){
+    			return "未认证"
     		}else{
     			return "未知"
     		}
@@ -48,6 +65,7 @@
                 		"render": setImgs
                 },
                 {"data": "name"},
+                {"data": "description"},
                 {"data": "price"},
                 {"data": "postage"},
                 {"data": "intervalTime","render":function(data){
@@ -56,7 +74,7 @@
                 },
                 {"data": "markdown"},
                 {"data": "nickName"},
-                {"data": "authType","render":setAppraisal},
+                {"data": "authType","render":setType},
                 {"data": "isAppraisal","render":setAppraisal},
 //              {
 //                  "data": "user",
@@ -64,6 +82,7 @@
 //                      return data === null ? null : data.loginName;
 //                  }
 //              },
+                {"data": "sort"},
                 {
                 		"data": "status",
                 		"render":setStatus
@@ -73,9 +92,10 @@
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
+                		
                 			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default delete" data-toggle="tooltip" data-original-title="删除商品">删除</button>';
                 		
-                			//html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">编辑</button>';
 						return html;
                 		}
                 }
@@ -133,27 +153,27 @@
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            nickName: {
+            name: {
                 required: true
             },
-            phone: {
+            description: {
                 required: true
             }
         },
         messages: {
-            nickName: {
-                required: '请填写URL地址'
+            name: {
+                required: ''
             },
-            phone: {
-                required: '请填写URL对应名称'
+            description: {
+                required: ''
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/user/adminUser/modify',
-                type: 'POST',
+                url: SERVER_PATH + '/goods/adminGoods/updateGoods',
+                type: 'PUT',
                 data: $form.serialize(),
                 dataType: 'JSON',
                 success: function (data) {
@@ -185,8 +205,18 @@
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
-       
-	    // 删除所选用户
+	    
+	    // 
+	    $(document).on('click', '.apprais', function () {
+	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
+	    		
+	    		var data = oTable.rows().data()[index]; //获取当前行数据
+	    		
+	    		changeStatus(data.goodsId,5);
+	    		
+	    });
+	    
+	    // 删
 	    $(document).on('click', '.delete', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
@@ -196,16 +226,23 @@
 	    		
 	    });
 	    
-	    
 	    // 编辑所选用户
 	    $(document).on('click', '.modify', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
+        		$detailForm.find('input[name="name"]').val(data.name);
         		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
+        		$detailForm.find('input[name="description"]').val(data.description);
+        		
+        		$detailForm.find('input[name="sort"]').val(data.sort);
+        		
+        		$detailForm.find("input[name='isAppraisal'][value="+data.isAppraisal+"]").attr("checked",true); 
+        		
+        		//$detailForm.find('input[name="isAppraisal"]').val(data.isAppraisal);
+        		
+        		$detailForm.find('input[name="id"]').val(data.goodsId);
 	    		
 	    });
     

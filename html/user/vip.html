@@ -2,7 +2,7 @@
 <html class="no-js css-menubar" lang="zh-cn">
 
 <head>
-    <title>商品管理</title>
+    <title>会员管理</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 移动设备 viewport -->
@@ -55,7 +55,7 @@
 
 <div class="page animation-fade page-logs">
     <div class="page-header">
-        <h1 class="page-title">商品信息</h1>
+        <h1 class="page-title">会员信息</h1>
         <div class="page-header-actions">
             <button type="button" class="btn btn-icon btn-info collapsed" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                 <i class="icon fa-filter"></i>
@@ -82,9 +82,10 @@
                         </div>
                         <div class="form-group">
                             <select class="form-control" name="status" data-plugin="select2">
-                                <option value="">所有用户</option>
-                                <option value="1">正常</option>
-                                <option value="2">冻结</option>
+                                <option value="">所有类型</option>
+                                <option value="1">月会员</option>
+                                <option value="2">季会员</option>
+                                <option value="3">年会员</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -103,19 +104,15 @@
                 <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="dataList" data-column-defs='[{ "orderable": false, "targets": 2}]'>
                     <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>商品图片</th>
-                        <th>商品名称</th>
-                        <th>商品描述</th>
-                        <th>价格</th>
-                        <th>运费</th>
-                        <th>卖家昵称</th>
-                        <th>认证店铺</th>
-                        <th>官方鉴定</th>
-                        <th>排序</th>
+                        <th>用户ID</th>
+                        <th>头像</th> 
+                        <th>用户昵称</th>
+                        <th>会员号</th>
+                        <th>会员类型</th>
+                        <th>会员级别</th>
+                        <th>开通日期</th>
+                        <th>有效期</th>
                         <th>状态</th>
-                        <th>添加时间</th>
-                        <th>操作</th>
                     </tr>
                     </thead>
                 </table>
@@ -131,43 +128,36 @@
                 </div>
                 <div class="modal-body">
                     <div class="form form-horizontal logs-settings">
-                        <div class="form-group row hide">
-                            <label class="col-xs-2 control-label">商品ID</label>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">昵称</label>
                             <div class="col-xs-9">
-                                <input type="text" class="form-control" name="id" placeholder="">
+                                <input type="text" class="form-control" name="nickName" placeholder="输入用户的ID" disabled="disabled"> 
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-xs-2 control-label">商品名称</label>
+                            <label class="col-xs-2 control-label">手机号码</label>
                             <div class="col-xs-9">
-                                <input type="text" class="form-control" name="name" placeholder="">
+                                <input type="text" class="form-control" name="phone" placeholder="输入手机号码" disabled="disabled">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-xs-2 control-label">商品描述</label>
-                            <div class="col-xs-9">
-                                <input type="text" class="form-control" name="description" placeholder="">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <label class="col-xs-2 control-label">商品排序</label>
-                            <div class="col-xs-9">
-                                <input type="number" class="form-control" name="sort" placeholder="">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <label class="col-xs-2 control-label">官方鉴定</label>
+                            <label class="col-xs-2 control-label">增减金额</label>
                         		<div class="col-xs-3 radio-custom radio-primary">
-                                <input type="radio" id="inputRadiosUnchecked" name="isAppraisal" value="1">
-                                <label for="inputRadiosUnchecked">已鉴定</label>
+                                <input type="radio" id="inputRadiosUnchecked" name="inputRadios">
+                                <label for="inputRadiosUnchecked">增加</label>
                             </div>
                             <div class="radio-custom radio-primary">
-                                <input type="radio" id="inputRadiosChecked" name="isAppraisal" value="2" checked>
-                                <label for="inputRadiosChecked">未鉴定</label>
+                                <input type="radio" id="inputRadiosChecked" name="inputRadios" checked>
+                                <label for="inputRadiosChecked">扣除</label>
                             </div> 
                         </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">金额</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="amount" placeholder="输入增加/扣除的金额数量">
+                            </div>
+                        </div>
+                            
                         
                         
                     </div>
@@ -193,7 +183,7 @@
 <script src="../../public/themes/classic/base/js/app.js"></script>
 <script src="../../public/js/common.js"></script>
 <script src="../../public/js/utils.js"></script>
-<script src="../../public/js/goods/goods.js"></script>
+<script src="../../public/js/user/vip.js"></script>
 </body>
 
 </html>

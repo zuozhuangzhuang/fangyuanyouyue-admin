@@ -2,7 +2,7 @@
 <html class="no-js css-menubar" lang="zh-cn">
 
 <head>
-    <title>抢购管理</title>
+    <title>商品管理</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 移动设备 viewport -->
@@ -55,7 +55,7 @@
 
 <div class="page animation-fade page-logs">
     <div class="page-header">
-        <h1 class="page-title">分类信息</h1>
+        <h1 class="page-title">商品信息</h1>
         <div class="page-header-actions">
             <button type="button" class="btn btn-icon btn-info collapsed" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                 <i class="icon fa-filter"></i>
@@ -106,13 +106,15 @@
                         <th>ID</th>
                         <th>商品图片</th>
                         <th>商品名称</th>
+                        <th>商品描述</th>
                         <th>价格</th>
                         <th>运费</th>
                         <th>降价间隔</th>
                         <th>降价幅度</th>
                         <th>卖家昵称</th>
-                        <th>是否认证店铺</th>
-                        <th>是否官方鉴定</th>
+                        <th>认证店铺</th>
+                        <th>官方鉴定</th>
+                        <th>排序</th>
                         <th>状态</th>
                         <th>添加时间</th>
                         <th>操作</th>
@@ -131,18 +133,44 @@
                 </div>
                 <div class="modal-body">
                     <div class="form form-horizontal logs-settings">
-                        <div class="form-group row">
-                            <label class="col-xs-2 control-label">昵称</label>
+                        <div class="form-group row hide">
+                            <label class="col-xs-2 control-label">商品ID</label>
                             <div class="col-xs-9">
-                                <input type="text" class="form-control" name="nickName" placeholder="输入用户的ID">
+                                <input type="text" class="form-control" name="id" placeholder="">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-xs-2 control-label">手机号码</label>
+                            <label class="col-xs-2 control-label">商品名称</label>
                             <div class="col-xs-9">
-                                <input type="text" class="form-control" name="phone" placeholder="输入手机号码">
+                                <input type="text" class="form-control" name="name" placeholder="">
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">商品描述</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="description" placeholder="">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">商品排序</label>
+                            <div class="col-xs-9">
+                                <input type="number" class="form-control" name="sort" placeholder="">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">官方鉴定</label>
+                        		<div class="col-xs-3 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosUnchecked" name="isAppraisal" value="1">
+                                <label for="inputRadiosUnchecked">已鉴定</label>
+                            </div>
+                            <div class="radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosChecked" name="isAppraisal" value="2" checked>
+                                <label for="inputRadiosChecked">未鉴定</label>
+                            </div> 
+                        </div>
+                        
                         
                     </div>
                 </div>
