@@ -12,11 +12,11 @@
         $detailModal = $('#detailForm'),
         $detailForm = $('#compileRoleForm');
         
-    function setStatus(data){
+    function setType(data){
     		if(data==1){
-    			return "<span class='label label-success'>正常</span>"
+    			return "<span class='label label-success'>普通更新</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已冻结</span>"
+    			return "<span class='label label-danger'>强制更新</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
@@ -30,27 +30,17 @@
             searching: false,
             pagingType: "simple_numbers",
             columns: [
-                {"data": "companyId"},
-                {"data": "name"},
-                {"data": "companyNo"},
-                {"data": "price"},
+                {"data": "id"},
+                {"data": "versionName"},
+                {"data": "versionNo"},
+                {"data": "versionDesc"},
+                {"data": "package"},
                 {
-                		"data": "status",
-                		"render":setStatus
+                		"data": "type",
+                		"render":setType
                 },
-                {
-                		"data": "status",
-                		"render":function(data){
-                			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
-                			}
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
-						return html;
-                		}
-                }
+                {"data": "addTime"}
+                
             ],
             ajax: function (data, callback) {
                 var param, column, dir,
@@ -76,7 +66,7 @@
 
                 $.ajax({
                     //url: SERVER_PATH+'/user/adminVersion/versionList?'+param,
-                    url: SERVER_PATH+'/forum/adminForum/reportList?type=1&'+param,
+                    url: SERVER_PATH+'/user/system/versionList?'+param,
                     method:'get',
                     cache: false,
                     //data: param,
