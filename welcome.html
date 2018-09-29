@@ -60,18 +60,80 @@
     </div>
     <div class="page-content container-fluid">
         <div class="row" data-plugin="matchHeight" data-by-row="true">
-
-            <div class="col-lg-3 col-sm-6 col-xs-12 info-panel">
+			<div class="col-lg-3 col-sm-6 col-xs-12 info-panel">
+                <div class="widget widget-shadow">
+                    <div class="widget-content bg-white padding-20">
+                        <button type="button" class="btn btn-floating btn-sm btn-success">
+                            <i class="icon wb-book"></i>
+                        </button>
+                        <span class="margin-left-15 font-weight-400">总商品数</span>
+                        <div class="content-text text-center margin-bottom-0">
+                            <span class="font-size-40 font-weight-100" id="allGoods" >0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="col-lg-3 col-sm-6 col-xs-12 info-panel">
+                <div class="widget widget-shadow">
+                    <div class="widget-content bg-white padding-20">
+                        <button type="button" class="btn btn-floating btn-sm btn-danger">
+                            <i class="icon wb-menu"></i>
+                        </button>
+                        <span class="margin-left-15 font-weight-400">总帖子数</span>
+                        <div class="content-text text-center margin-bottom-0">
+                            <span class="font-size-40 font-weight-100" id="allForum">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="col-lg-3 col-sm-6 col-xs-12 info-panel">
+                <div class="widget widget-shadow">
+                    <div class="widget-content bg-white padding-20">
+                        <button type="button" class="btn btn-floating btn-sm btn-info">
+                            <i class="icon wb-users"></i>
+                        </button>
+                        <span class="margin-left-15 font-weight-400">总用户量</span>
+                        <div class="content-text text-center margin-bottom-0">
+                            <span class="font-size-40 font-weight-100" id="allUser">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="col-lg-3 col-sm-6 col-xs-12 info-panel">
                 <div class="widget widget-shadow">
                     <div class="widget-content bg-white padding-20">
                         <button type="button" class="btn btn-floating btn-sm btn-warning">
                             <i class="icon wb-shopping-cart"></i>
                         </button>
-                        <span class="margin-left-15 font-weight-400">今日订单量</span>
+                        <span class="margin-left-15 font-weight-400">总订单数</span>
                         <div class="content-text text-center margin-bottom-0">
-                            <i class="text-danger icon wb-triangle-up font-size-20"> </i>
-                            <span class="font-size-40 font-weight-100">399</span>
-                            <p class="blue-grey-400 font-weight-100 margin-0">+45% 同比增长</p>
+                            <span class="font-size-40 font-weight-100" id="allOrder">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-xs-12 info-panel">
+                <div class="widget widget-shadow">
+                    <div class="widget-content bg-white padding-20">
+                        <button type="button" class="btn btn-floating btn-sm btn-info">
+                            <i class="icon wb-book"></i>
+                        </button>
+                        <span class="margin-left-15 font-weight-400">今日新商品</span>
+                        <div class="content-text text-center margin-bottom-0">
+                            <span class="font-size-40 font-weight-100" id="todayGoods">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6 col-xs-12 info-panel">
+                <div class="widget widget-shadow">
+                    <div class="widget-content bg-white padding-20">
+                        <button type="button" class="btn btn-floating btn-sm btn-warning">
+                            <i class="icon wb-menu"></i>
+                        </button>
+                        <span class="margin-left-15 font-weight-400">今日新帖子</span>
+                        <div class="content-text text-center margin-bottom-0">
+                            <span class="font-size-40 font-weight-100" id="todayForum">0</span>
                         </div>
                     </div>
                 </div>
@@ -80,13 +142,11 @@
                 <div class="widget widget-shadow">
                     <div class="widget-content bg-white padding-20">
                         <button type="button" class="btn btn-floating btn-sm btn-danger">
-                            <i class="icon fa-yen"></i>
+                            <i class="icon wb-user"></i>
                         </button>
-                        <span class="margin-left-15 font-weight-400">今日收入</span>
+                        <span class="margin-left-15 font-weight-400">今日新用户</span>
                         <div class="content-text text-center margin-bottom-0">
-                            <i class="text-success icon wb-triangle-down font-size-20"> </i>
-                            <span class="font-size-40 font-weight-100">&yen;18,628</span>
-                            <p class="blue-grey-400 font-weight-100 margin-0">+45% 同比增长</p>
+                            <span class="font-size-40 font-weight-100" id="todayUser">0</span>
                         </div>
                     </div>
                 </div>
@@ -95,28 +155,11 @@
                 <div class="widget widget-shadow">
                     <div class="widget-content bg-white padding-20">
                         <button type="button" class="btn btn-floating btn-sm btn-success">
-                            <i class="icon wb-eye"></i>
+                            <i class="icon wb-shopping-cart"></i>
                         </button>
-                        <span class="margin-left-15 font-weight-400">今日访问量</span>
+                        <span class="margin-left-15 font-weight-400">今日新订单</span>
                         <div class="content-text text-center margin-bottom-0">
-                            <i class="text-danger icon wb-triangle-up font-size-20"> </i>
-                            <span class="font-size-40 font-weight-100">23,456</span>
-                            <p class="blue-grey-400 font-weight-100 margin-0">+25% 同比增长</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 col-xs-12 info-panel">
-                <div class="widget widget-shadow">
-                    <div class="widget-content bg-white padding-20">
-                        <button type="button" class="btn btn-floating btn-sm btn-primary">
-                            <i class="icon wb-user"></i>
-                        </button>
-                        <span class="margin-left-15 font-weight-400">今日新增用户</span>
-                        <div class="content-text text-center margin-bottom-0">
-                            <i class="text-danger icon wb-triangle-up font-size-20"> </i>
-                            <span class="font-size-40 font-weight-100">4,367</span>
-                            <p class="blue-grey-400 font-weight-100 margin-0">+25% 同比增长</p>
+                            <span class="font-size-40 font-weight-100" id="todayOrder">0</span>
                         </div>
                     </div>
                 </div>
@@ -128,152 +171,31 @@
                     <div class="widget-header padding-20">
                         <div class="btn-group dropdown chart-menu">
                             <button type="button" class="btn btn-outline btn-default dropdown-toggle" data-toggle="dropdown">
-                                产品销售 <span class="caret"></span>
+                                订单趋势
                             </button>
-                            <ul class="dropdown-menu animate" role="menu">
-                                <li role="presentation">
-                                    <a href="#" role="menuitem">销售</a>
-                                </li>
-                                <li role="presentation">
-                                    <a href="#" role="menuitem">总销售额</a>
-                                </li>
-                                <li role="presentation">
-                                    <a href="#" role="menuitem">利润</a>
-                                </li>
-                            </ul>
                         </div>
                         <ul class="nav nav-pills nav-pills-rounded chart-action">
                             <li class="active">
-                                <a data-toggle="tab" href="#scoreLineToDay">本日</a>
+                                <a data-toggle="tab" href="#scoreLineToWeek">近7天</a>
                             </li>
                             <li>
-                                <a data-toggle="tab" href="#scoreLineToWeek">本周</a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#scoreLineToMonth">本月</a>
+                                <a data-toggle="tab" href="#scoreLineToMonth">近30天</a>
                             </li>
                         </ul>
                     </div>
                     <div class="widget-content tab-content bg-white padding-20">
-                        <div class="ct-chart tab-pane active" id="scoreLineToDay"></div>
-                        <div class="ct-chart tab-pane" id="scoreLineToWeek"></div>
+                        <div class="ct-chart tab-pane active" id="scoreLineToWeek"></div>
                         <div class="ct-chart tab-pane" id="scoreLineToMonth"></div>
                     </div>
                 </div>
             </div>
 
 
-            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="ecommerceRecentOrder">
-                <div class="widget widget-shadow table-row">
-                    <div class="widget-header padding-20">
-                        <div class="btn-group dropdown table-menu">
-                            <button type="button" class="btn btn-outline btn-default dropdown-toggle" data-toggle="dropdown">
-                                最近订单 <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu animate" role="menu">
-                                <li role="presentation">
-                                    <a href="#" role="menuitem">待发货</a>
-                                </li>
-                                <li role="presentation">
-                                    <a href="#" role="menuitem">已完成</a>
-                                </li>
-                                <li role="presentation">
-                                    <a href="#" role="menuitem">最新成交</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="widget-content bg-white table-responsive">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th>图片</th>
-                                <th>产品</th>
-                                <th>买家</th>
-                                <th>进度</th>
-                                <th>状态</th>
-                                <th>编号</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <img src="public/images/products/imac.png" width="40" alt="iMac">
-                                </td>
-                                <td>iMac</td>
-                                <td>南学斌</td>
-                                <td>2016.9.22</td>
-                                <td>
-                                    <span class="label label-success font-weight-100">已完成</span>
-                                </td>
-                                <td>98BC85SD84</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="public/images/products/iphone.png" width="40" alt="iPhone">
-                                </td>
-                                <td>iPhone</td>
-                                <td>吕佳</td>
-                                <td>2016.9.22</td>
-                                <td>
-                                    <span class="label label-warning font-weight-100">待发货</span>
-                                </td>
-                                <td>98SA3C9SC</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="public/images/products/applewatch.png" width="40" alt="apple_watch">
-                                </td>
-                                <td>apple Watch</td>
-                                <td>赵烁利</td>
-                                <td>2016.9.22</td>
-                                <td>
-                                    <span class="label label-success font-weight-100">已完成</span>
-                                </td>
-                                <td>98BC85SD84</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="public/images/products/macmouse.png" width="40" alt="mac_mouse">
-                                </td>
-                                <td>mac Mouse</td>
-                                <td>付于倩</td>
-                                <td>2016.9.22</td>
-                                <td>
-                                    <span class="label label-default font-weight-100">待发货</span>
-                                </td>
-                                <td>98SA3C9SC</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" id="ecommerceRevenue">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="ecommerceRevenue">
                 <div class="widget widget-shadow text-center padding-top-10">
-                    <h3 class="widget-header blue-grey-700 font-size-14">收入</h3>
+                    <h3 class="widget-header blue-grey-700 font-size-14">收入统计</h3>
                     <div class="widget-content bg-white">
                         <div class="ct-chart barChart"></div>
-                        <div class="pie-view">
-                            <div class="col-lg-6 col-sm-6 col-xs-6 pie-left text-center">
-                                <h5 class="blue-grey-500 font-size-14 font-weight-100">总收入</h5>
-                                <p class="font-size-20 blue-grey-700">
-                                    9,362,74 </p>
-                                <div class="pie-progress pie-progress-sm" data-valuemax="100" data-valuemin="0" data-barcolor="#a58add" data-size="100" data-barsize="4" data-goal="60" aria-valuenow="60" role="progressbar">
-                                    <span class="pie-progress-number">60%</span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-sm-6 col-xs-6 pie-right text-center">
-                                <h5 class="blue-grey-500 font-size-14 font-weight-100">线上收入</h5>
-                                <p class="font-size-20 blue-grey-700">
-                                    6,734,58 </p>
-                                <div class="pie-progress pie-progress-sm" data-valuemax="100" data-valuemin="0" data-barcolor="#77d6e1" data-size="100" data-barsize="4" data-goal="78" aria-valuenow="78" role="progressbar">
-                                    <span class="pie-progress-number">78%</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -287,6 +209,9 @@
 <script src="public/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.js"></script>
 <script src="public/themes/classic/base/js/app.js"></script>
 <script src="public/js/examples/pages/home/ecommerce.js"></script>
+
+<script src="public/js/common.js"></script>
+<script src="public/js/welcome.js"></script>
 </body>
 
 </html>

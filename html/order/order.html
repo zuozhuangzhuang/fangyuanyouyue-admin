@@ -109,7 +109,6 @@
                         <th>ID</th>
                         <th>状态</th>
                         <th>买家信息</th>
-                        <th>收货信息</th>
                         <th>订单内容</th>
                         <th>商品数量</th>
                         <th>订单金额</th>
@@ -207,6 +206,12 @@
 					                        <div class="form-group row">
 					                            <label class="col-xs-2 control-label">支付方式</label>
 					                            <div class="col-xs-9">
+					                                <input type="text" class="form-control" name="payTime" placeholder="">
+					                            </div>
+					                        </div>
+					                        <div class="form-group row">
+					                            <label class="col-xs-2 control-label">支付方式</label>
+					                            <div class="col-xs-9">
 					                                <input type="text" class="form-control" name="payType" placeholder="">
 					                            </div>
 					                        </div>
@@ -229,15 +234,9 @@
 					                            </div>
 					                        </div>
 					                        <div class="form-group row">
-					                            <label class="col-xs-2 control-label">优惠金额</label>
-					                            <div class="col-xs-9">
-					                                <input type="number" class="form-control" name="" placeholder="">
-					                            </div>
-					                        </div>
-					                        <div class="form-group row">
 					                            <label class="col-xs-2 control-label">实际支付</label>
 					                            <div class="col-xs-9">
-					                                <input type="number" class="form-control" name="price" placeholder="">
+					                                <input type="number" class="form-control" name="payAmount" placeholder="">
 					                            </div>
 					                        </div>
 					                        
@@ -247,33 +246,27 @@
                                     		<div class="form form-horizontal logs-settings">
                                     			
 					                        <div class="form-group row">
-					                            <label class="col-xs-2 control-label">收货地址</label>
+					                            <label class="col-xs-2 control-label">收货信息</label>
 					                            <div class="col-xs-9">
-					                                <input type="text" class="form-control" name="receiver" placeholder="">
-					                            </div>
-					                        </div>
-					                        <div class="form-group row">
-					                            <label class="col-xs-2 control-label">收货人</label>
-					                            <div class="col-xs-9">
-					                                <input type="text" class="form-control" name="" placeholder="">
+					                                <textarea style="width: 100%;height: 50px;border: #bbb solid 1px;"  type="text" class="form-control" name="receiver" placeholder="" ></textarea>
 					                            </div>
 					                        </div>
 					                        <div class="form-group row">
 					                            <label class="col-xs-2 control-label">物流公司</label>
 					                            <div class="col-xs-9">
-					                                <input type="text" class="form-control" name="" placeholder="">
+					                                <input type="text" class="form-control" name="logisticCompany" placeholder="">
 					                            </div>
 					                        </div>
 					                        <div class="form-group row">
 					                            <label class="col-xs-2 control-label">物流单号</label>
 					                            <div class="col-xs-9">
-					                                <input type="text" class="form-control" name="" placeholder="">
+					                                <input type="text" class="form-control" name="logisticCode" placeholder="">
 					                            </div>
 					                        </div>
 					                        <div class="form-group row">
 					                            <label class="col-xs-2 control-label">物流详情</label>
 					                            <div class="col-xs-9">
-					                                <textarea style="width: 100%;height: 150px;border: #bbb solid 1px;" name="" placeholder="暂无物流信息" ></textarea>
+					                                <textarea style="width: 100%;height: 150px;border: #bbb solid 1px;" name="logisticDetail" placeholder="暂无物流信息" ></textarea>
 					                            </div>
 					                        </div>
 					                    </div>

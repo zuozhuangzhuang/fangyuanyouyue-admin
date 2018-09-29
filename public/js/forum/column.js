@@ -45,7 +45,17 @@
                 {"data": "totalCount"},
                 {"data": "baseCount"},
                 {"data": "realCount"},
-                {"data": "addTime"}
+                {"data": "addTime"},
+                {
+                		"data": "status",
+                		"render":function(data){
+                			var html =  "";
+                			
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">编辑</button>';
+						
+						return html;
+                		}
+                }
             ],
             ajax: function (data, callback) {
                 var param, column, dir,

@@ -28,6 +28,24 @@
     		}
     };
     
+    function setStatus2(data){
+    		if(data==1){
+    			return "待支付"
+    		}else if(data==2){
+    			return "待发货"
+    		}else if(data==3){
+    			return "待收货"
+    		}else if(data==4){
+    			return "已完成"
+    		}else if(data==5){
+    			return "已取消"
+    		}else{
+    			return "未知"
+    		}
+    };
+    
+    
+    
     //支付类型 1微信 2支付宝 3余额 4小程序
     function setPayType(data){
     		var type = data.payType;
@@ -58,12 +76,12 @@
                 		"render":setStatus
                 },
                 {"data": "nickName"},
-                {
-                  "data": "orderPayDto",
-                  "render": function (data) {
-                      return data === null ? null : data.receiver;
-                  }
-                },
+//              {
+//                "data": "orderPayDto",
+//                "render": function (data) {
+//                    return data === null ? null : data.receiver;
+//                }
+//              },
                 {"data": "orderDetail"},
                 {"data": "totalCount"},
                 {"data": "totalAmount"},
@@ -212,18 +230,28 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
+	    		//基本信息
         		$detailForm.find('input[name="orderNo"]').val(data.orderNo);
         		$detailForm.find('input[name="addTime"]').val(data.addTime);
         		$detailForm.find('input[name="seller"]').val(data.seller);
-        		$detailForm.find('input[name="status"]').val(data.status);
-        		
-        		$detailForm.find('input[name="totalCount"]').val(data.totalCount);
-        		$detailForm.find('input[name="orderDetail"]').val(data.orderDetail);
-        		
-        		$detailForm.find('input[name="payType"]').val(data.payType);
-        		$detailForm.find('input[name="totalAmount"]').val(data.totalAmount);
-        		$detailForm.find('input[name="postage"]').val(data.postage);
+        		$detailForm.find('input[name="status"]').val(setStatus2(data.status));
         		$detailForm.find('input[name="nickName"]').val(data.nickName);
+        		
+        		//订单详情
+        		$detailForm.find('input[name="totalCount"]').val(data.totalCount);
+        		$detailForm.find('textarea[name="orderDetail"]').html(data.orderDetail);
+        		
+        		//支付信息
+        		$detailForm.find('input[name="payType"]').val(data.orderPayDto.payType);
+        		$detailForm.find('input[name="totalAmount"]').val(data.orderPayDto.amount);
+        		$detailForm.find('input[name="postage"]').val(data.orderPayDto.freight);
+        		$detailForm.find('input[name="payAmount"]').val(data.orderPayDto.payAmount);
+        		$detailForm.find('input[name="payTime"]').val(data.orderPayDto.payTime);
+        		
+        		//物流信息
+        		$detailForm.find('textarea[name="receiver"]').html(data.orderPayDto.receiver);
+        		$detailForm.find('input[name="logisticCompany"]').val(data.orderPayDto.logisticCompany);
+        		$detailForm.find('input[name="logisticCode"]').val(data.orderPayDto.logisticCode);
         		
 	    		
 	    });
