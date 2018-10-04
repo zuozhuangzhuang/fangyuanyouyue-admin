@@ -10,7 +10,9 @@
     var oTable, searchData,
         $filterDate = $('#filter-date'),
         $detailModal = $('#detailForm'),
-        $detailForm = $('#compileRoleForm');
+        $detailForm = $('#compileRoleForm'),
+        $modifyModal = $('#modifyForm'),
+        $modifyForm = $('#modifyDetailForm');
         
     function setStatus(data){
     		if(data==1){
@@ -50,7 +52,7 @@
                 {"data": "id"},
                 {"data": "serviceNo"},
                 {"data": "orderNo"},
-                {"data": "reason"},
+                //{"data": "reason"},
                 {"data": "imgs","render":setImgs},
                 {
                 		"data": "sellerReturnStatus",
@@ -68,15 +70,14 @@
                 {
                 		"data": "status",
                 		"render":function(data){
-                			var html =  "";
-//              			if(data==2){
-//							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-//              			}else {
-//              				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
-//              			}
-//              			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑"><i class="icon wb-edit" aria-hidden="true"></i></button>';
-//						return html;
-						return html;
+                            var html =  "";
+                            html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default show" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">退货详情</button>';
+						
+                            if(data==1){
+                                html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="同意退货">同意</button>';
+                                html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#modifyForm" data-toggle="modal" data-original-title="编辑">拒绝</button>';
+                            }
+                            return html;
                 		}
                 }
             ],
@@ -131,29 +132,23 @@
     };
     
     //修改输入框内容
-    var detailForm = $detailForm.validate({
+    var modifyForm = $modifyForm.validate({
         rules: {
-            nickName: {
-                required: true
-            },
-            phone: {
+            reason: {
                 required: true
             }
         },
         messages: {
-            nickName: {
-                required: '请填写URL地址'
-            },
-            phone: {
-                required: '请填写URL对应名称'
+            reason: {
+                required: '请填写理由'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/user/adminUser/modify',
-                type: 'POST',
+                url: SERVER_PATH + '/order/adminOrder/platformDealReturns',
+                type: 'PUT',
                 data: $form.serialize(),
                 dataType: 'JSON',
                 success: function (data) {
@@ -176,8 +171,8 @@
         }
     });
 
-    $detailModal.on('hide.bs.modal', function () { // 模态窗隐藏后
-        detailForm.resetForm();
+    $modifyModal.on('hide.bs.modal', function () { // 模态窗隐藏后
+        modifyForm.resetForm();
     });
 
 
@@ -186,7 +181,7 @@
     	
     		$("[data-toggle='tooltip']").tooltip();
        // 删除所选用户
-	    $(document).on('click', '.frozen', function () {
+	    $(document).on('click', '.unfrozen', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
@@ -195,37 +190,45 @@
 	    		
 	    });
 	    
-	    // 删除所选用户
-	    $(document).on('click', '.unfrozen', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-	    		changeStatus(data.id,1);
-	    		
-	    });
-	    
 	    // 编辑所选用户
-	    $(document).on('click', '.modify', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
-        		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
-	    		
-	    });
+	    $(document).on('click', '.show', function () {
+            var index = oTable.row($(this).parent()).index(); //获取当前行的序列
+            
+            var data = oTable.rows().data()[index]; //获取当前行数据
+            
+            var json = JSON.parse(data.reason);
+            var html = '';
+            json.forEach(function(value,index,array){
+                if(value.type==1){
+                html += '<p>'+value.content+'</p>'		 
+                }else if(value.type==2){
+                html += '<img src="'+value.imgUrl+'" width=100%  />';
+                }
+        　　});
+                
+            $detailForm.find('.modal-body').html(html);
+                
+        });
     
-	}
+    // 编辑所选用户
+        $(document).on('click', '.modify', function () {
+            var index = oTable.row($(this).parent()).index(); //获取当前行的序列
+                
+            var data = oTable.rows().data()[index]; //获取当前行数据
+                
+            $modifyForm.find('input[name="orderId"]').val(data.id);
+            $modifyForm.find('input[name="status"]').val(3);
+            
+        });
     
+    };
     //改变状态
     function changeStatus(id,status){
-	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
+	    parent.layer.confirm("您确定要同意吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/user/adminUser/delete',
-		        type: 'POST',
-		        data: {id: id,status:status},
+		        url: SERVER_PATH + '/order/adminOrder/platformDealReturns',
+		        type: 'PUT',
+		        data: {orderId: id,status:status},
 		        traditional: true,
 		        dataType: 'JSON',
 		        success: function (data) {

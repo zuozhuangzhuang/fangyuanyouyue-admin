@@ -233,14 +233,14 @@
 
                 parent.layer.confirm("您确定要删除该菜单吗？", function (index) {
                     $.ajax({
-                        url: $.ctx + '/menu/delete?menuId=' + ID,
+                        url: SERVER_PATH + '/user/system/menuDelete?id=' + ID,
                         type: 'POST',
                         dataType: 'JSON',
                         success: function (data) {
-                            if (data.success) {
+                            if (data.code==0) {
                                 callback(index);
                             } else {
-                                toastr.error(data.msg);
+                                toastr.error(data.report);
                             }
                         },
                         error: function () {
@@ -367,11 +367,11 @@
                 parent.layer.confirm("您确定要删除该菜单吗？", function (index) {
                     if (ID !== "") {
                         $.ajax({
-                            url: $.ctx + '/menu/delete?menuId=' + ID,
+                            url: SERVER_PATH + '/user/system/menuDelete?id=' + ID,
                             type: 'POST',
                             dataType: 'JSON',
                             success: function (data) {
-                                if (data.success) {
+                                if (data.code==0) {
                                     delSubmenu(index);
                                 } else {
                                     toastr.error("出错了，请重试！");
@@ -451,12 +451,12 @@
             this.menuObj.children = $nestable.nestable('serialize');
 
             $.ajax({
-                url: $.ctx + '/menu/save',
+                url: SERVER_PATH+ '/user/system/menuSave',
                 type: 'POST',
                 data: {menu: JSON.stringify(this.menuObj)},
                 dataType: 'JSON',
                 success: function (data) {
-                    if (data.success === true) {
+                    if (data.code == 0) {
                         self.subType = undefined;
 
                         toastr.info("当前菜单保存成功，重新登录可更新菜单数据！");
@@ -521,7 +521,7 @@
         },
         getAuth: function (ID, fn) {
             $.ajax({
-                url: $.ctx + '../../../public/data/system/auth.json',
+                url: SERVER_PATH + '/user/system/roleList',
                 data: {menuId: ID},
                 dataType: 'JSON',
                 success: function (data) {
@@ -537,9 +537,9 @@
                                 + options.text + '</option>';
                         };
 
-                    if (data.success === true) {
-                        for (var i = 0; i < data.auth.length; i++) {
-                            callback(data.auth[i]);
+                    if (data.code == 0) {
+                        for (var i = 0; i < data.data.length; i++) {
+                            callback(data.data[i]);
                         }
 
                         fn(html);
@@ -556,10 +556,11 @@
             var self = this;
 
             $.ajax({
-                url: $.ctx + '../../../public/data/system/menu.json',
+               // url: $.ctx + '../../../public/data/system/menu.json',
+                url: SERVER_PATH + '/user/system/menuList',
                 dataType: 'JSON',
                 success: function (data) {
-                    self.menuRender(data);
+                    self.menuRender(data.data);
                 },
                 error: function () {
                     toastr.error('服务器异常，请稍后再试！');

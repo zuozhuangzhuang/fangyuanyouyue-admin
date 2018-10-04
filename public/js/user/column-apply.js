@@ -47,7 +47,7 @@
                 		"render":function(data){
                 			var html =  "";
                 			if(data==0){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="审核通过">通过</button>';
+                			    html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">通过</button>';
                 				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="审核不通过">拒绝</button>';
                 			}
 						return html;
@@ -126,7 +126,7 @@
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/adminUser/modify',
+                url: SERVER_PATH + '/forum/adminForum/handleApply',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -175,7 +175,25 @@
 	    		
 	    		changeStatus(data.id,1);
 	    		
-	    });
+        });
+        
+        
+
+
+	    
+	    // 编辑所选用户
+	    $(document).on('click', '.modify', function () {
+            var index = oTable.row($(this).parent()).index(); //获取当前行的序列
+            
+            var data = oTable.rows().data()[index]; //获取当前行数据
+            
+            $detailForm.find('input[name="columnName"]').val(data.columnName);
+            
+            $detailForm.find('input[name="applyId"]').val(data.id);
+
+            $detailForm.find('input[name="status"]').val(1);
+            
+    });
     
 	}
     

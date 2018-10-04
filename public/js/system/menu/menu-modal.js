@@ -80,14 +80,13 @@
                 }
 
                 topMenus.menuData = menuData;
-
                 $.ajax({
-                    url: $.ctx + '/menu/save',
+                    url: SERVER_PATH + '/user/system/menuSave',
                     type: 'POST',
                     data: {menu: JSON.stringify(menuData)},
                     dataType: 'JSON',
                     success: function (data) {
-                        if (data.success) {
+                        if (data.code == 0) {
                             delete menuData.type;
 
                             if (!topMenuId) {

@@ -14,4 +14,3 @@ if(token&&token.length>0){
 		window.location.href="../../login.html";
 	}
 }
-

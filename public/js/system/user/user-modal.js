@@ -10,24 +10,25 @@
 
     var userModal = window.userModal = {
         addUser: function () {
-            $userAccount.find("input[name='loginName']").removeAttr("readonly").val("");
+            $userAccount.find("input[name='userCode']").removeAttr("readonly").val("");
             $userAccount.find("input[name='userId']").val("");
         },
         editUser: function (currentUser, currentRow) {
             var $checkbox = $userAccount.find('input:checkbox');
 
             this.currentRow = currentRow;
+            
 
-            $userAccount.find("input[name='loginName']").attr("readonly", "").val(currentRow.loginName);
+            $userAccount.find("input[name='userCode']").attr("readonly", "").val(currentRow.userCode);
             $userAccount.find("input[name='userId']").val(currentRow.userId);
 
-            if (currentRow.userId === currentUser) {
-                $checkbox.prop('disabled', true);
-            } else {
-                if (currentRow.state === 'FORBIDDEN') {
-                    $checkbox.prop("checked", true).val('FORBIDDEN');
-                }
-            }
+            // if (currentRow.userId === currentUser) {
+            //     $checkbox.prop('disabled', true);
+            // } else {
+            //     if (currentRow.state === 'FORBIDDEN') {
+            //         $checkbox.prop("checked", true).val('FORBIDDEN');
+            //     }
+            // }
         },
         authView: function (data, others) {
             var html;
@@ -59,19 +60,19 @@
 
     $userAccount.validate({
         rules: {
-            loginName: {
+            userCode: {
                 required: true
             },
             password: {
                 required: function () {
-                    return $userAccount.find('[name="loginName"]').attr('readonly') !== 'readonly';
+                    return $userAccount.find('[name="userCode"]').attr('readonly') !== 'readonly';
                 },
                 minlength:6,
                 maxlength:30
             },
             confirm: {
                 required: function () {
-                    return $userAccount.find('[name="loginName"]').attr('readonly') !== 'readonly';
+                    return $userAccount.find('[name="userCode"]').attr('readonly') !== 'readonly';
                 },
                 equalTo: '#password'
             },
@@ -108,7 +109,7 @@
             var $form = $(form);
 
             $.ajax({
-                url: $.ctx + '/user/save',
+                url: SERVER_PATH + '/user/system/operatorSave',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -130,17 +131,18 @@
                             }
                         };
 
-                    if (data.success) {
+                    if (data.code==0) {
                         if (typeof userModal.currentRow !== 'undefined') {
                             _callback();
                         } else {
-                            table.row.add(data.user).draw(false);
+                            table.ajax.reload();
+                            //table.row.add(data.user).draw(false);
                         }
 
                         userModal.$el.modal('hide');
-                        toastr.success(data.msg);
+                        toastr.success(data.report);
                     } else {
-                        toastr.error(data.msg);
+                        toastr.error(data.report);
                     }
                 },
                 error: function () {

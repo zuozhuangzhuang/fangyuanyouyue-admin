@@ -14,9 +14,9 @@
         
     function setStatus(data){
     		if(data==1){
-    			return "<span class='label label-success'>正常</span>"
+    			return "<span class='label label-success'>已处理</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已冻结</span>"
+    			return "<span class='label label-danger'>未处理</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
@@ -58,7 +58,7 @@
                 		"render":function(data){
                 			var html =  "";
                 			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="标记为处理"><i class="icon wb-check" aria-hidden="true"></i></button>';
+							    html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="标记为处理">处理</button>';
                 			}
 						return html;
                 		}
@@ -136,8 +136,8 @@
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/user/adminUser/modify',
-                type: 'POST',
+                url: SERVER_PATH + '/forum/adminForum/dealReport',
+                type: 'PUT',
                 data: $form.serialize(),
                 dataType: 'JSON',
                 success: function (data) {
@@ -175,7 +175,7 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,2);
+	    		changeStatus(data.id,1);
 	    		
 	    });
 	    
@@ -195,9 +195,8 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
+        		$detailForm.find('input[name="id"]').val(data.id);
         		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
 	    		
 	    });
     

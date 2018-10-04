@@ -29,7 +29,7 @@
                 .modal({
                     show: false,
                     pageHeight: 480,
-                    page: $.ctx + '../../html/system/user/_user-info.html'
+                    page: '../../html/system/user/_user-info.html'
                 })
                 .on('shown.bs.modal', function () {
                     var iframe = $(this).find('iframe').prop('contentWindow').userModal;
@@ -196,38 +196,12 @@
                 dom: '<"row"<"col-xs-6"<"hidden-xs"B>><"col-xs-6"f>><"row"<"col-xs-12"tr>><"row"<"col-sm-5"i><"col-sm-7"p>>',
                 processing: true,
                 autoWidth: false, //禁用自动调整列宽
-                ajax: $.ctx + '../../../public/data/system/user.json',
+                ajax: SERVER_PATH + '/user/system/operatorList',
                 rowId: 'userId',
-                buttons: {
-                    dom: {
-                        container: {
-                            className: 'btn-group btn-group-sm'
-                        },
-                        button: {
-                            className: 'btn btn-default btn-outline'
-                        }
-                    },
-                    buttons: [
-                        {
-                            extend: 'copy',
-                            text: '拷贝'
-                        },
-                        {
-                            extend: 'excel',
-                            text: '导出 Excel'
-                        },
-                        {
-                            extend: 'csv',
-                            text: '导出 CSV'
-                        },
-                        {
-                            extend: 'print',
-                            text: '打印'
-                        }
-                    ]
-                },
+                buttons:[],
                 columns: [
                     {
+                        "data":"userId",
                         "render": function () {
                             var checkbox = '<span class="checkbox-custom checkbox-primary">' +
                                 '<input type="checkbox" class="contacts-checkbox selectable-item">' +
@@ -235,12 +209,13 @@
                             return checkbox;
                         }
                     },
-                    {"data": "loginName"},
-                    {"data": "createTime"},
+                    {"data": "userCode"},
+                    {"data": "addTime"},
                     {"data": "lastLoginTime"},
-                    {"data": "loginCount"},
-                    {"data": "lastLoginIp"},
+                    {"data": "status"},
+                    {"data": "status"},
                     {
+                        "data":"status",
                         "render": function () {
                             var edit = '<button type="button" class="btn btn-sm btn-icon btn-pure btn-default"' + ' data-toggle="edit"><i class="icon wb-edit" aria-hidden="true"></i></button>';
                             return edit;
@@ -248,13 +223,13 @@
                     }
                 ],
                 rowCallback: function (row, data) {
-                    if (data.state === "FORBIDDEN") {
-                        $(row).addClass('disabled');
-                    }
+                    // if (data.state === "FORBIDDEN") {
+                    //     $(row).addClass('disabled');
+                    // }
 
-                    if (data.userId === self.currentUser) {
-                        $(row).find('input:checkbox').prop('disabled', true);
-                    }
+                    // if (data.userId === self.currentUser) {
+                    //     $(row).find('input:checkbox').prop('disabled', true);
+                    // }
                 }
             }));
         },
@@ -305,6 +280,7 @@
                         storeData = iframe.storeData, html,
                         $roleContent = $('.role-contents');
 
+                        console.log(storeData)
                     if (!storeData) {
                         return;
                     }
@@ -324,10 +300,10 @@
                 userId = typeof currentRow === 'undefined' ? -1 : currentRow.userId;
 
             $.ajax({
-                url: $.ctx + '/public/data/system/auth.json?userId=' + userId,
+                url: SERVER_PATH + '/user/system/roleList?userId=' + userId,
                 dataType: 'JSON',
                 success: function (data) {
-                    if (data.success) {
+                    if (data.code==0) {
                         self.authData = data;
                     } else {
                         toastr.error('出错了，请重试！');
@@ -341,7 +317,7 @@
         currentRole: function ($item) {
             var $parents = $('.page-aside-inner'),
                 ID = $item.attr('data-id'),
-                url = $.ctx + (typeof ID === 'undefined' ? '/public/data/system/user.json' : '/public/data/system/user.json?roleId=' + ID);
+                url = SERVER_PATH + (typeof ID === 'undefined' ? '/user/system/operatorList' : '/user/system/operatorList?roleId=' + ID);
 
             if (!$item.is('.active')) {
                 $parents.find('.list-group-item').removeClass('active');

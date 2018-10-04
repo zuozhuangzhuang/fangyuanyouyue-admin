@@ -12,16 +12,35 @@
         $detailModal = $('#detailForm'),
         $detailForm = $('#compileRoleForm');
         
-    function setType(data){
+    function setStatus(data){
     		if(data==1){
-    			return "<span class='label label-success'>普通更新</span>"
+    			return "<span class='label label-success'>真</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>强制更新</span>"
+    			return "<span class='label label-warning'>假</span>"
+    		}else if(data==3){
+    			return "<span class='label label-info'>存疑</span>"
+    		}else if(data==0){
+    			return "<span class='label label-danger'>待鉴定</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
     };
 
+    
+    
+
+    function setType(data){
+    		if(data==1){
+    			return "卖家鉴定"
+    		}else if(data==2){
+    			return "买家鉴定"
+    		}else if(data==3){
+    			return "普通鉴定"
+    		}else{
+    			return "未知"
+    		}
+    };
+    
     var callback = function () {
         return $('.dataTable').DataTable($.po('dataTable', {
             autoWidth: false,
@@ -30,17 +49,30 @@
             searching: false,
             pagingType: "simple_numbers",
             columns: [
-                {"data": "id"},
-                {"data": "versionName"},
-                {"data": "versionNo"},
-                {"data": "packageName"},
-                {"data": "versionDesc"},
+                {"data": "appraisalDetailId"},
+                {"data": "nickName"},
                 {
-                		"data": "type",
-                		"render":setType
+                		"data": "appraisalUrlDtos",
+                		"render": setImgs
                 },
-                {"data": "addTime"}
-                
+                {"data": "title"},
+                {"data": "description"},
+                {"data": "price"},
+                {"data": "type","render":setType},
+                {"data": "opinion"},
+                {"data": "addTime"},
+                {"data": "status","render":setStatus},
+                {
+                		"data": "status",
+                		"render":function(data){
+                			var html =  "";
+                            if(data==0){
+                                html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="鉴定">鉴定</button>';
+                            }
+                			
+						return html;
+                		}
+                }
             ],
             ajax: function (data, callback) {
                 var param, column, dir,
@@ -65,8 +97,7 @@
                 }
 
                 $.ajax({
-                    //url: SERVER_PATH+'/user/adminVersion/versionList?'+param,
-                    url: SERVER_PATH+'/user/system/versionList?'+param,
+                    url: SERVER_PATH+'/goods/adminGoods/appraisalList?'+param,
                     method:'get',
                     cache: false,
                     //data: param,
@@ -96,27 +127,21 @@
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            number: {
-                required: true
-            },
-            name: {
+            content: {
                 required: true
             }
         },
         messages: {
-            number: {
-                required: '请填写公司名称'
-            },
-            name: {
-                required: '请填写物流编码'
+            content: {
+                required: '鉴定观点不能为空'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/order/adminOrder/addCompany',
-                type: 'POST',
+                url: SERVER_PATH + '/goods/adminGoods/updateAppraisal',
+                type: 'PUT',
                 data: $form.serialize(),
                 dataType: 'JSON',
                 success: function (data) {
@@ -148,23 +173,24 @@
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
-       // 删除所选用户
-	    $(document).on('click', '.frozen', function () {
+	    
+	    // 
+	    $(document).on('click', '.apprais', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,2);
+	    		changeStatus(data.goodsId,5);
 	    		
 	    });
 	    
-	    // 删除所选用户
-	    $(document).on('click', '.unfrozen', function () {
+	    // 删
+	    $(document).on('click', '.delete', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,1);
+	    		changeStatus(data.goodsId,5);
 	    		
 	    });
 	    
@@ -174,13 +200,7 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-        		$detailForm.find('input[name="number"]').val(data.companyNo);
-        		
-        		$detailForm.find('input[name="name"]').val(data.name);
-        		
-        		$detailForm.find('input[name="price"]').val(data.price);
-        		
-        		$detailForm.find('input[name="id"]').val(data.companyId);
+        		$detailForm.find('input[name="id"]').val(data.appraisalDetailId);
 	    		
 	    });
     
@@ -188,10 +208,10 @@
     
     //改变状态
     function changeStatus(id,status){
-	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
+	    parent.layer.confirm("您确定要删除商品吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/user/adminUser/delete',
-		        type: 'POST',
+		        url: SERVER_PATH + '/goods/adminGoods/updateGoods',
+		        type: 'PUT',
 		        data: {id: id,status:status},
 		        traditional: true,
 		        dataType: 'JSON',

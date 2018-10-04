@@ -27,7 +27,7 @@
                 "plugins": ["checkbox", "search"],
                 "core": {
                     'data': {
-                        "url": $.ctx + '../../../public/data/system/menu.json?roleId=' + roleId,
+                        "url": SERVER_PATH + '/user/system/roleMenuList?roleId=' + roleId,
                         "dataType": "JSON"
                     }
                 }
@@ -119,7 +119,7 @@
                     };
 
                 $.ajax({
-                    url: $.ctx + '/role/save',
+                    url: SERVER_PATH + '/user/system/roleSave',
                     type: 'POST',
                     data: $form.serialize(),
                     dataType: 'JSON',

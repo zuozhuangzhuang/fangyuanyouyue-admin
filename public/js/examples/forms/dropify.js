@@ -6,7 +6,7 @@
 (function (document, window, $) {
     'use strict';
 
-    var $exampleUploadForm = $('#exampleUploadForm');
+    var $exampleUploadForm = $('#compileRoleForm');
     // 文件上传
     // -------------------
     $exampleUploadForm.fileupload({
