@@ -102,7 +102,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/wallet/adminWallet/platformFinance?status=2&'+param,
+                    url: SERVER_PATH+'/wallet/adminWallet/platformFinance?status=1&'+param,
                     method:'get',
                     cache: false,
                     //data: param,

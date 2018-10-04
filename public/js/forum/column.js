@@ -22,6 +22,16 @@
     		}
     };
 
+    function setIsChosen(data){
+        if(data==1){
+            return "<span class='label label-success'>是</span>"
+        }else if(data==2){
+            return "<span class='label label-danger'>否</span>"
+        }else{
+            return "<span class='label label-default'>未知</span>"
+        }
+    }
+
     var callback = function () {
         return $('.dataTable').DataTable($.po('dataTable', {
             autoWidth: false,
@@ -40,7 +50,7 @@
                 {"data": "nickName"},
                 {
                 		"data": "isChosen",
-                		"render":setYesNo
+                		"render":setIsChosen
                 },
                 {"data": "totalCount"},
                 {"data": "baseCount"},
@@ -127,17 +137,62 @@
         },
         submitHandler: function (form) {
             var $form = $(form);
-            
+
+            if($detailForm.find('input[name="imgFile"]')[0].files.length==0){
+                $.ajax({
+                    url: SERVER_PATH + '/forum/adminForum/updateColumn',
+                    type: 'POST',
+                    data: $form.serialize(),
+                    dataType: 'JSON',
+                    success: function (data) {
+                        if (data.code==0) {
+                            toastr.success('操作成功！');
+                            oTable.ajax.reload();
+                            $detailModal.modal('hide');
+                        } else {
+                            if(data.report){
+                                toastr.error(data.report);
+                            }else{
+                                 toastr.error('出错了，请重试！');
+                            }
+                        }
+                    }
+                });
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append("imgFile", $detailForm.find('input[name="imgFile"]')[0].files[0]);  
             $.ajax({
-                url: SERVER_PATH + '/user/adminUser/modify',
+                url: SERVER_PATH + '/user/file/uploadPic',
                 type: 'POST',
-                data: $form.serialize(),
-                dataType: 'JSON',
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: function (data) {
                     if (data.code==0) {
-		                toastr.success('操作成功！');
-						oTable.ajax.reload();
-                        $detailModal.modal('hide');
+                        //上传完图片再上传
+                        $detailForm.find('input[name="coverImgUrl"]').val(data.data);
+                        $.ajax({
+                            url: SERVER_PATH + '/forum/adminForum/updateColumn',
+                            type: 'POST',
+                            data: $form.serialize(),
+                            dataType: 'JSON',
+                            success: function (data) {
+                                if (data.code==0) {
+                                    toastr.success('操作成功！');
+                                    oTable.ajax.reload();
+                                    $detailModal.modal('hide');
+                                } else {
+                                    if(data.report){
+                                        toastr.error(data.report);
+                                    }else{
+                                         toastr.error('出错了，请重试！');
+                                    }
+                                }
+                            }
+                        });
+
                     } else {
 		                if(data.report){
 		                    toastr.error(data.report);
@@ -188,9 +243,10 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
-        		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
+        		$detailForm.find('input[name="id"]').val(data.id);
+        		$detailForm.find('input[name="name"]').val(data.name);
+        		$detailForm.find("input[name='isChosen'][value="+data.isChosen+"]").attr("checked",true); 
+                $detailForm.find('input[name="coverImgUrl"]').val(data.coverImgUrl);
 	    		
 	    });
     

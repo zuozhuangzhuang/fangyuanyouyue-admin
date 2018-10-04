@@ -107,34 +107,49 @@
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            nickName: {
-                required: true
-            },
-            phone: {
+            imgFile: {
                 required: true
             }
         },
         messages: {
-            nickName: {
-                required: '请填写URL地址'
-            },
-            phone: {
-                required: '请填写URL对应名称'
+            imgFile: {
+                required: '请选择图片'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
-            
+            var formData = new FormData();
+            formData.append("imgFile", $detailForm.find('input[name="imgFile"]')[0].files[0]);  
             $.ajax({
-                url: SERVER_PATH + '/forum/adminForum/handleApply',
+                url: SERVER_PATH + '/user/file/uploadPic',
                 type: 'POST',
-                data: $form.serialize(),
-                dataType: 'JSON',
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: function (data) {
                     if (data.code==0) {
-		                toastr.success('操作成功！');
-						oTable.ajax.reload();
-                        $detailModal.modal('hide');
+                        //上传完图片再上传
+                        $detailForm.find('input[name="coverImgUrl"]').val(data.data);
+                        $.ajax({
+                            url: SERVER_PATH + '/forum/adminForum/handleApply',
+                            type: 'POST',
+                            data: $form.serialize(),
+                            dataType: 'JSON',
+                            success: function (data) {
+                                if (data.code==0) {
+                                    toastr.success('操作成功！');
+                                    oTable.ajax.reload();
+                                    $detailModal.modal('hide');
+                                } else {
+                                    if(data.report){
+                                        toastr.error(data.report);
+                                    }else{
+                                         toastr.error('出错了，请重试！');
+                                    }
+                                }
+                            }
+                        });
+
                     } else {
 		                if(data.report){
 		                    toastr.error(data.report);
