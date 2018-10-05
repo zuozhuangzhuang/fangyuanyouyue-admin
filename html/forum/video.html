@@ -70,7 +70,7 @@
                         <div class="form-group">
                             <div class="input-daterange input-group">
                                 <span class="input-group-addon"><i class="icon wb-calendar" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" id="filter-date" placeholder="注册日期">
+                                <input type="text" class="form-control" id="filter-date" placeholder="添加日期">
                                 <input type="hidden" name="startDate">
                                 <input type="hidden" name="endDate">
                                 <a class="input-group-addon padding-horizontal-10" role="button">
@@ -82,9 +82,9 @@
                         </div>
                         <div class="form-group">
                             <select class="form-control" name="status" data-plugin="select2">
-                                <option value="">所有用户</option>
+                                <option value="">所有视频</option>
                                 <option value="1">正常</option>
-                                <option value="2">冻结</option>
+                                <option value="2">已删除</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -108,9 +108,9 @@
                         <th>发布人</th>
                         <th>视频标题</th>
                         <th>封面</th>
-                        <th>浏览总量</th>
-                        <th>浏览量基数</th>
-                        <th>实际浏览量</th>
+                        <th>总浏览量</th>
+                        <th>基数</th>
+                        <th>实际浏览</th>
                         <th>是否精选</th>
                         <th>排序</th>
                         <th>状态</th>
@@ -138,6 +138,47 @@
 
         </div>
     </div>
+
+    
+    <div class="modal" id="editModalForm" aria-hidden="true" aria-labelledby="editModalForm" role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-center">
+                <form class="modal-content " id="editForm">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                        <h4 class="modal-title">删除帖子</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form form-horizontal logs-settings">
+                            <div class="form-group row hide">
+                                <label class="col-xs-2 control-label">id</label>
+                                <div class="col-xs-9">
+                                    <input type="text" class="form-control" name="status" value="2" placeholder="id">
+                                </div>
+                            </div>
+                            <div class="form-group row hide">
+                                <label class="col-xs-2 control-label">id</label>
+                                <div class="col-xs-9">
+                                    <input type="text" class="form-control" name="id" placeholder="id">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xs-2 control-label">删除原因</label>
+                                <div class="col-xs-9">
+                                    <input type="text" class="form-control" name="content" placeholder="">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">保存</button>
+                        <a class="btn btn-default" data-dismiss="modal">取消</a>
+                    </div>
+                </form>
+    
+            </div>
+        </div>
+
     
       
      <div class="modal" id="modifyForm" aria-hidden="true" aria-labelledby="modifyForm" role="dialog" tabindex="-1">
@@ -162,6 +203,13 @@
                             </div>
                         </div>
                         
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">浏览基数</label>
+                            <div class="col-xs-9">
+                                <input type="number" class="form-control" name="count" placeholder="">
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label class="col-xs-2 control-label">排序</label>
                             <div class="col-xs-9">

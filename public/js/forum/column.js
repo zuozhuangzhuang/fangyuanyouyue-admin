@@ -53,8 +53,6 @@
                 		"render":setIsChosen
                 },
                 {"data": "totalCount"},
-                {"data": "baseCount"},
-                {"data": "realCount"},
                 {"data": "addTime"},
                 {
                 		"data": "status",

@@ -125,7 +125,7 @@
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/adminUser/modify',
+                url: SERVER_PATH + '/user/adminUser/auth/order/status',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -158,15 +158,6 @@
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
-       // 删除所选用户
-	    $(document).on('click', '.frozen', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-	    		changeStatus(data.id,2);
-	    		
-	    });
 	    
 	    // 删除所选用户
 	    $(document).on('click', '.unfrozen', function () {
@@ -174,7 +165,7 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,1);
+	    		changeStatus(data.id,2);
 	    		
 	    });
 	    
@@ -194,9 +185,9 @@
     
     //改变状态
     function changeStatus(id,status){
-	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
+	    parent.layer.confirm("您确定要通过审核吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/adminUser/delete',
+		        url: SERVER_PATH + '/user/adminUser/auth/order/status',
 		        type: 'POST',
 		        data: {id: id,status:status},
 		        traditional: true,

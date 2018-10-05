@@ -12,7 +12,9 @@
         $detailModal = $('#detailForm'),
         $detailForm = $('#compileRoleForm'),
         $modifyModal = $('#modifyForm'),
-        $modifyForm = $('#modifyDetailForm');
+        $modifyForm = $('#modifyDetailForm'),
+        $editModal = $('#editModalForm'),
+        $editForm = $('#editForm');
         
     function setChosen(data){
     		if(data==1){
@@ -27,7 +29,7 @@
     		if(data==1){
     			return "<span class='label label-success'>正常</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已冻结</span>"
+    			return "<span class='label label-danger'>已删除</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
@@ -67,12 +69,16 @@
                 {
                 		"data": "status",
                 		"render":function(data){
-                			var html =  "";
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default show" data-target="#detailForm" data-toggle="modal" data-original-title="详情">查看详情</button>';
+                            var html =  "";
+                            
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default show" data-target="#detailForm" data-toggle="modal" data-original-title="详情">详情</button>';
 						
                 			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#modifyForm" data-toggle="modal" data-original-title="编辑">编辑</button>';
-						
-						return html;
+                        
+                            if(data==1){
+                                html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default delete" data-target="#editModalForm" data-toggle="modal" data-original-title="删除">删除</button>';
+                            }
+						    return html;
                 		}
                 }
             ],
@@ -129,7 +135,7 @@
     //修改输入框内容
     var modifyForm = $modifyForm.validate({
         		title: {
-            nickName: {
+            title: {
                 required: true
             },
             sort: {
@@ -177,28 +183,64 @@
     });
 
 
+
+    //修改输入框内容
+    var editForm = $editForm.validate({
+        rules: {
+            content: {
+                required: true
+            }
+        },
+        messages: {
+            content: {
+                required: '拒绝原因不能为空'
+            }
+        },
+        submitHandler: function (form) {
+            var $form = $(form);
+            
+            $.ajax({
+                url: SERVER_PATH + '/forum/adminForum/updateForum',
+                type: 'POST',
+                data: $form.serialize(),
+                dataType: 'JSON',
+                success: function (data) {
+                    if (data.code==0) {
+		                toastr.success('操作成功！');
+						oTable.ajax.reload();
+                        $editModal.modal('hide');
+                    } else {
+		                if(data.report){
+		                    toastr.error(data.report);
+		                }else{
+		                     toastr.error('出错了，请重试！');
+		                }
+                    }
+                },
+                error: function () {
+                    toastr.error('服务器异常，请稍后再试！');
+                }
+            });
+        }
+    });
+
+
+    $editModal.on('hide.bs.modal', function () { // 模态窗隐藏后
+        editForm.resetForm();
+    });
+    
     
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
-       // 删除所选用户
-	    $(document).on('click', '.frozen', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-	    		changeStatus(data.id,2);
-	    		
-	    });
 	    
 	    // 删除所选用户
-	    $(document).on('click', '.unfrozen', function () {
+	    $(document).on('click', '.delete', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,1);
-	    		
+        		$editForm.find('input[name="id"]').val(data.id);
 	    });
 	    
 	    // 编辑所选用户
@@ -231,7 +273,9 @@
 	    		
         		$modifyForm.find('input[name="title"]').val(data.title);
         		
-        		$modifyForm.find('input[name="sort"]').val(data.sort);
+                $modifyForm.find('input[name="sort"]').val(data.sort);
+                
+        		$modifyForm.find('input[name="count"]').val(data.baseCount);
         		
         		$modifyForm.find("input[name='isChosen'][value="+data.isChosen+"]").attr("checked",true); 
         		

@@ -45,7 +45,7 @@
                 			if(data==2){
 							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="启用">启用</button>';
                 			}else {
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="禁用">禁用</button>';
+                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="禁用">删除</button>';
                 			}
                 			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">编辑</button>';
 						return html;
@@ -163,7 +163,7 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,2);
+	    		changeStatus(data.companyId,2);
 	    		
 	    });
 	    
@@ -173,7 +173,7 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,1);
+	    		changeStatus(data.companyId,1);
 	    		
 	    });
 	    
@@ -197,11 +197,11 @@
     
     //改变状态
     function changeStatus(id,status){
-	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
+	    parent.layer.confirm("您确定要删除吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/user/adminUser/delete',
-		        type: 'POST',
-		        data: {id: id,status:status},
+		        url: SERVER_PATH + '/order/adminOrder/updateCompany',
+		        type: 'PUT',
+		        data: {id:id,status:status},
 		        traditional: true,
 		        dataType: 'JSON',
 		        success: function (data) {

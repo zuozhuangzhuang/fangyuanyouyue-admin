@@ -10,7 +10,10 @@
     var oTable, searchData,
         $filterDate = $('#filter-date'),
         $detailModal = $('#detailForm'),
-        $detailForm = $('#compileRoleForm');
+        $detailForm = $('#compileRoleForm'),
+        $editModal = $('#editModalForm'),
+        $editForm = $('#editForm');
+        
         
     function setStatus(data){
     		if(data==1){
@@ -93,7 +96,7 @@
                 		"render":function(data){
                 			var html =  "";
                 		
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default delete" data-toggle="tooltip" data-original-title="删除商品">删除</button>';
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default delete" data-target="#editModalForm" data-toggle="modal" data-original-title="删除商品">删除</button>';
                 		
                 			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">编辑</button>';
 						return html;
@@ -196,25 +199,62 @@
         }
     });
 
+    $
+    //修改输入框内容
+    var editForm = $editForm.validate({
+        rules: {
+            content: {
+                required: true
+            }
+        },
+        messages: {
+            content: {
+                required: '拒绝原因不能为空'
+            }
+        },
+        submitHandler: function (form) {
+            var $form = $(form);
+            
+            $.ajax({
+                url: SERVER_PATH + '/goods/adminGoods/updateGoods',
+                type: 'PUT',
+                data: $form.serialize(),
+                dataType: 'JSON',
+                success: function (data) {
+                    if (data.code==0) {
+		                toastr.success('操作成功！');
+						oTable.ajax.reload();
+                        $editModal.modal('hide');
+                    } else {
+		                if(data.report){
+		                    toastr.error(data.report);
+		                }else{
+		                     toastr.error('出错了，请重试！');
+		                }
+                    }
+                },
+                error: function () {
+                    toastr.error('服务器异常，请稍后再试！');
+                }
+            });
+        }
+    });
+
     $detailModal.on('hide.bs.modal', function () { // 模态窗隐藏后
         detailForm.resetForm();
     });
 
+
+    $editModal.on('hide.bs.modal', function () { // 模态窗隐藏后
+        editForm.resetForm();
+    });
+    
 
     
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
 	    
-	    // 
-	    $(document).on('click', '.apprais', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-	    		changeStatus(data.goodsId,5);
-	    		
-	    });
 	    
 	    // 删
 	    $(document).on('click', '.delete', function () {
@@ -222,7 +262,7 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.goodsId,5);
+        		$editForm.find('input[name="id"]').val(data.goodsId);
 	    		
 	    });
 	    

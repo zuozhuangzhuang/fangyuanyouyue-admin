@@ -9,14 +9,18 @@
 
     var oTable, searchData,
         $filterDate = $('#filter-date'),
-        $detailModal = $('#detailForm'),
-        $detailForm = $('#compileRoleForm');
+        $modifyModal = $('#modifyForm'),
+        $modifyForm = $('#modifyDetailForm'),
+        $editModal = $('#editModalForm'),
+        $editForm = $('#editForm');
         
     function setStatus(data){
     		if(data==1){
     			return "<span class='label label-success'>进行中</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已结束</span>"
+    			return "<span class='label label-info'>已结束</span>"
+    		}else if(data==3){
+    			return "<span class='label label-danger'>已删除</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
@@ -43,6 +47,7 @@
                 {"data": "totalCount"},
                 {"data": "baseCount"},
                 {"data": "realCount"},
+                {"data": "sort"},
                 {
                 		"data": "status",
                 		"render":setStatus
@@ -52,11 +57,13 @@
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			if(data==2){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="解除冻结"><i class="icon wb-check" aria-hidden="true"></i></button>';
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结"><i class="icon wb-close" aria-hidden="true"></i></button>';
-                			}
-						return html;
+                			
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#modifyForm" data-toggle="modal" data-original-title="编辑">编辑</button>';
+                        
+                            if(data!=3){
+                                html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default delete" data-target="#editModalForm" data-toggle="modal" data-original-title="删除">删除</button>';
+                            }
+						    return html;
                 		}
                 }
             ],
@@ -110,29 +117,74 @@
         }));
     };
     
-    //修改输入框内容
-    var detailForm = $detailForm.validate({
-        rules: {
-            nickName: {
-                required: true
+     //修改输入框内容
+     var modifyForm = $modifyForm.validate({
+        title: {
+        nickName: {
+            required: true
+        },
+        sort: {
+            required: true
+        }
+    },
+    messages: {            
+        title: {
+            required: '请填写标题'
+        },
+        sort: {
+            required: ''
+        }
+    },
+    submitHandler: function (form) {
+        var $form = $(form);
+        
+        $.ajax({
+            url: SERVER_PATH + '/forum/adminForum/updateAppraisal',
+            type: 'POST',
+            data: $form.serialize(),
+            dataType: 'JSON',
+            success: function (data) {
+                if (data.code==0) {
+                    toastr.success('操作成功！');
+                    oTable.ajax.reload();
+                    $modifyModal.modal('hide');
+                } else {
+                    if(data.report){
+                        toastr.error(data.report);
+                    }else{
+                        toastr.error('出错了，请重试！');
+                    }
+                }
             },
-            phone: {
+            error: function () {
+                toastr.error('服务器异常，请稍后再试！');
+            }
+        });
+    }
+    });
+
+    $modifyModal.on('hide.bs.modal', function () { // 模态窗隐藏后
+        modifyForm.resetForm();
+    });
+
+
+    //修改输入框内容
+    var editForm = $editForm.validate({
+        rules: {
+            content: {
                 required: true
             }
         },
         messages: {
-            nickName: {
-                required: '请填写URL地址'
-            },
-            phone: {
-                required: '请填写URL对应名称'
+            content: {
+                required: '拒绝原因不能为空'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/user/adminUser/modify',
+                url: SERVER_PATH + '/forum/adminForum/updateAppraisal',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
@@ -140,7 +192,7 @@
                     if (data.code==0) {
 		                toastr.success('操作成功！');
 						oTable.ajax.reload();
-                        $detailModal.modal('hide');
+                        $editModal.modal('hide');
                     } else {
 		                if(data.report){
 		                    toastr.error(data.report);
@@ -156,54 +208,50 @@
         }
     });
 
-    $detailModal.on('hide.bs.modal', function () { // 模态窗隐藏后
-        detailForm.resetForm();
+
+    $editModal.on('hide.bs.modal', function () { // 模态窗隐藏后
+        editForm.resetForm();
     });
-
-
+    
+    
     
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
        // 删除所选用户
-	    $(document).on('click', '.frozen', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-	    		changeStatus(data.id,2);
-	    		
-	    });
-	    
-	    // 删除所选用户
-	    $(document).on('click', '.unfrozen', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-	    		changeStatus(data.id,1);
-	    		
-	    });
+	    $(document).on('click', '.delete', function () {
+            var index = oTable.row($(this).parent()).index(); //获取当前行的序列
+            
+            var data = oTable.rows().data()[index]; //获取当前行数据
+            
+            $editForm.find('input[name="id"]').val(data.id);
+        });
+    
 	    
 	    // 编辑所选用户
 	    $(document).on('click', '.modify', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
-        		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
-	    		
-	    });
-    
+            var index = oTable.row($(this).parent()).index(); //获取当前行的序列
+            
+            var data = oTable.rows().data()[index]; //获取当前行数据
+            
+            $modifyForm.find('input[name="title"]').val(data.title);
+            
+            $modifyForm.find('input[name="sort"]').val(data.sort);
+            
+            $modifyForm.find('input[name="count"]').val(data.baseCount);
+            
+            $modifyForm.find("input[name='isChosen'][value="+data.isChosen+"]").attr("checked",true); 
+            
+            $modifyForm.find('input[name="id"]').val(data.id);
+            
+        });
 	}
     
     //改变状态
     function changeStatus(id,status){
 	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/user/adminUser/delete',
+		        url: SERVER_PATH + '/forum/adminForum/updateAppraisal',
 		        type: 'POST',
 		        data: {id: id,status:status},
 		        traditional: true,
