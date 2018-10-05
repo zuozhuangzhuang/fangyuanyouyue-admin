@@ -18,7 +18,7 @@
     		}else if(data==2){
     			return "<span class='label label-success'>认证成功</span>"
     		}else if(data==3){
-    			return "<span class='label label-default'>认证失败</span>"
+    			return "<span class='label label-warning'>认证失败</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}

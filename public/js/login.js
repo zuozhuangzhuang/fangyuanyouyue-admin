@@ -59,8 +59,7 @@
     		var loginCode = $("#username").val();
 	    		var password = $("#password").val();
 	    		$.ajax({
-	                //url: 'http://127.0.0.1:8769/user/system/login',
-	                url: 'http://zuul.fangyuanyouyue.com/user/system/login',
+	                url: SERVER_PATH + '/user/system/login',
 	                type: 'POST',
 	                data: {"loginCode":loginCode,"password":password},
 	                dataType: 'JSON',
@@ -68,7 +67,7 @@
 	                    if (data.code==0) {
 	                    		//保存token
 	            				var storage=window.sessionStorage;
-	            				storage.setItem("token",data.data.token);
+	            				storage.setItem("userInfo",JSON.stringify(data.data));
 	                    		window.location.href="index.html";
 	                    } else {
 			                if(data.report){
@@ -85,8 +84,7 @@
     })
     
     $("#admui-signOut").click(function(){
-    		sessionStorage.removeItem("token");
-    		alert(sessionStorage.getItem("token"));
+    		sessionStorage.removeItem("userInfo");
     		window.location.href="login.html";
     });
 

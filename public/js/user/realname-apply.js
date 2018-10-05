@@ -18,7 +18,7 @@
     		}else if(data==2){
     			return "<span class='label label-success'>审核通过</span>"
     		}else if(data==3){
-    			return "<span class='label label-default'>审核不通过</span>"
+    			return "<span class='label label-warning'>审核不通过</span>"
     		}else{
     			
     			return "<span class='label label-default'>状态有误</span>"

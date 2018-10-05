@@ -30,19 +30,36 @@
     		}
     };
     
-        
+   
+         
     function setAuthType(data){
-    		if(data==1){
-    			return "<span class='label label-warning'>认证中</span>"
-    		}else if(data==2){
-    			return "<span class='label label-success'>已认证</span>"
-    		}else if(data==3){
-    			return "<span class='label label-default'>未认证</span>"
-    		}else{
-    			return "<span class='label label-default'>未知</span>"
-    		}
+        if(data==1){
+            return "<span class='label label-warning'>认证中</span>"
+        }else if(data==2){
+            return "<span class='label label-success'>已认证</span>"
+        }else if(data==3){
+            return "<span class='label label-default'>未认证</span>"
+        }else{
+            return "<span class='label label-default'>未知</span>"
+        }
     };
         
+    function setCredit(data){
+        if(data==1){
+            return "<span class='label label-danger'>差</span>"
+        }else if(data==2){
+            return "<span class='label label-warning'>低</span>"
+        }else if(data==3){
+            return "<span class='label label-warning'>中</span>"
+        }else if(data==4){
+            return "<span class='label label-info'>高</span>"
+        }else if(data==5){
+            return "<span class='label label-success'>优</span>"
+        }else{
+            return "<span class='label label-default'>未知</span>"
+        }
+    };  
+            
     function setVip(data){
     		if(data==1){
     			return "<span class='label label-success'>已开通</span>"
@@ -62,22 +79,24 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
+                {
+                		"data": "headImgUrl",
+                		"render": setImg
+                },
                 {"data": "nickName"},
                 {"data": "phone"},
                 {
                 		"data": "level"
                 },
+                {"data": "creditLevel","render":setCredit},
                 {"data": "balance"},
+                {"data": "point"},
                 {"data": "authType","render":setAuthType},
                 {
                 		"data": "vipStatus",
                 		"render": setVip
                 },
                 {"data": "fansBaseCount"},
-                {
-                		"data": "headImgUrl",
-                		"render": setImg
-                },
                 {
                 		"data": "gender",
                 		"render": setGender
@@ -103,11 +122,11 @@
                 			//	html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="冻结">冻结</button>';
                 			//}
                 			
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modifyBalance" data-target="#balanceModalForm" data-toggle="modal" data-original-title="增减余额">增减余额</button>';
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modifyBalance" data-target="#balanceModalForm" data-toggle="modal" data-original-title="增减余额">余额</button>';
 
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modifyVip" data-target="#vipModalForm" data-toggle="modal" data-original-title="改变会员状态">会员信息</button>';
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modifyVip" data-target="#vipModalForm" data-toggle="modal" data-original-title="改变会员状态">会员</button>';
                 			
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑信息">信息编辑</button>';
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑信息">编辑</button>';
 						return html;
                 		}
                 }
@@ -320,7 +339,7 @@
         		$detailForm.find('input[name="nickName"]').val(data.nickName);
         		
         		$detailForm.find('input[name="phone"]').val(data.phone);
-        		$detailForm.find('input[name="count"]').val(data.fansBaseCount);
+        		$detailForm.find('input[name="fansCount"]').val(data.fansBaseCount);
         		$detailForm.find('input[name="id"]').val(data.id);
 	    		
         		$detailForm.find("input[name='status'][value="+data.status+"]").attr("checked",true); 

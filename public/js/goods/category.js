@@ -17,6 +17,8 @@
     			return "<span class='label label-success'>正常</span>"
     		}else if(data==1){
     			return "<span class='label label-danger'>禁用</span>"
+    		}else if(data==2){
+    			return "<span class='label label-danger'>已删除</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
@@ -40,12 +42,12 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
-                {"data": "parentId"},
-                {"data": "name"},
                 {
                 		"data": "imgUrl",
                 		"render": setImg
                 },
+                {"data": "parentName"},
+                {"data": "name"},
                 {"data": "sort"},
                 {"data": "type",
                 	"render": setType
@@ -119,6 +121,7 @@
             }
         }));
     };
+
     
     //修改输入框内容
     var detailForm = $detailForm.validate({
@@ -140,17 +143,62 @@
         },
         submitHandler: function (form) {
             var $form = $(form);
-            
+
+            if($detailForm.find('input[name="imgFile"]')[0].files.length==0){
+                $.ajax({
+                    url: SERVER_PATH + '/goods/adminGoods/updateCategory',
+                    type: 'PUT',
+                    data: $form.serialize(),
+                    dataType: 'JSON',
+                    success: function (data) {
+                        if (data.code==0) {
+                            toastr.success('操作成功！');
+                            oTable.ajax.reload();
+                            $detailModal.modal('hide');
+                        } else {
+                            if(data.report){
+                                toastr.error(data.report);
+                            }else{
+                                 toastr.error('出错了，请重试！');
+                            }
+                        }
+                    }
+                });
+                return;
+            }
+
+            var formData = new FormData();
+            formData.append("imgFile", $detailForm.find('input[name="imgFile"]')[0].files[0]);  
             $.ajax({
-                url: SERVER_PATH + '/user/adminUser/modify',
+                url: SERVER_PATH + '/user/file/uploadPic',
                 type: 'POST',
-                data: $form.serialize(),
-                dataType: 'JSON',
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: function (data) {
                     if (data.code==0) {
-		                toastr.success('操作成功！');
-						oTable.ajax.reload();
-                        $detailModal.modal('hide');
+                        //上传完图片再上传
+                        $detailForm.find('input[name="imgUrl"]').val(data.data);
+                        $.ajax({
+                            url: SERVER_PATH + '/goods/adminGoods/updateCategory',
+                            type: 'PUT',
+                            data: $form.serialize(),
+                            dataType: 'JSON',
+                            success: function (data) {
+                                if (data.code==0) {
+                                    toastr.success('操作成功！');
+                                    oTable.ajax.reload();
+                                    $detailModal.modal('hide');
+                                } else {
+                                    if(data.report){
+                                        toastr.error(data.report);
+                                    }else{
+                                         toastr.error('出错了，请重试！');
+                                    }
+                                }
+                            }
+                        });
+
                     } else {
 		                if(data.report){
 		                    toastr.error(data.report);
@@ -174,24 +222,15 @@
     
     function handleAction(){
     	
-    		$("[data-toggle='tooltip']").tooltip();
-       // 删除所选用户
-	    $(document).on('click', '.frozen', function () {
-	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
-	    		
-	    		changeStatus(data.id,2);
-	    		
-	    });
-	    
+            $("[data-toggle='tooltip']").tooltip();
+            
 	    // 删除所选用户
 	    $(document).on('click', '.unfrozen', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,1);
+	    		changeStatus(data.id,2);
 	    		
 	    });
 	    
@@ -201,20 +240,27 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
+                $detailForm.find('input[name="id"]').val(data.id);
+                
         		$detailForm.find('input[name="name"]').val(data.name);
         		
         		$detailForm.find('input[name="sort"]').val(data.sort);
 	    		
+                $detailForm.find("input[name='status'][value="+data.status+"]").attr("checked",true); 
+                
+                $detailForm.find("input[name='type'][value="+data.type+"]").attr("checked",true); 
+                //选择父菜单
+                $detailForm.find("#parent").val(data.parentId);
 	    });
     
 	}
     
     //改变状态
     function changeStatus(id,status){
-	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
+	    parent.layer.confirm("您确定要删除吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/user/adminUser/delete',
-		        type: 'POST',
+		        url: SERVER_PATH + '/goods/adminGoods/updateCategory',
+		        type: 'PUT',
 		        data: {id: id,status:status},
 		        traditional: true,
 		        dataType: 'JSON',
@@ -241,6 +287,37 @@
 	        //actionBtn.hide();
 	   });
     }
+
+
+    //获取分类
+    $.ajax({
+        url: SERVER_PATH + '/goods/adminGoods/categorys',
+        type: 'GET',
+        traditional: true,
+        dataType: 'JSON',
+        success: function (data) {
+            if (data.code==0) {
+                var select = $detailForm.find("select[name='parentId']");
+                var select2 = $("#selectParent");
+                select.append("<option value=\"\">顶级菜单</option>"); 
+                var category = data.data;
+                for(var index in category){
+                    select.append("<option value=\""+category[index].id+"\">"+category[index].name+"</option>"); 
+                    select2.append("<option value=\""+category[index].id+"\">"+category[index].name+"</option>");   
+                }
+            } else {
+                if(data.report){
+                    toastr.error(data.report);
+                }else{
+                     toastr.error('出错了，请重试！');
+                }
+                parent.layer.close(index);
+            }
+        },
+        error: function () {
+            toastr.error('服务器异常，请稍后再试！');
+        }
+   });
     
     
     //时间筛选
@@ -254,6 +331,7 @@
         oTable = callback();
         $filterDate.daterangepicker($.po('daterangepicker', {
             maxDate: new Date(),
+           // autoUpdateInput:false,
             ranges: {
                 '今天': [moment(), moment()],
                 '昨天': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],

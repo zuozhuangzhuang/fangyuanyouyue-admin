@@ -70,7 +70,7 @@
                         <div class="form-group">
                             <div class="input-daterange input-group">
                                 <span class="input-group-addon"><i class="icon wb-calendar" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" id="filter-date" placeholder="注册日期">
+                                <input type="text" class="form-control" id="filter-date" placeholder="开通日期">
                                 <input type="hidden" name="startDate">
                                 <input type="hidden" name="endDate">
                                 <a class="input-group-addon padding-horizontal-10" role="button">
@@ -81,13 +81,21 @@
                         		<input class="form-control" type="text" name="keyword" placeholder="输入关键字搜索"/>
                         </div>
                         <div class="form-group">
-                            <select class="form-control" name="status" data-plugin="select2">
-                                <option value="">所有类型</option>
+                            <select class="form-control" name="vipType" data-plugin="select2">
+                                <option value="">会员类型</option>
                                 <option value="1">月会员</option>
                                 <option value="2">季会员</option>
                                 <option value="3">年会员</option>
                             </select>
                         </div>
+                        
+                        <div class="form-group">
+                                <select class="form-control" name="vipLevel" data-plugin="select2">
+                                    <option value="">会员级别</option>
+                                    <option value="1">铂金</option>
+                                    <option value="2">至尊</option>
+                                </select>
+                            </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success"><i class="icon fa-search"></i> 查找</button>
                         </div>
