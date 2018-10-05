@@ -302,9 +302,12 @@
                 _index = date.indexOf('至');
                 $('input[name="startDate"]').val($.trim(date.substring(0, _index)) + " 00:00:00");
                 $('input[name="endDate"]').val($.trim(date.substring(_index + 1)) + " 23:59:59");
+                searchData = $(this).serialize();
+            }else{
+
+                searchData = $(this).serialize().replace("startDate","").replace("endDate","");
             }
 
-            searchData = $(this).serialize();
             oTable.ajax.reload();
 
             return false;
