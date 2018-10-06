@@ -8,35 +8,10 @@
     /* global moment */
 
     var oTable, searchData,
-        $filterDate = $('#filter-date'),
-        $detailModal = $('#detailForm'),
-        $detailForm = $('#compileRoleForm');
-        
+    $filterDate = $('#filter-date'),
+    $detailModal = $('#detailForm'),
+    $detailForm = $('#compileRoleForm');
     
-    function setPayType(data){
-    		if(data==1){
-    			return "微信"
-    		}else if(data==2){
-    			return "支付宝"
-    		}else if(data==3){
-    			return "余额"
-    		}else{
-    			return "<span class='label label-default'>未知</span>"
-    		}
-    };    
-    
-    function setStatus(data){
-    		if(data==1){
-    			return "<span class='label label-warning'>待审核</span>"
-    		}else if(data==2){
-    			return "<span class='label label-success'>审核成功</span>"
-    		}else if(data==3){
-    			return "<span class='label label-danger'>审核拒绝</span>"
-    		}else{
-    			return "<span class='label label-default'>未知</span>"
-    		}
-    };
-
     var callback = function () {
         return $('.dataTable').DataTable($.po('dataTable', {
             autoWidth: false,
@@ -46,29 +21,9 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
-                {"data": "nickName"},
-                {"data": "realName"},
-                {"data": "amount"},
-                {"data": "payType","render":setPayType},
-                {"data": "account"},
+                {"data": "userName"},
                 {"data": "content"},
-                {
-                		"data": "status",
-                		"render":setStatus
-                },
-                {"data": "addTime"},
-                {
-                		"data": "status",
-                		"render":function(data){
-                			var html =  "";
-                			if(data==1){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="通过">通过</button>';
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">拒绝</button>';
-						
-                			}
-						return html;
-                		}
-                }
+                {"data": "addTime"}
             ],
             ajax: function (data, callback) {
                 var param, column, dir,
@@ -93,7 +48,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/wallet/adminWallet/withdrawList?'+param,
+                    url: SERVER_PATH+'/user/system/sysMsgList?'+param,
                     method:'get',
                     cache: false,
                     //data: param,
@@ -123,44 +78,34 @@
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            nickName: {
-                required: true
-            },
-            phone: {
+            content: {
                 required: true
             }
         },
         messages: {
-            nickName: {
-                required: '请填写URL地址'
-            },
-            phone: {
-                required: '请填写URL对应名称'
+            content: {
+                required: '请填写内容'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
-            
             $.ajax({
-                url: SERVER_PATH + '/wallet/adminWallet/updateWithdraw',
+                url: SERVER_PATH + '/user/system/sendMessage',
                 type: 'POST',
                 data: $form.serialize(),
                 dataType: 'JSON',
                 success: function (data) {
                     if (data.code==0) {
-		                toastr.success('操作成功！');
-						oTable.ajax.reload();
+                        toastr.success('操作成功！');
+                        oTable.ajax.reload();
                         $detailModal.modal('hide');
                     } else {
-		                if(data.report){
-		                    toastr.error(data.report);
-		                }else{
-		                     toastr.error('出错了，请重试！');
-		                }
+                        if(data.report){
+                            toastr.error(data.report);
+                        }else{
+                             toastr.error('出错了，请重试！');
+                        }
                     }
-                },
-                error: function () {
-                    toastr.error('服务器异常，请稍后再试！');
                 }
             });
         }
@@ -168,32 +113,50 @@
 
     $detailModal.on('hide.bs.modal', function () { // 模态窗隐藏后
         detailForm.resetForm();
+
+        $detailForm.find('input[name="id"]').val('');
+        $detailForm.find('input[name="title"]').val('');
+        $detailForm.find('input[name="imgUrl"]').val('');
+        $detailForm.find('input[name="businessId"]').val('');
+        $detailForm.find('input[name="sort"]').val('');
+        $detailForm.find("select[name='type']").val('');
+        $detailForm.find("select[name='jumpType']").val('');
+        $detailForm.find("select[name='businessType']").val('');
+
     });
-
-
     
     function handleAction(){
     	
     		$("[data-toggle='tooltip']").tooltip();
-	    // 审核通过
+      
+	    
+	    // 删除所选用户
 	    $(document).on('click', '.unfrozen', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-	    		changeStatus(data.id,2);
+	    		changeStatus(data.bannerId,1);
 	    		
 	    });
 	    
-	    // 审核不通过
-	    $(document).on('click', '.frozen', function () {
+	    // 编辑所选用户
+	    $(document).on('click', '.modify', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-        		$detailForm.find('input[name="status"]').val(3);
-        		
-        		$detailForm.find('input[name="id"]').val(data.id);
+        		$detailForm.find('input[name="id"]').val(data.bannerId);
+        		$detailForm.find('input[name="title"]').val(data.title);
+        		$detailForm.find("input[name='status'][value="+data.status+"]").attr("checked",true); 
+                $detailForm.find('input[name="imgUrl"]').val(data.imgUrl);
+                $detailForm.find('input[name="businessId"]').val(data.businessId);
+                $detailForm.find('input[name="sort"]').val(data.sort);
+
+                $detailForm.find("select[name='type']").val(data.type);
+                $detailForm.find("select[name='jumpType']").val(data.jumpType);
+                $detailForm.find("select[name='businessType']").val(data.businessType);
+                
 	    		
 	    });
     
@@ -201,11 +164,11 @@
     
     //改变状态
     function changeStatus(id,status){
-	    parent.layer.confirm("您确定要通过审核吗？", function (index) {
+	    parent.layer.confirm("您确定要删除吗？", function (index) {
 		    $.ajax({
-		        url: SERVER_PATH + '/wallet/adminWallet/updateWithdraw',
+		        url: SERVER_PATH + '/goods/adminGoods/deleteBanner',
 		        type: 'POST',
-		        data: {id: id,status:status},
+		        data: {bannerId:id,status:status},
 		        traditional: true,
 		        dataType: 'JSON',
 		        success: function (data) {

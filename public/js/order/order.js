@@ -75,7 +75,7 @@
                 		"data": "status",
                 		"render":setStatus
                 },
-                {"data": "nickName"},
+                {"data": "buyer"},
 //              {
 //                "data": "orderPayDto",
 //                "render": function (data) {
@@ -85,16 +85,16 @@
                 {"data": "orderDetail"},
                 {"data": "totalCount"},
                 {"data": "totalAmount"},
-                {
-                  "data": "orderPayDto",
-                  "render": setPayType
-                },
+                // {
+                //   "data": "orderPayDto",
+                //   "render": setPayType
+                // },
                 {"data": "addTime"},
                 {
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">查看详情</button>';
+                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">详情</button>';
 						return html;
                 		}
                 }
@@ -228,31 +228,54 @@
 	    $(document).on('click', '.modify', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
-	    		var data = oTable.rows().data()[index]; //获取当前行数据
+                var data = oTable.rows().data()[index]; //获取当前行数据
+                
+                
+                $.ajax({
+                    url: SERVER_PATH + '/order/adminOrder/orderDetail',
+                    type: 'GET',
+                    data: {id:data.id},
+                    dataType: 'JSON',
+                    success: function (data) {
+                        if (data.code==0) {
+                            //基本信息
+                            data = data.data;
+                            $detailForm.find('input[name="orderNo"]').val(data.orderNo);
+                            $detailForm.find('input[name="addTime"]').val(data.addTime);
+                            $detailForm.find('input[name="seller"]').val(data.seller);
+                            $detailForm.find('input[name="status"]').val(setStatus2(data.status));
+                            $detailForm.find('input[name="nickName"]').val(data.nickName);
+                            
+                            //订单详情
+                            $detailForm.find('input[name="totalCount"]').val(data.totalCount);
+                            $detailForm.find('textarea[name="orderDetail"]').html(data.orderDetail);
+                            
+                            //支付信息
+                            $detailForm.find('input[name="payType"]').val(data.orderPayDto.payType);
+                            $detailForm.find('input[name="totalAmount"]').val(data.orderPayDto.amount);
+                            $detailForm.find('input[name="postage"]').val(data.orderPayDto.freight);
+                            $detailForm.find('input[name="payAmount"]').val(data.orderPayDto.payAmount);
+                            $detailForm.find('input[name="payTime"]').val(data.orderPayDto.payTime);
+                            
+                            //物流信息
+                            $detailForm.find('textarea[name="receiver"]').html(data.orderPayDto.receiver);
+                            $detailForm.find('input[name="logisticCompany"]').val(data.orderPayDto.logisticCompany);
+                            $detailForm.find('input[name="logisticCode"]').val(data.orderPayDto.logisticCode);
+
+                        } else {
+                            if(data.report){
+                                toastr.error(data.report);
+                            }else{
+                                toastr.error('出错了，请重试！');
+                            }
+                        }
+                    },
+                    error: function () {
+                        toastr.error('服务器异常，请稍后再试！');
+                    }
+                });
 	    		
-	    		//基本信息
-        		$detailForm.find('input[name="orderNo"]').val(data.orderNo);
-        		$detailForm.find('input[name="addTime"]').val(data.addTime);
-        		$detailForm.find('input[name="seller"]').val(data.seller);
-        		$detailForm.find('input[name="status"]').val(setStatus2(data.status));
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
-        		
-        		//订单详情
-        		$detailForm.find('input[name="totalCount"]').val(data.totalCount);
-        		$detailForm.find('textarea[name="orderDetail"]').html(data.orderDetail);
-        		
-        		//支付信息
-        		$detailForm.find('input[name="payType"]').val(data.orderPayDto.payType);
-        		$detailForm.find('input[name="totalAmount"]').val(data.orderPayDto.amount);
-        		$detailForm.find('input[name="postage"]').val(data.orderPayDto.freight);
-        		$detailForm.find('input[name="payAmount"]').val(data.orderPayDto.payAmount);
-        		$detailForm.find('input[name="payTime"]').val(data.orderPayDto.payTime);
-        		
-        		//物流信息
-        		$detailForm.find('textarea[name="receiver"]').html(data.orderPayDto.receiver);
-        		$detailForm.find('input[name="logisticCompany"]').val(data.orderPayDto.logisticCompany);
-        		$detailForm.find('input[name="logisticCode"]').val(data.orderPayDto.logisticCode);
-        		
+	    		
 	    		
 	    });
     

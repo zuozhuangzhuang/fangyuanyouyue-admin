@@ -46,8 +46,8 @@
                 		"render":function(data){
                 			var html =  "";
                 			if(data==1){
-							html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="通过审核">通过</button>';
-                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default frozen" data-toggle="tooltip" data-original-title="不通过审核">拒绝</button>';
+							    html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="通过审核">通过</button>';
+                				html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="不通过审核">拒绝</button>';
                 			}
 						return html;
                 		}
@@ -106,19 +106,13 @@
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            nickName: {
-                required: true
-            },
-            phone: {
+            content: {
                 required: true
             }
         },
         messages: {
-            nickName: {
-                required: '请填写URL地址'
-            },
-            phone: {
-                required: '请填写URL对应名称'
+            content: {
+                required: '请填写原因'
             }
         },
         submitHandler: function (form) {
@@ -175,9 +169,9 @@
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-        		$detailForm.find('input[name="nickName"]').val(data.nickName);
+        		$detailForm.find('input[name="id"]').val(data.id);
+        		$detailForm.find('input[name="status"]').val(3);
         		
-        		$detailForm.find('input[name="phone"]').val(data.phone);
 	    		
 	    });
     

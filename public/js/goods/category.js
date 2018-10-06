@@ -216,6 +216,15 @@
 
     $detailModal.on('hide.bs.modal', function () { // 模态窗隐藏后
         detailForm.resetForm();
+
+        $detailForm.find('input[name="id"]').val('');
+                
+        $detailForm.find('input[name="name"]').val('');
+        
+        $detailForm.find('input[name="sort"]').val('');
+        
+        //选择父菜单
+        $detailForm.find("#parent").val('');
     });
 
 

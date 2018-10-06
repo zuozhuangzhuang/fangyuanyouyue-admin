@@ -18,21 +18,36 @@
     		if(data==1){
     			return "<span class='label label-danger'>申请中</span>"
     		}else if(data==2){
-    			return "<span class='label label-success'>退货成功</span>"
+    			return "<span class='label label-success'>成功</span>"
     		}else if(data==3){
-    			return "<span class='label label-default'>退货失败</span>"
+    			return "<span class='label label-default'>失败</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
     };
+    function setStatus2(data){
+        if(data==1){
+            return "待支付"
+        }else if(data==2){
+            return "待发货"
+        }else if(data==3){
+            return "待收货"
+        }else if(data==4){
+            return "已完成"
+        }else if(data==5){
+            return "已取消"
+        }else{
+            return "未知"
+        }
+};
 
     function setReturnStatus(data){
     		if(data==1){
     			return "处理中"
     		}else if(data==2){
-    			return "同意退货"
+    			return "同意"
     		}else if(data==3){
-    			return "拒绝退货"
+    			return "拒绝"
     		}else if(data==4){
     			return "默认同意"
     		}else if(data==5){
@@ -50,8 +65,8 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
-                {"data": "serviceNo"},
-                {"data": "orderNo"},
+               // {"data": "serviceNo"},
+                //{"data": "orderNo"},
                 //{"data": "reason"},
                 {"data": "imgs","render":setImgs},
                 {
@@ -71,7 +86,7 @@
                 		"data": "status",
                 		"render":function(data){
                             var html =  "";
-                            html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default show" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">退货详情</button>';
+                            html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default show" data-target="#detailForm" data-toggle="modal" data-original-title="编辑">详情</button>';
 						
                             if(data==1){
                                 html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default unfrozen" data-toggle="tooltip" data-original-title="同意退货">同意</button>';
@@ -206,7 +221,54 @@
                 }
         　　});
                 
-            $detailForm.find('.modal-body').html(html);
+            $detailForm.find('#exampleTabsZero').html(html);
+
+
+                
+            $.ajax({
+                url: SERVER_PATH + '/order/adminOrder/orderDetail',
+                type: 'GET',
+                data: {id:data.orderId},
+                dataType: 'JSON',
+                success: function (data) {
+                    if (data.code==0) {
+                        //基本信息
+                        data = data.data;
+                        $detailForm.find('input[name="orderNo"]').val(data.orderNo);
+                        $detailForm.find('input[name="addTime"]').val(data.addTime);
+                        $detailForm.find('input[name="seller"]').val(data.seller);
+                        $detailForm.find('input[name="status"]').val(setStatus2(data.status));
+                        $detailForm.find('input[name="nickName"]').val(data.nickName);
+                        
+                        //订单详情
+                        $detailForm.find('input[name="totalCount"]').val(data.totalCount);
+                        $detailForm.find('textarea[name="orderDetail"]').html(data.orderDetail);
+                        
+                        //支付信息
+                        $detailForm.find('input[name="payType"]').val(data.orderPayDto.payType);
+                        $detailForm.find('input[name="totalAmount"]').val(data.orderPayDto.amount);
+                        $detailForm.find('input[name="postage"]').val(data.orderPayDto.freight);
+                        $detailForm.find('input[name="payAmount"]').val(data.orderPayDto.payAmount);
+                        $detailForm.find('input[name="payTime"]').val(data.orderPayDto.payTime);
+                        
+                        //物流信息
+                        $detailForm.find('textarea[name="receiver"]').html(data.orderPayDto.receiver);
+                        $detailForm.find('input[name="logisticCompany"]').val(data.orderPayDto.logisticCompany);
+                        $detailForm.find('input[name="logisticCode"]').val(data.orderPayDto.logisticCode);
+
+                    } else {
+                        if(data.report){
+                            toastr.error(data.report);
+                        }else{
+                            toastr.error('出错了，请重试！');
+                        }
+                    }
+                },
+                error: function () {
+                    toastr.error('服务器异常，请稍后再试！');
+                }
+            });
+
                 
         });
     

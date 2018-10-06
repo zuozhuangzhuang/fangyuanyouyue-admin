@@ -2,7 +2,7 @@
 <html class="no-js css-menubar" lang="zh-cn">
 
 <head>
-    <title>用户收支管理</title>
+    <title>系统消息管理</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 移动设备 viewport -->
@@ -39,6 +39,9 @@
     <!-- 样式 -->
     <link rel="stylesheet" href="../../public/themes/classic/global/css/bootstrap.css">
     <link rel="stylesheet" href="../../public/themes/classic/base/css/site.css" id="admui-siteStyle">
+    
+    <link rel="stylesheet" href="../../public/vendor/blueimp-file-upload/jquery.fileupload.css">
+    <link rel="stylesheet" href="../../public/vendor/dropify/dropify.css">
 
     <link rel="stylesheet" href="../../public/fonts/web-icons/web-icons.css">
     <link rel="stylesheet" href="../../public/fonts/font-awesome/font-awesome.css">
@@ -55,8 +58,12 @@
 
 <div class="page animation-fade page-logs">
     <div class="page-header">
-        <h1 class="page-title">用户收支信息</h1>
+        <h1 class="page-title">系统信息</h1>
         <div class="page-header-actions">
+            
+            <button type="button" class="btn btn-sm btn-outline btn-info add-row" data-target="#detailForm" data-toggle="modal" aria-hidden="true" role="button">
+                <i class="icon wb-plus"></i> 新增                
+            </button>
             <button type="button" class="btn btn-icon btn-info collapsed" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                 <i class="icon fa-filter"></i>
             </button>
@@ -67,10 +74,10 @@
             <div class="panel">
                 <div class="panel-body">
                     <form class="form-inline" id="logForm">
-                        <div class="form-group">
+                        <div class="form-group hide">
                             <div class="input-daterange input-group">
                                 <span class="input-group-addon"><i class="icon wb-calendar" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" id="filter-date" placeholder="注册日期">
+                                <input type="text" class="form-control" id="filter-date" placeholder="添加日期">
                                 <input type="hidden" name="startDate">
                                 <input type="hidden" name="endDate">
                                 <a class="input-group-addon padding-horizontal-10" role="button">
@@ -80,38 +87,7 @@
                         <div class="form-group">
                         		<input class="form-control" type="text" name="keyword" placeholder="输入关键字搜索"/>
                         </div>
-                        <div class="form-group">
-                            <select class="form-control" name="orderType" data-plugin="select2">
-                                <option value="">订单类型</option>
-                                <option value="1">商品/抢购</option>
-                                <option value="2">官方鉴定</option>
-                                <option value="3">商品议价</option>
-                                <option value="4">全民鉴定</option>
-                                <option value="5">专栏</option>
-                                <option value="6">充值</option>
-                                <option value="7">提现</option>
-                                <option value="8">开通会员</option>
-                                <option value="9">续费会员</option>
-                                <option value="10">认证店铺</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" name="payType" data-plugin="select2">
-                                <option value="">支付方式</option>
-                                <option value="1">微信</option>
-                                <option value="2">支付宝</option>
-                                <option value="3">余额</option>
-                                <option value="4">小程序</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" name="type" data-plugin="select2">
-                                <option value="">收支类型</option>
-                                <option value="1">收入</option>
-                                <option value="2">支出</option>
-                                <option value="3">退款</option>
-                            </select>
-                        </div>
+                        
                         <div class="form-group">
                             <button type="submit" class="btn btn-success"><i class="icon fa-search"></i> 查找</button>
                         </div>
@@ -129,15 +105,9 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>用户昵称</th>
-                        <th>金额</th>
-                        <th>收支类型</th>
-                        <th>描述</th>
-                        <th>支付类型</th>
-                        <th>订单类型</th>
-                        <th>余额前</th>
-                        <th>余额后</th>
-                        <th>发布时间</th>
+                        <th>发送人</th>
+                        <th>发送内容</th>
+                        <th>发送时间</th>
                     </tr>
                     </thead>
                 </table>
@@ -149,23 +119,18 @@
             <form class="modal-content " id="compileRoleForm">
                 <div class="modal-header">
                     <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                    <h4 class="modal-title">编辑用户</h4>
+                    <h4 class="modal-title">发送系统消息</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form form-horizontal logs-settings">
-                        <div class="form-group row">
-                            <label class="col-xs-2 control-label">昵称</label>
-                            <div class="col-xs-9">
-                                <input type="text" class="form-control" name="nickName" placeholder="输入用户的ID">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-xs-2 control-label">手机号码</label>
-                            <div class="col-xs-9">
-                                <input type="text" class="form-control" name="phone" placeholder="输入手机号码">
-                            </div>
-                        </div>
                         
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">标题</label>
+                            <div class="col-xs-9">
+                                <textarea type="text" class="form-control" name="content" placeholder="内容"></textarea>
+                            </div>
+                        </div>
+                       
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -186,10 +151,12 @@
 <script src="../../public/vendor/bootstrap-daterangepicker/daterangepicker.min.js"></script>
 <script src="../../public/vendor/select2/select2.min.js"></script>
 <script src="../../public/vendor/select2/i18n/zh-CN.min.js"></script>
+<script src="../../public/vendor/dropify/dropify.min.js"></script>
+<script src="../../public/js/examples/forms/dropify.js"></script>
 <script src="../../public/themes/classic/base/js/app.js"></script>
 <script src="../../public/js/common.js"></script>
 <script src="../../public/js/utils.js"></script>
-<script src="../../public/js/finance/user-finance.js"></script>
+<script src="../../public/js/system/message.js"></script>
 </body>
 
 </html>

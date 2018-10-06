@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="zh-cn">
+
+<head>
+    <title>轮播图管理</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 移动设备 viewport -->
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+    <meta name="author" content="admui.com">
+    <!-- 360浏览器默认使用Webkit内核 -->
+    <meta name="renderer" content="webkit">
+    <!-- 禁止搜索引擎抓取 -->
+    <meta name="robots" content="nofollow">
+    <!-- 禁止百度SiteAPP转码 -->
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+    <link rel="icon" type="image/png" href="../../public/images/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <!-- Safari浏览器添加到主屏幕（IOS） -->
+    <link rel="icon" sizes="192x192" href="../../public/images/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Admui">
+    <!-- Win8标题栏及ICON图标 -->
+    <link rel="apple-touch-icon-precomposed" href="../../public/images/apple-touch-icon.png">
+    <meta name="msapplication-TileImage" content="../../public/images/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#62a8ea">
+
+    <!--[if lte IE 9]>
+    <meta http-equiv="refresh" content="0; url='http://www.admui.com/ie'"/>
+    <![endif]-->
+    <!--[if lt IE 10]>
+    <script src="../../public/vendor/media-match/media.match.min.js"></script>
+    <script src="../../public/vendor/respond/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- 样式 -->
+    <link rel="stylesheet" href="../../public/themes/classic/global/css/bootstrap.css">
+    <link rel="stylesheet" href="../../public/themes/classic/base/css/site.css" id="admui-siteStyle">
+    
+    <link rel="stylesheet" href="../../public/vendor/blueimp-file-upload/jquery.fileupload.css">
+    <link rel="stylesheet" href="../../public/vendor/dropify/dropify.css">
+
+    <link rel="stylesheet" href="../../public/fonts/web-icons/web-icons.css">
+    <link rel="stylesheet" href="../../public/fonts/font-awesome/font-awesome.css">
+    <link rel="stylesheet" href="../../public/vendor/bootstrap-daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="../../public/vendor/select2/select2.css">
+    <link rel="stylesheet" href="../../public/vendor/datatables-bootstrap/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="../../public/vendor/datatables-responsive/dataTables.responsive.css">
+
+    <script src="../../public/vendor/jquery/jquery.min.js"></script>
+    <script src="../../public/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="page animation-fade page-logs">
+    <div class="page-header">
+        <h1 class="page-title">轮播图信息</h1>
+        <div class="page-header-actions">
+            
+            <button type="button" class="btn btn-sm btn-outline btn-info add-row" data-target="#detailForm" data-toggle="modal" aria-hidden="true" role="button">
+                <i class="icon wb-plus"></i> 新增                
+            </button>
+            <button type="button" class="btn btn-icon btn-info collapsed" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                <i class="icon fa-filter"></i>
+            </button>
+        </div>
+    </div>
+    <div class="page-content">
+        <div class="collapse" id="collapseFilter" aria-expanded="true">
+            <div class="panel">
+                <div class="panel-body">
+                    <form class="form-inline" id="logForm">
+                        <div class="form-group hide">
+                            <div class="input-daterange input-group">
+                                <span class="input-group-addon"><i class="icon wb-calendar" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" id="filter-date" placeholder="添加日期">
+                                <input type="hidden" name="startDate">
+                                <input type="hidden" name="endDate">
+                                <a class="input-group-addon padding-horizontal-10" role="button">
+                                    <i class="icon wb-close date-close"></i></a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        		<input class="form-control" type="text" name="keyword" placeholder="输入关键字搜索"/>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="type" data-plugin="select2">
+                                <option value="">展示位置</option>
+                                <option value="1">首页</option>
+                                <option value="2">商品详情</option>
+                                <option value="3">积分商品</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                                <select class="form-control" name="jumpType" data-plugin="select2">
+                                <option value="">跳转类型</option>
+                                <option value="1">应用页面</option>
+                                <option value="2">外部链接</option>
+                                <option value="3">不跳转</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <select class="form-control" name="businessType" data-plugin="select2">
+                                <option value="">业务类型</option>
+                                <option value="1">商品详情</option>
+                                <option value="2">抢购详情</option>
+                                <option value="3">帖子详情</option>
+                                <option value="4">全民鉴定</option>
+                                <option value="5">视频详情</option>
+                                <option value="6">专栏列表</option>
+                                <option value="7">积分商城</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success"><i class="icon fa-search"></i> 查找</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="panel">
+            <!--<header class="panel-heading">
+                <h3 class="panel-title">信息</h3>
+            </header>-->
+            <div class="panel-body">
+                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="dataList" data-column-defs='[{ "orderable": false, "targets": 2}]'>
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>图片</th>
+                        <th>标题</th>
+                        <th>位置</th>
+                        <th>跳转类型</th>
+                        <th>业务类型</th>
+                        <th>业务ID</th>
+                        <th>排序</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+     <div class="modal" id="detailForm" aria-hidden="true" aria-labelledby="detailForm" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-center">
+            <form class="modal-content " id="compileRoleForm">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">编辑</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form form-horizontal logs-settings">
+                        <div class="form-group row hide">
+                            <label class="col-xs-2 control-label">ID</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="id" placeholder="">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row hide">
+                            <label class="col-xs-2 control-label"></label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="imgUrl" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">标题</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="title" placeholder="输入标题">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">展示位置</label>
+                            <div class="col-xs-9">
+                                <select name="type" class="form-control ">
+                                        <option value="1">首页</option>
+                                        <option value="2">商品详情</option>
+                                        <option value="3">积分商品</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">跳转类型</label>
+                            <div class="col-xs-9">
+                                <select name="jumpType"class="form-control ">
+                                        <option value="1">应用页面</option>
+                                        <option value="2">外部链接</option>
+                                        <option value="3">不跳转</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">业务类型</label>
+                            <div class="col-xs-9">
+                                <select name="businessType" class="form-control ">
+                                        <option value="">无</option>
+                                        <option value="1">商品详情</option>
+                                        <option value="2">抢购详情</option>
+                                        <option value="3">帖子详情</option>
+                                        <option value="4">全民鉴定</option>
+                                        <option value="5">视频详情</option>
+                                        <option value="6">专栏列表</option>
+                                        <option value="7">积分商城</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">业务ID</label>
+                            <div class="col-xs-9">
+                                <input type="number" class="form-control" name="businessId" placeholder="">
+                            </div>
+                        </div>
+
+                        
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">跳转URL</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="jumpUrl" placeholder="">
+                            </div>
+                        </div>
+
+                            
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">图像</label>
+                            <div class="col-xs-9">
+                                <input type="file" class="form-control" name="imgFile" id="input-file-events" class="dropify-event" data-default-file="../../public/images/placeholder.png">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">是否展示</label>
+                        		<div class="col-xs-3 radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosUnchecked" name="status" value="1" checked>
+                                <label for="inputRadiosUnchecked">是</label>
+                            </div>
+                            <div class="radio-custom radio-primary">
+                                <input type="radio" id="inputRadiosChecked" name="status" value="2">
+                                <label for="inputRadiosChecked">否</label>
+                            </div> 
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">排序</label>
+                            <div class="col-xs-9">
+                                <input type="number" class="form-control" name="sort" placeholder="">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">保存</button>
+                    <a class="btn btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script src="../../public/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../../public/vendor/jquery-validation/jquery.validate.min.js"></script>
+<script src="../../public/vendor/datatables-bootstrap/dataTables.bootstrap.min.js"></script>
+<script src="../../public/vendor/datatables-responsive/dataTables.responsive.min.js"></script>
+<script src="../../public/vendor/bootstrap-daterangepicker/moment.min.js"></script>
+<script src="../../public/vendor/bootstrap-daterangepicker/daterangepicker.min.js"></script>
+<script src="../../public/vendor/select2/select2.min.js"></script>
+<script src="../../public/vendor/select2/i18n/zh-CN.min.js"></script>
+<script src="../../public/vendor/dropify/dropify.min.js"></script>
+<script src="../../public/js/examples/forms/dropify.js"></script>
+<script src="../../public/themes/classic/base/js/app.js"></script>
+<script src="../../public/js/common.js"></script>
+<script src="../../public/js/utils.js"></script>
+<script src="../../public/js/goods/banner.js"></script>
+</body>
+
+</html>
