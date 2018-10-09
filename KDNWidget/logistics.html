@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>移动端-物流轨迹查询结果页面嵌入</title>
+    <link rel="stylesheet" href="./KDNWidget.css" />
+</head>
+<body>
+<script src="./KDNWidget.js"></script>
+<script src="./Request.js"></script>
+<script>
+    window.onload = function () {
+        var expCode=Request['expCode'];//快递公司
+        var expNo=Request['expNo'];//快递单号
+        KDNWidget.run({
+            serviceType: "A",
+            expCode:expCode,
+            expNo:expNo,
+        })
+    }
+</script>
+</body>
+</html>
