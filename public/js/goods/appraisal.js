@@ -48,6 +48,9 @@
             serverSide: true,
             searching: false,
             pagingType: "simple_numbers",
+            columnDefs: [ 
+                { "width": "10%", "targets": 0 } 
+            ],
             columns: [
                 {"data": "appraisalDetailId"},
                 {"data": "nickName"},

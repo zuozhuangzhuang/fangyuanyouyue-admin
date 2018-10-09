@@ -36,6 +36,12 @@
                 {"data": "packageName"},
                 {"data": "versionDesc"},
                 {
+                		"data": "versionUrl",
+                		"render":function(data){
+                            return "<a href='"+data+"'>下载</a>"
+                        }
+                },
+                {
                 		"data": "type",
                 		"render":setType
                 },
@@ -96,29 +102,46 @@
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            number: {
+            versionName: {
                 required: true
             },
-            name: {
+            versionNo: {
+                required: true
+            },
+            versionDesc: {
                 required: true
             }
         },
         messages: {
-            number: {
-                required: '请填写公司名称'
+            versionName: {
+                required: '请填写版本名'
             },
-            name: {
-                required: '请填写物流编码'
+            versionNo: {
+                required: '请填写版本号'
+            },
+            versionDesc: {
+                required: '请填写版本描述'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
-            
+
+            var formData = new FormData();
+
+            if($detailForm.find('input[name="apkFile"]')[0].files.length!=0){
+                formData.append("file", $detailForm.find('input[name="apkFile"]')[0].files[0]);  
+            }
+
+            formData.append("versionDesc", $detailForm.find('input[name="versionDesc"]').val()); 
+            formData.append("versionNo", $detailForm.find('input[name="versionDesc"]').val()); 
+            formData.append("versionName", $detailForm.find('input[name="versionDesc"]').val()); 
+            formData.append("type", $detailForm.find('input[name="type"]').val()); 
             $.ajax({
-                url: SERVER_PATH + '/order/adminOrder/addCompany',
+                url: SERVER_PATH + '/user/system/versionAdd',
                 type: 'POST',
-                data: $form.serialize(),
-                dataType: 'JSON',
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: function (data) {
                     if (data.code==0) {
 		                toastr.success('操作成功！');
