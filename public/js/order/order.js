@@ -44,8 +44,6 @@
     		}
     };
     
-    
-    
     //支付类型 1微信 2支付宝 3余额 4小程序
     function setPayType(data){
     		var type = data.payType;
@@ -103,14 +101,24 @@
                 var param, column, dir,
                     userId = -1;
 
-                if (data.order.length !== 0) {
-                    column = data.order[0].column; // 列
-                    dir = data.order[0].dir; // 排序（'asc'升 | 'desc'降）
-                } else {
-                    column = dir = '';
-                }
-                param = 'start=' + data.start + '&limit=' + data.length + '&column=' + column +
-                    '&dir=' + dir;
+                    if (data.order.length !== 0) {
+                        column = data.order[0].column; // 列
+                        column = data.columns[column].data;
+                        dir = data.order[0].dir; // 排序（'asc'升 | 'desc'降）
+                        if(dir=="asc"){
+                            dir = 1;
+                        }else{
+                            dir = 2;
+                        }
+                    } else {
+                        column = dir = '';
+                    }
+    
+                    if(data.order[0].column==0 ){
+                        column = "id";
+                    }
+                    param = 'start=' + data.start + '&limit=' + data.length + '&orders=' + toLine(column) +
+                    '&ascType=' + dir;
 
                 if (searchData) {
                     param += '&' + searchData;
@@ -261,6 +269,12 @@
                             $detailForm.find('textarea[name="receiver"]').html(data.orderPayDto.receiver);
                             $detailForm.find('input[name="logisticCompany"]').val(data.orderPayDto.logisticCompany);
                             $detailForm.find('input[name="logisticCode"]').val(data.orderPayDto.logisticCode);
+                            if(data.orderPayDto.logisticCode.length>0){
+                                loadLogistic();
+                                
+                            }
+                           
+
 
                         } else {
                             if(data.report){
@@ -279,8 +293,18 @@
 	    		
 	    });
     
-	}
+    }
     
+    function loadLogistic(){
+        KDNWidget.run({
+            serviceType: "B",
+            expCode:"ZTO",
+            expNo:"453173031799",
+            showType:"normal",
+            container:  "logisticDetail2"
+        })
+    }
+   
     //改变状态
     function changeStatus(id,status){
 	    parent.layer.confirm("您确定要改变状态吗？", function (index) {

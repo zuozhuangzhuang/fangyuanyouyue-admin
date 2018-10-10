@@ -72,12 +72,19 @@
 
                 if (data.order.length !== 0) {
                     column = data.order[0].column; // 列
+                    column = data.columns[column].data;
                     dir = data.order[0].dir; // 排序（'asc'升 | 'desc'降）
+                    if(dir=="asc"){
+                        dir = 1;
+                    }else{
+                        dir = 2;
+                    }
                 } else {
                     column = dir = '';
                 }
-                param = 'start=' + data.start + '&limit=' + data.length + '&column=' + column +
-                    '&dir=' + dir;
+
+                param = 'start=' + data.start + '&limit=' + data.length + '&orders=' + toLine(column) +
+                '&ascType=' + dir;
 
                 if (searchData) {
                     param += '&' + searchData;
