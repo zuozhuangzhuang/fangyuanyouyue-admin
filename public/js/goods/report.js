@@ -10,33 +10,31 @@
     var oTable, searchData,
         $filterDate = $('#filter-date'),
         $detailModal = $('#detailForm'),
-        $detailForm = $('#compileRoleForm'),
-        $modifyModal = $('#modifyForm'),
-        $modifyForm = $('#modifyDetailForm'),
-        $editModal = $('#editModalForm'),
-        $editForm = $('#editForm');
-        
-        
-    function setChosen(data){
-    		if(data==1){
-    			return "<span class='label label-success'>是</span>"
-    		}else if(data==2){
-    			return "<span class='label label-default'>否</span>"
-    		}else{
-    			return "<span class='label label-default'>未知</span>"
-    		}
-    };
+        $detailForm = $('#compileRoleForm');
         
     function setStatus(data){
     		if(data==1){
-    			return "<span class='label label-success'>正常</span>"
+    			return "<span class='label label-success'>已处理</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已删除</span>"
+    			return "<span class='label label-danger'>未处理</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
     };
 
+    function setType(data){
+    		if(data==1){
+    			return "<span class='label label-success'>商品/抢购</span>"
+    		}else if(data==2){
+    			return "<span class='label label-danger'>视频</span>"
+    		}else if(data==3){
+    			return "<span class='label label-danger'>帖子</span>"
+    		}else if(data==4){
+    			return "<span class='label label-danger'>全民鉴定</span>"
+    		}else{
+    			return "<span class='label label-default'>未知</span>"
+    		}
+    };
     var callback = function () {
         return $('.dataTable').DataTable($.po('dataTable', {
             autoWidth: false,
@@ -47,24 +45,11 @@
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
-                {
-                		"data": "headImgUrl",
-                		"render": setImg
-                },
+                {"data": "type","render":setType},
                 {"data": "nickName"},
-                {"data": "title"},
-                {
-                		"data": "videoImg",
-                		"render": setImg2
-                },
-                {"data": "totalCount"},
-                {"data": "baseCount"},
-                {"data": "realCount"},
-                {
-                		"data": "isChosen",
-                		"render":setChosen
-                },
-                {"data": "sort"},
+                {"data": "goodsId"},
+                {"data": "goodsName"},
+                {"data": "reason"},
                 {
                 		"data": "status",
                 		"render":setStatus
@@ -74,14 +59,10 @@
                 		"data": "status",
                 		"render":function(data){
                 			var html =  "";
-                			
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default show" data-target="#detailForm" data-toggle="modal" data-original-title="详情">详情</button>';
-						
-                			html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#modifyForm" data-toggle="modal" data-original-title="编辑">编辑</button>';
-                            if(data==1){
-                                html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default delete" data-target="#editModalForm" data-toggle="modal" data-original-title="删除">删除</button>';
-                            }
-						    return html;
+                			if(data==2){
+							    html += '<button type="button" class="btn btn-sm btn-icon btn-flat btn-default modify" data-target="#detailForm" data-toggle="modal" data-original-title="标记为处理">处理</button>';
+                			}
+						return html;
                 		}
                 }
             ],
@@ -116,7 +97,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/forum/adminForum/videoList?'+param,
+                    url: SERVER_PATH+'/goods/adminGoods/reportList?type=1&'+param,
                     method:'get',
                     cache: false,
                     //data: param,
@@ -144,36 +125,36 @@
     };
     
     //修改输入框内容
-    var modifyForm = $modifyForm.validate({
-        		title: {
+    var detailForm = $detailForm.validate({
+        rules: {
             nickName: {
                 required: true
             },
-            sort: {
+            phone: {
                 required: true
             }
         },
         messages: {
-            title: {
-                required: '请填写标题'
+            nickName: {
+                required: '请填写URL地址'
             },
-            sort: {
-                required: ''
+            phone: {
+                required: '请填写URL对应名称'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/forum/adminForum/updateForum',
-                type: 'POST',
+                url: SERVER_PATH + '/goods/adminGoods/dealReport',
+                type: 'PUT',
                 data: $form.serialize(),
                 dataType: 'JSON',
                 success: function (data) {
                     if (data.code==0) {
 		                toastr.success('操作成功！');
 						oTable.draw(false);
-                        $modifyModal.modal('hide');
+                        $detailModal.modal('hide');
                     } else {
 		                if(data.report){
 		                    toastr.error(data.report);
@@ -187,108 +168,48 @@
                 }
             });
         }
-    });
-
-
-
-    //修改输入框内容
-    var editForm = $editForm.validate({
-        rules: {
-            content: {
-                required: true
-            }
-        },
-        messages: {
-            content: {
-                required: '拒绝原因不能为空'
-            }
-        },
-        submitHandler: function (form) {
-            var $form = $(form);
-            
-            $.ajax({
-                url: SERVER_PATH + '/forum/adminForum/updateForum',
-                type: 'POST',
-                data: $form.serialize(),
-                dataType: 'JSON',
-                success: function (data) {
-                    if (data.code==0) {
-		                toastr.success('操作成功！');
-						oTable.draw(false);
-                        $editModal.modal('hide');
-                    } else {
-		                if(data.report){
-		                    toastr.error(data.report);
-		                }else{
-		                     toastr.error('出错了，请重试！');
-		                }
-                    }
-                },
-                error: function () {
-                    toastr.error('服务器异常，请稍后再试！');
-                }
-            });
-        }
-    });
-
-
-    $editModal.on('hide.bs.modal', function () { // 模态窗隐藏后
-        editForm.resetForm();
     });
 
     $detailModal.on('hide.bs.modal', function () { // 模态窗隐藏后
-        
-        	$detailForm.find('.videoid').stop();
+        detailForm.resetForm();
     });
-    $modifyModal.on('hide.bs.modal', function () { // 模态窗隐藏后
-        modifyForm.resetForm();
-    });
-
 
 
     
     function handleAction(){
     	
-    	$("[data-toggle='tooltip']").tooltip();
+    		$("[data-toggle='tooltip']").tooltip();
        // 删除所选用户
-	    $(document).on('click', '.delete', function () {
-            var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-            
-            var data = oTable.rows().data()[index]; //获取当前行数据
-            
-            $editForm.find('input[name="id"]').val(data.id);
-        });
-	    
-	    // 编辑所选用户
-	    $(document).on('click', '.show', function () {
-	    		 var index = oTable.row($(this).parent()).index(); //获取当前行的序列
-	    		 var data = oTable.rows().data()[index]; //获取当前行数据
-	    		 console.log(data.videoUrl);
-	    		 var html = '<video class="videoid" controls="controls" style="height:350px;width:100%;" autoplay="autoplay">';
-             html += '<source  src="'+data.videoUrl+'" type="video/mp4" /></video>';       
-			 //$detailForm.find('.modal-body').remove();
-        		 $detailForm.find('.modal-title').html(data.title);
-        		 $detailForm.find('.modal-body').html(html);
-        		 $detailForm.find('.videoid').load();
+	    $(document).on('click', '.frozen', function () {
+	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
+	    		
+	    		var data = oTable.rows().data()[index]; //获取当前行数据
+	    		
+	    		changeStatus(data.id,1);
+	    		
 	    });
-    
+	    
+	    // 删除所选用户
+	    $(document).on('click', '.unfrozen', function () {
+	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
+	    		
+	    		var data = oTable.rows().data()[index]; //获取当前行数据
+	    		
+	    		changeStatus(data.id,1);
+	    		
+	    });
+	    
 	    // 编辑所选用户
 	    $(document).on('click', '.modify', function () {
 	    		var index = oTable.row($(this).parent()).index(); //获取当前行的序列
 	    		
 	    		var data = oTable.rows().data()[index]; //获取当前行数据
 	    		
-        		$modifyForm.find('input[name="title"]').val(data.title);
+        		$detailForm.find('input[name="id"]').val(data.id);
         		
-                $modifyForm.find('input[name="sort"]').val(data.sort);
-                
-        		$modifyForm.find('input[name="count"]').val(data.baseCount);
-        		
-        		$modifyForm.find("input[name='isChosen'][value="+data.isChosen+"]").attr("checked",true); 
-        		
-        		$modifyForm.find('input[name="id"]').val(data.id);
 	    		
 	    });
+    
 	}
     
     //改变状态
