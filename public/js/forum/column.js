@@ -38,6 +38,7 @@
             processing: true,
             serverSide: true,
             searching: false,
+            order:[[0,"desc"]],
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
@@ -153,7 +154,7 @@
                     success: function (data) {
                         if (data.code==0) {
                             toastr.success('操作成功！');
-                            oTable.ajax.reload();
+                            oTable.draw(false);
                             $detailModal.modal('hide');
                         } else {
                             if(data.report){
@@ -187,7 +188,7 @@
                             success: function (data) {
                                 if (data.code==0) {
                                     toastr.success('操作成功！');
-                                    oTable.ajax.reload();
+                                    oTable.draw(false);
                                     $detailModal.modal('hide');
                                 } else {
                                     if(data.report){
@@ -271,7 +272,7 @@
 		            if (data.code==0) {
 		                toastr.success('操作成功！');
 		                parent.layer.close(index);
-						oTable.ajax.reload();
+						oTable.draw(false);
 		                        //actionBtn.hide();
 		            } else {
 		                if(data.report){
