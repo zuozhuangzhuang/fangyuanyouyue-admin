@@ -24,7 +24,7 @@
 
     function setType(data){
     		if(data==1){
-    			return "<span class='label label-success'>商品</span>"
+    			return "<span class='label label-success'>抢购</span>"
     		}else if(data==2){
     			return "<span class='label label-danger'>视频</span>"
     		}else if(data==3){
@@ -97,7 +97,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/goods/adminGoods/reportList?type=1&'+param,
+                    url: SERVER_PATH+'/goods/adminGoods/reportList?type=2&'+param,
                     method:'get',
                     cache: false,
                     //data: param,

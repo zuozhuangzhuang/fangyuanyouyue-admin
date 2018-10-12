@@ -180,7 +180,7 @@
                     if (data.code==0) {
 		                toastr.success('操作成功！');
 						oTable.draw(false);
-                        $detailModal.modal('hide');
+                        $modifyModal.modal('hide');
                     } else {
 		                if(data.report){
 		                    toastr.error(data.report);
