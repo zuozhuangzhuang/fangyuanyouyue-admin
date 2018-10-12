@@ -26,11 +26,11 @@
     		if(data==1){
     			return "<span class='label label-success'>商品</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>视频</span>"
+    			return "<span class='label label-success'>视频</span>"
     		}else if(data==3){
-    			return "<span class='label label-danger'>帖子</span>"
+    			return "<span class='label label-success'>帖子</span>"
     		}else if(data==4){
-    			return "<span class='label label-danger'>全民鉴定</span>"
+    			return "<span class='label label-success'>全民鉴定</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
@@ -47,8 +47,7 @@
                 {"data": "id"},
                 {"data": "type","render":setType},
                 {"data": "nickName"},
-                {"data": "goodsId"},
-                {"data": "goodsName"},
+                {"data": "name"},
                 {"data": "reason"},
                 {
                 		"data": "status",
@@ -97,7 +96,7 @@
                 }
 
                 $.ajax({
-                    url: SERVER_PATH+'/goods/adminGoods/reportList?type=1&'+param,
+                    url: SERVER_PATH+'/forum/adminForum/reportList?type=3&'+param,
                     method:'get',
                     cache: false,
                     //data: param,
@@ -146,7 +145,7 @@
             var $form = $(form);
             
             $.ajax({
-                url: SERVER_PATH + '/goods/adminGoods/dealReport',
+                url: SERVER_PATH + '/forum/adminForum/dealReport',
                 type: 'PUT',
                 data: $form.serialize(),
                 dataType: 'JSON',

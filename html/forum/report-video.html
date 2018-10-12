@@ -2,7 +2,7 @@
 <html class="no-js css-menubar" lang="zh-cn">
 
 <head>
-    <title>视频管理</title>
+    <title>视频举报管理</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 移动设备 viewport -->
@@ -55,7 +55,7 @@
 
 <div class="page animation-fade page-logs">
     <div class="page-header">
-        <h1 class="page-title">视频信息</h1>
+        <h1 class="page-title">举报信息</h1>
         <div class="page-header-actions">
             <button type="button" class="btn btn-icon btn-info collapsed" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                 <i class="icon fa-filter"></i>
@@ -70,7 +70,7 @@
                         <div class="form-group">
                             <div class="input-daterange input-group">
                                 <span class="input-group-addon"><i class="icon wb-calendar" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" id="filter-date" placeholder="添加日期">
+                                <input type="text" class="form-control" id="filter-date" placeholder="注册日期">
                                 <input type="hidden" name="startDate">
                                 <input type="hidden" name="endDate">
                                 <a class="input-group-addon padding-horizontal-10" role="button">
@@ -82,9 +82,9 @@
                         </div>
                         <div class="form-group">
                             <select class="form-control" name="status" data-plugin="select2">
-                                <option value="">所有视频</option>
-                                <option value="1">正常</option>
-                                <option value="2">已删除</option>
+                                <option value="">所有举报</option>
+                                <option value="1">已处理</option>
+                                <option value="2">未处理</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -100,21 +100,16 @@
                 <h3 class="panel-title">信息</h3>
             </header>-->
             <div class="panel-body">
-                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="dataList" data-column-defs='[{ "orderable": false, "targets": [0,1,2,3,4,5,6,7,12]}]'>
+                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="dataList" data-column-defs='[{ "orderable": false, "targets": 2}]'>
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>头像</th>
-                        <th>发布人</th>
+                        <th>举报类型</th>
+                        <th>举报用户</th>
                         <th>视频标题</th>
-                        <th>封面</th>
-                        <th>总浏览量</th>
-                        <th>基数</th>
-                        <th>实际浏览</th>
-                        <th>是否精选</th>
-                        <th>排序</th>
+                        <th>举报理由</th>
                         <th>状态</th>
-                        <th>发布时间</th>
+                        <th>举报时间</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -127,69 +122,10 @@
             <form class="modal-content " id="compileRoleForm">
                 <div class="modal-header">
                     <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                    <h4 class="modal-title">查看详情</h4>
+                    <h4 class="modal-title">处理</h4>
                 </div>
                 <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-default" data-dismiss="modal">确定</a>
-                </div>
-            </form>
-
-        </div>
-    </div>
-
-    
-    <div class="modal" id="editModalForm" aria-hidden="true" aria-labelledby="editModalForm" role="dialog" tabindex="-1">
-            <div class="modal-dialog modal-center">
-                <form class="modal-content " id="editForm">
-                    <div class="modal-header">
-                        <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                        <h4 class="modal-title">删除帖子</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form form-horizontal logs-settings">
-                            <div class="form-group row hide">
-                                <label class="col-xs-2 control-label">id</label>
-                                <div class="col-xs-9">
-                                    <input type="text" class="form-control" name="status" value="2" placeholder="id">
-                                </div>
-                            </div>
-                            <div class="form-group row hide">
-                                <label class="col-xs-2 control-label">id</label>
-                                <div class="col-xs-9">
-                                    <input type="text" class="form-control" name="id" placeholder="id">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-xs-2 control-label">删除原因</label>
-                                <div class="col-xs-9">
-                                    <input type="text" class="form-control" name="content" placeholder="">
-                                </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">保存</button>
-                        <a class="btn btn-default" data-dismiss="modal">取消</a>
-                    </div>
-                </form>
-    
-            </div>
-        </div>
-
-    
-      
-     <div class="modal" id="modifyForm" aria-hidden="true" aria-labelledby="modifyForm" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-center">
-            <form class="modal-content " id="modifyDetailForm">
-                <div class="modal-header">
-                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
-                    <h4 class="modal-title">编辑</h4>
-                </div>
-                <div class="modal-body" >
-                		
+                    <div class="form form-horizontal logs-settings">
                         <div class="form-group row hide">
                             <label class="col-xs-2 control-label">ID</label>
                             <div class="col-xs-9">
@@ -197,38 +133,13 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-xs-2 control-label">帖子标题</label>
+                            <label class="col-xs-2 control-label">处理原因</label>
                             <div class="col-xs-9">
-                                <input type="text" class="form-control" name="title" placeholder="" disabled="disabled">
+                                <input type="text" class="form-control" name="content" placeholder="">
                             </div>
                         </div>
                         
-                        <div class="form-group row">
-                            <label class="col-xs-2 control-label">浏览基数</label>
-                            <div class="col-xs-9">
-                                <input type="number" class="form-control" name="count" placeholder="">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-xs-2 control-label">排序</label>
-                            <div class="col-xs-9">
-                                <input type="number" class="form-control" name="sort" placeholder="">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group row">
-                            <label class="col-xs-2 control-label">是否精选</label>
-                        		<div class="col-xs-3 radio-custom radio-primary">
-                                <input type="radio" id="inputRadiosUnchecked" name="isChosen" value="1">
-                                <label for="inputRadiosUnchecked">是</label>
-                            </div>
-                            <div class="radio-custom radio-primary">
-                                <input type="radio" id="inputRadiosChecked" name="isChosen" value="2" checked>
-                                <label for="inputRadiosChecked">否</label>
-                            </div> 
-                        </div>
-                        
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" type="submit">保存</button>
@@ -238,7 +149,6 @@
 
         </div>
     </div>
-    
 </div>
 
 <script src="../../public/vendor/datatables/jquery.dataTables.min.js"></script>
@@ -252,7 +162,7 @@
 <script src="../../public/themes/classic/base/js/app.js"></script>
 <script src="../../public/js/common.js"></script>
 <script src="../../public/js/utils.js"></script>
-<script src="../../public/js/forum/video.js"></script>
+<script src="../../public/js/forum/report-video.js"></script>
 </body>
 
 </html>

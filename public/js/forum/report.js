@@ -26,11 +26,11 @@
     		if(data==1){
     			return "<span class='label label-success'>商品</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>视频</span>"
+    			return "<span class='label label-success'>视频</span>"
     		}else if(data==3){
-    			return "<span class='label label-danger'>帖子</span>"
+    			return "<span class='label label-success'>帖子</span>"
     		}else if(data==4){
-    			return "<span class='label label-danger'>全民鉴定</span>"
+    			return "<span class='label label-success'>全民鉴定</span>"
     		}else{
     			return "<span class='label label-default'>未知</span>"
     		}
