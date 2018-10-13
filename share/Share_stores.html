@@ -75,7 +75,7 @@
 			// }
 			//	load
 			$.ajax({
-				url : 'http://zuul.fangyuanyouyue.com/user/user/userInfo',
+				url : SERVER_PATH + '/user/user/userInfo',
 				type : 'POST',
 				cache : false,
 				dataType : 'json',
@@ -124,7 +124,7 @@
 				}
 			});
             $.ajax({
-                url : 'http://zuul.fangyuanyouyue.com/goods/goods/goodsList',
+                url : SERVER_PATH + '/goods/goods/goodsList',
                 type : 'POST',
                 cache : false,
                 dataType : 'json',
