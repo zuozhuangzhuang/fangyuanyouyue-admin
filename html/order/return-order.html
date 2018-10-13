@@ -55,15 +55,15 @@
 
 <div class="page animation-fade page-logs">
     <div class="page-header">
-        <h1 class="page-title">分类信息</h1>
+        <h1 class="page-title">退货信息</h1>
         <div class="page-header-actions">
-            <button type="button" class="btn btn-icon btn-info collapsed" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+            <button type="button" class="btn btn-icon btn-info collapsed" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
                 <i class="icon fa-filter"></i>
             </button>
         </div>
     </div>
     <div class="page-content">
-        <div class="collapse" id="collapseFilter" aria-expanded="true">
+        <div class="collapse in" id="collapseFilter" aria-expanded="true">
             <div class="panel">
                 <div class="panel-body">
                     <form class="form-inline" id="logForm">
@@ -100,13 +100,14 @@
                 <h3 class="panel-title">信息</h3>
             </header>-->
             <div class="panel-body">
-                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="dataList" data-column-defs='[{ "orderable": false, "targets": 2}]'>
+                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="dataList" data-column-defs='[{ "orderable": false, "targets": [0,1,2,3,4,5,6,9]}]'>
                     <thead>
                     <tr>
                         <th>ID</th>
                         <!-- <th>服务单号</th>
                         <th>订单号</th> -->
-                        <th>图片</th>
+                        <th>买家</th>
+                        <th>商品</th>
                         <th>卖家处理状态</th>
                         <th>卖家处理时间</th>
                         <th>卖家理由</th>
@@ -355,7 +356,7 @@
 
 <script src="../../public/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="../../public/vendor/jquery-validation/jquery.validate.min.js"></script>
-<script src="../../public/vendor/datatables-bootstrap/dataTables.bootstrap.min.js"></script>
+<script src="../../public/vendor/datatables-bootstrap/dataTables.bootstrap.js"></script>
 <script src="../../public/vendor/datatables-responsive/dataTables.responsive.min.js"></script>
 <script src="../../public/vendor/bootstrap-daterangepicker/moment.min.js"></script>
 <script src="../../public/vendor/bootstrap-daterangepicker/daterangepicker.min.js"></script>

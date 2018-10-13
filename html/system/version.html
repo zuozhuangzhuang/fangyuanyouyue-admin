@@ -2,7 +2,7 @@
 <html class="no-js css-menubar" lang="zh-cn">
 
 <head>
-    <title>日志信息</title>
+    <title>版本信息</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 移动设备 viewport -->
@@ -57,20 +57,23 @@
     <div class="page-header">
         <h1 class="page-title">版本信息</h1>
         <div class="page-header-actions">
+            <button type="button" class="btn btn-sm btn-outline btn-info add-row" data-target="#detailForm" data-toggle="modal" aria-hidden="true" role="button">
+                <i class="icon wb-plus"></i> 新增                
+            </button>
             <button type="button" class="btn btn-icon btn-info collapsed" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                 <i class="icon fa-filter"></i>
             </button>
         </div>
     </div>
     <div class="page-content">
-        <div class="collapse" id="collapseFilter" aria-expanded="true">
+        <div class="collapse in" id="collapseFilter" aria-expanded="true">
             <div class="panel">
                 <div class="panel-body">
                     <form class="form-inline" id="logForm">
                         <div class="form-group">
                             <div class="input-daterange input-group">
                                 <span class="input-group-addon"><i class="icon wb-calendar" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" id="filter-date" placeholder="注册日期">
+                                <input type="text" class="form-control" id="filter-date" placeholder="添加日期">
                                 <input type="hidden" name="startDate">
                                 <input type="hidden" name="endDate">
                                 <a class="input-group-addon padding-horizontal-10" role="button">
@@ -79,13 +82,6 @@
                         </div>
                         <div class="form-group">
                         		<input class="form-control" type="text" name="keyword" placeholder="输入关键字搜索"/>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control" name="status" data-plugin="select2">
-                                <option value="">所有用户</option>
-                                <option value="0">正常</option>
-                                <option value="1">冻结</option>
-                            </select>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success"><i class="icon fa-search"></i> 查找</button>
@@ -100,7 +96,7 @@
                 <h3 class="panel-title">信息</h3>
             </header>-->
             <div class="panel-body">
-                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="logList" data-column-defs='[{ "orderable": false, "targets": 2}]'>
+                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="logList" data-column-defs='[{ "orderable": false, "targets": [0,4,5]}]'>
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -108,6 +104,7 @@
                         <th>版本号</th>
                         <th>包名</th>
                         <th>版本描述</th>
+                        <th>下载地址</th>
                         <th>更新类型</th>
                         <th>添加时间</th>
                     </tr>
@@ -116,6 +113,74 @@
             </div>
         </div>
     </div>
+    <div class="modal" id="detailForm" aria-hidden="true" aria-labelledby="detailForm" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-center">
+            <form class="modal-content " id="compileRoleForm">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">编辑</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form form-horizontal logs-settings">
+                        
+                        <div class="form-group row hide">
+                            <label class="col-xs-2 control-label">ID</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="id" placeholder="">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">版本名</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="versionName" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">版本号</label>
+                            <div class="col-xs-9">
+                                <input type="number" class="form-control" name="versionNo" placeholder="">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">版本描述</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="versionDesc" placeholder="">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                                <label class="col-xs-2 control-label">APK文件</label>
+                                <div class="col-xs-9">
+                                    <input type="file" name="apkFile" class="form-control" id="FileUpload" data-plugin="dropify" data-default-file="">
+                                </div>
+                        </div>
+
+                        <div class="form-group row">
+                                <label class="col-xs-2 control-label">更新类型</label>
+                                    <div class="col-xs-3 radio-custom radio-primary">
+                                    <input type="radio" id="inputRadiosUnchecked" name="type" value="1" checked>
+                                    <label for="inputRadiosUnchecked">普通更新</label>
+                                </div>
+                                <div class="radio-custom radio-primary">
+                                    <input type="radio" id="inputRadiosChecked" name="type" value="2" >
+                                    <label for="inputRadiosChecked">强制更新</label>
+                                </div> 
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">保存</button>
+                    <a class="btn btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
 </div>
 
 <script src="../../public/vendor/datatables/jquery.dataTables.min.js"></script>

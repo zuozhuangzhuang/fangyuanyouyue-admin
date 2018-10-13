@@ -28,6 +28,7 @@
             processing: true,
             serverSide: true,
             searching: false,
+            order:[[0,"desc"]],
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
@@ -35,6 +36,12 @@
                 {"data": "versionNo"},
                 {"data": "packageName"},
                 {"data": "versionDesc"},
+                {
+                		"data": "versionUrl",
+                		"render":function(data){
+                            return "<a href='"+data+"'>下载</a>"
+                        }
+                },
                 {
                 		"data": "type",
                 		"render":setType
@@ -46,14 +53,24 @@
                 var param, column, dir,
                     userId = -1;
 
-                if (data.order.length !== 0) {
-                    column = data.order[0].column; // 列
-                    dir = data.order[0].dir; // 排序（'asc'升 | 'desc'降）
-                } else {
-                    column = dir = '';
-                }
-                param = 'start=' + data.start + '&limit=' + data.length + '&column=' + column +
-                    '&dir=' + dir;
+
+                    if (data.order.length !== 0) {
+                        column = data.order[0].column; // 列
+                        column = data.columns[column].data;
+                        dir = data.order[0].dir; // 排序（'asc'升 | 'desc'降）
+                        if(dir=="asc"){
+                            dir = 1;
+                        }else{
+                            dir = 2;
+                        }
+                    } else {
+                        column = dir = '';
+                    }
+    
+                    param = 'start=' + data.start + '&limit=' + data.length + '&orders=' + toLine(column) +
+                    '&ascType=' + dir;
+
+                    
 
                 if (searchData) {
                     param += '&' + searchData;
@@ -96,33 +113,50 @@
     //修改输入框内容
     var detailForm = $detailForm.validate({
         rules: {
-            number: {
+            versionName: {
                 required: true
             },
-            name: {
+            versionNo: {
+                required: true
+            },
+            versionDesc: {
                 required: true
             }
         },
         messages: {
-            number: {
-                required: '请填写公司名称'
+            versionName: {
+                required: '请填写版本名'
             },
-            name: {
-                required: '请填写物流编码'
+            versionNo: {
+                required: '请填写版本号'
+            },
+            versionDesc: {
+                required: '请填写版本描述'
             }
         },
         submitHandler: function (form) {
             var $form = $(form);
-            
+
+            var formData = new FormData();
+
+            if($detailForm.find('input[name="apkFile"]')[0].files.length!=0){
+                formData.append("file", $detailForm.find('input[name="apkFile"]')[0].files[0]);  
+            }
+
+            formData.append("versionDesc", $detailForm.find('input[name="versionDesc"]').val()); 
+            formData.append("versionNo", $detailForm.find('input[name="versionDesc"]').val()); 
+            formData.append("versionName", $detailForm.find('input[name="versionDesc"]').val()); 
+            formData.append("type", $detailForm.find('input[name="type"]').val()); 
             $.ajax({
-                url: SERVER_PATH + '/order/adminOrder/addCompany',
+                url: SERVER_PATH + '/user/system/versionAdd',
                 type: 'POST',
-                data: $form.serialize(),
-                dataType: 'JSON',
+                data: formData,
+                contentType: false,
+                processData: false,
                 success: function (data) {
                     if (data.code==0) {
 		                toastr.success('操作成功！');
-						oTable.ajax.reload();
+						oTable.draw(false);
                         $detailModal.modal('hide');
                     } else {
 		                if(data.report){
@@ -199,7 +233,7 @@
 		            if (data.code==0) {
 		                toastr.success('操作成功！');
 		                parent.layer.close(index);
-						oTable.ajax.reload();
+						oTable.draw(false);
 		                        //actionBtn.hide();
 		            } else {
 		                if(data.report){

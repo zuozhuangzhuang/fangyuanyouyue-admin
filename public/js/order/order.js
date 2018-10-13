@@ -44,19 +44,17 @@
     		}
     };
     
-    
-    
     //支付类型 1微信 2支付宝 3余额 4小程序
     function setPayType(data){
     		var type = data.payType;
     		if(type==1){
-    			return "<span class='label label-success'>微信</span>"
+    			return "微信"
     		}else if(type==2){
-    			return "<span class='label label-success'>支付宝</span>"
+    			return "支付宝"
     		}else if(type==3){
-    			return "<span class='label label-success'>余额</span>"
+    			return "余额"
     		}else if(type==4){
-    			return "<span class='label label-success'>小程序</span>"
+    			return "小程序"
     		}else{
     			return ""
     		}
@@ -68,6 +66,7 @@
             processing: true,
             serverSide: true,
             searching: false,
+            order:[[0,"desc"]],
             pagingType: "simple_numbers",
             columns: [
                 {"data": "orderId"},
@@ -103,14 +102,24 @@
                 var param, column, dir,
                     userId = -1;
 
-                if (data.order.length !== 0) {
-                    column = data.order[0].column; // 列
-                    dir = data.order[0].dir; // 排序（'asc'升 | 'desc'降）
-                } else {
-                    column = dir = '';
-                }
-                param = 'start=' + data.start + '&limit=' + data.length + '&column=' + column +
-                    '&dir=' + dir;
+                    if (data.order.length !== 0) {
+                        column = data.order[0].column; // 列
+                        column = data.columns[column].data;
+                        dir = data.order[0].dir; // 排序（'asc'升 | 'desc'降）
+                        if(dir=="asc"){
+                            dir = 1;
+                        }else{
+                            dir = 2;
+                        }
+                    } else {
+                        column = dir = '';
+                    }
+    
+                    if(data.order[0].column==0 ){
+                        column = "id";
+                    }
+                    param = 'start=' + data.start + '&limit=' + data.length + '&orders=' + toLine(column) +
+                    '&ascType=' + dir;
 
                 if (searchData) {
                     param += '&' + searchData;
@@ -178,7 +187,7 @@
                 success: function (data) {
                     if (data.code==0) {
 		                toastr.success('操作成功！');
-						oTable.ajax.reload();
+						oTable.draw(false);
                         $detailModal.modal('hide');
                     } else {
 		                if(data.report){
@@ -251,7 +260,9 @@
                             $detailForm.find('textarea[name="orderDetail"]').html(data.orderDetail);
                             
                             //支付信息
-                            $detailForm.find('input[name="payType"]').val(data.orderPayDto.payType);
+                            if(data.orderPayDto.payType){
+                                $detailForm.find('input[name="payType"]').val(setPayType(data.orderPayDto.payType));
+                            }
                             $detailForm.find('input[name="totalAmount"]').val(data.orderPayDto.amount);
                             $detailForm.find('input[name="postage"]').val(data.orderPayDto.freight);
                             $detailForm.find('input[name="payAmount"]').val(data.orderPayDto.payAmount);
@@ -261,6 +272,14 @@
                             $detailForm.find('textarea[name="receiver"]').html(data.orderPayDto.receiver);
                             $detailForm.find('input[name="logisticCompany"]').val(data.orderPayDto.logisticCompany);
                             $detailForm.find('input[name="logisticCode"]').val(data.orderPayDto.logisticCode);
+                            if(data.orderPayDto.logisticCode){
+                                $detailForm.find('#logisticDetail').html("<a class='btn btn-default' style='cursor:pointor' onclick='javascript:window.open(\"https://www.kuaidi100.com/chaxun?com="+data.orderPayDto.logisticCompany+"&nu="+data.orderPayDto.logisticCode+"\");'>点击查看</a>");
+                            }else{
+                                $detailForm.find('#logisticDetail').html("暂无物流信息");
+                            }
+                            
+                           
+
 
                         } else {
                             if(data.report){
@@ -279,8 +298,9 @@
 	    		
 	    });
     
-	}
+    }
     
+   
     //改变状态
     function changeStatus(id,status){
 	    parent.layer.confirm("您确定要改变状态吗？", function (index) {
@@ -294,7 +314,7 @@
 		            if (data.code==0) {
 		                toastr.success('操作成功！');
 		                parent.layer.close(index);
-						oTable.ajax.reload();
+						oTable.draw(false);
 		                        //actionBtn.hide();
 		            } else {
 		                if(data.report){

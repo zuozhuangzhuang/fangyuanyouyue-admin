@@ -117,6 +117,7 @@ DataTable.ext.renderer.pageButton.bootstrap = function ( settings, host, idx, bu
 					settings.oApi._fnBindAction(
 						node, {action: button}, clickHandler
 					);
+					if($("#redirect")!=null)$("#redirect").remove();$("<input type=\"text\" style=\"width: 50px;padding-top: 10px;height: 30px;border-radius: 0px 4px 4px 0px;\" id=\"redirect\" class=\"redirect\">").appendTo( container );
 
 					counter++;
 				}

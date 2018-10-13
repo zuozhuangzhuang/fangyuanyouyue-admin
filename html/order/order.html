@@ -63,7 +63,7 @@
         </div>
     </div>
     <div class="page-content">
-        <div class="collapse" id="collapseFilter" aria-expanded="true">
+        <div class="collapse in" id="collapseFilter" aria-expanded="true">
             <div class="panel">
                 <div class="panel-body">
                     <form class="form-inline" id="logForm">
@@ -103,7 +103,7 @@
                 <h3 class="panel-title">信息</h3>
             </header>-->
             <div class="panel-body">
-                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="dataList" data-column-defs='[{ "orderable": false, "targets": 2}]'>
+                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="dataList" data-column-defs='[{ "orderable": false, "targets": [0,2,3,4,5,7]}]'>
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -204,7 +204,7 @@
                                     <div class="tab-pane" id="exampleTabsThree" role="tabpanel">
                                         <div class="form form-horizontal logs-settings">
 					                        <div class="form-group row">
-					                            <label class="col-xs-2 control-label">支付方式</label>
+					                            <label class="col-xs-2 control-label">支付时间</label>
 					                            <div class="col-xs-9">
 					                                <input type="text" class="form-control" name="payTime" placeholder="">
 					                            </div>
@@ -265,8 +265,8 @@
 					                        </div>
 					                        <div class="form-group row">
 					                            <label class="col-xs-2 control-label">物流详情</label>
-					                            <div class="col-xs-9">
-					                                <textarea style="width: 100%;height: 150px;border: #bbb solid 1px;" name="logisticDetail" placeholder="暂无物流信息" ></textarea>
+					                            <div class="col-xs-9" id="logisticDetail">
+                                                    
 					                            </div>
 					                        </div>
 					                    </div>

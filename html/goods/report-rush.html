@@ -2,7 +2,7 @@
 <html class="no-js css-menubar" lang="zh-cn">
 
 <head>
-    <title>日志信息</title>
+    <title>抢购举报管理</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- 移动设备 viewport -->
@@ -55,7 +55,7 @@
 
 <div class="page animation-fade page-logs">
     <div class="page-header">
-        <h1 class="page-title">用户信息</h1>
+        <h1 class="page-title">举报信息</h1>
         <div class="page-header-actions">
             <button type="button" class="btn btn-icon btn-info collapsed" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
                 <i class="icon fa-filter"></i>
@@ -82,9 +82,9 @@
                         </div>
                         <div class="form-group">
                             <select class="form-control" name="status" data-plugin="select2">
-                                <option value="">所有用户</option>
-                                <option value="0">正常</option>
-                                <option value="1">冻结</option>
+                                <option value="">所有举报</option>
+                                <option value="1">已处理</option>
+                                <option value="2">未处理</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -100,25 +100,60 @@
                 <h3 class="panel-title">信息</h3>
             </header>-->
             <div class="panel-body">
-                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="logList" data-column-defs='[{ "orderable": false, "targets": 2}]'>
+                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="dataList" data-column-defs='[{ "orderable": false, "targets": 2}]'>
                     <thead>
                     <tr>
-                        <th>用户ID</th>
-                        <th>用户昵称</th>
-                        <th>手机号码</th>
-                        <th>头像</th>
-                        <th>性别</th>
+                        <th>ID</th>
+                        <th>举报类型</th>
+                        <th>举报用户</th>
+                        <th>商品ID</th>
+                        <th>举报商品</th>
+                        <th>举报理由</th>
                         <th>状态</th>
-                        <th>注册时间</th>
+                        <th>举报时间</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                 </table>
             </div>
         </div>
     </div>
+     <div class="modal" id="detailForm" aria-hidden="true" aria-labelledby="detailForm" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-center">
+            <form class="modal-content " id="compileRoleForm">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-hidden="true" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">处理</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form form-horizontal logs-settings">
+                        <div class="form-group row hide">
+                            <label class="col-xs-2 control-label">ID</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="id" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-xs-2 control-label">处理原因</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" name="content" placeholder="">
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit">保存</button>
+                    <a class="btn btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
 </div>
 
 <script src="../../public/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../../public/vendor/jquery-validation/jquery.validate.min.js"></script>
 <script src="../../public/vendor/datatables-bootstrap/dataTables.bootstrap.min.js"></script>
 <script src="../../public/vendor/datatables-responsive/dataTables.responsive.min.js"></script>
 <script src="../../public/vendor/bootstrap-daterangepicker/moment.min.js"></script>
@@ -126,8 +161,9 @@
 <script src="../../public/vendor/select2/select2.min.js"></script>
 <script src="../../public/vendor/select2/i18n/zh-CN.min.js"></script>
 <script src="../../public/themes/classic/base/js/app.js"></script>
+<script src="../../public/js/common.js"></script>
 <script src="../../public/js/utils.js"></script>
-<script src="../../public/js/system/log.js"></script>
+<script src="../../public/js/goods/report-rush.js"></script>
 </body>
 
 </html>

@@ -63,7 +63,7 @@
         </div>
     </div>
     <div class="page-content">
-        <div class="collapse" id="collapseFilter" aria-expanded="true">
+        <div class="collapse in" id="collapseFilter" aria-expanded="true">
             <div class="panel">
                 <div class="panel-body">
                     <form class="form-inline" id="logForm">
@@ -100,7 +100,7 @@
                 <h3 class="panel-title">信息</h3>
             </header>-->
             <div class="panel-body">
-                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="dataList" data-column-defs='[{ "orderable": false, "targets": 2}]'>
+                <table class="table table-hover text-nowrap dataTable table-striped width-full margin-vertical-10" id="dataList" data-column-defs='[{ "orderable": false, "targets": [0,1,5,6,7,8,9,10,14]}]'>
                     <thead>
                     <tr>
                         <th>ID</th>
@@ -234,11 +234,11 @@
                         <div class="form-group row">
                             <label class="col-xs-2 control-label">店铺认证</label>
                         		<div class="col-xs-3 radio-custom radio-primary">
-                                <input type="radio" id="inputRadiosUnchecked" name="authType" value="1" checked>
+                                <input type="radio" id="inputRadiosUnchecked" name="authType" value="2" checked>
                                 <label for="inputRadiosUnchecked">认证通过</label>
                             </div>
                             <div class="radio-custom radio-primary">
-                                <input type="radio" id="inputRadiosChecked" name="authType" value="2">
+                                <input type="radio" id="inputRadiosChecked" name="authType" value="3">
                                 <label for="inputRadiosChecked">认证不通过</label>
                             </div> 
                         </div>

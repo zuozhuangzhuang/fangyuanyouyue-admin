@@ -31,6 +31,7 @@
             processing: true,
             serverSide: true,
             searching: false,
+            order:[[0,"desc"]],
             pagingType: "simple_numbers",
             columns: [
                 {"data": "id"},
@@ -73,14 +74,22 @@
                 var param, column, dir,
                     userId = -1;
 
-                if (data.order.length !== 0) {
-                    column = data.order[0].column; // 列
-                    dir = data.order[0].dir; // 排序（'asc'升 | 'desc'降）
-                } else {
-                    column = dir = '';
-                }
-                param = 'start=' + data.start + '&limit=' + data.length + '&column=' + column +
-                    '&dir=' + dir;
+
+                    if (data.order.length !== 0) {
+                        column = data.order[0].column; // 列
+                        column = data.columns[column].data;
+                        dir = data.order[0].dir; // 排序（'asc'升 | 'desc'降）
+                        if(dir=="asc"){
+                            dir = 1;
+                        }else{
+                            dir = 2;
+                        }
+                    } else {
+                        column = dir = '';
+                    }
+    
+                    param = 'start=' + data.start + '&limit=' + data.length + '&orders=' + toLine(column) +
+                    '&ascType=' + dir;
 
                 if (searchData) {
                     param += '&' + searchData;
@@ -148,7 +157,7 @@
                 success: function (data) {
                     if (data.code==0) {
 		                toastr.success('操作成功！');
-						oTable.ajax.reload();
+						oTable.draw(false);
                         $detailModal.modal('hide');
                     } else {
 		                if(data.report){
@@ -213,7 +222,7 @@
 		            if (data.code==0) {
 		                toastr.success('操作成功！');
 		                parent.layer.close(index);
-						oTable.ajax.reload();
+						oTable.draw(false);
 		                        //actionBtn.hide();
 		            } else {
 		                if(data.report){
