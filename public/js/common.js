@@ -1,8 +1,7 @@
 //通用js
-//var SERVER_PATH = "http://gateway.fangyuanyouyue.com";
-// var SERVER_PATH = "http://192.168.1.66:8769";
-// var SERVER_PATH = "http://zuul.fangyuanyouyue.com";
 var SERVER_PATH = "http://gateway.fangyuanyouyue.com";
+//var SERVER_PATH = "http://127.0.0.1:8769";
+//var SERVER_PATH = "http://zuul.fangyuanyouyue.com";
 
 //判断是否登录
 var userInfo = sessionStorage.getItem("userInfo");
