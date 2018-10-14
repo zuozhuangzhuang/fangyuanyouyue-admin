@@ -124,12 +124,12 @@
 				}
 			});
             $.ajax({
-                url : 'http://192.168.1.66:8769/goods/goods/goodsList',
+                url : 'http://zuul.fangyuanyouyue.com/goods/goods/goodsList',
                 type : 'POST',
                 cache : false,
                 dataType : 'json',
                 data:{
-                    userId:64,
+                    userId:userId,
                     start:0,
                     limit:2,
 					type:1,

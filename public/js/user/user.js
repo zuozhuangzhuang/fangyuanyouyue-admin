@@ -24,8 +24,10 @@
     		if(data==1){
     			return "<span class='label label-success'>正常</span>"
     		}else if(data==2){
-    			return "<span class='label label-danger'>已冻结</span>"
-    		}else{
+                return "<span class='label label-danger'>已冻结</span>"
+            }else if(data==3){
+                return "<span class='label label-danger'>已删除</span>"
+            }else{
     			return "<span class='label label-default'>未知</span>"
     		}
     };
