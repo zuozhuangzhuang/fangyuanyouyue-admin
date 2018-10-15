@@ -76,7 +76,7 @@
 						var goodsInfo = object.data;
 						if(goodsInfo.videoUrl!=null){
                             var videoUrl =goodsInfo.videoUrl;
-                            var description =JSON.parse(goodsInfo.content);
+                            var description =JSON.parse(TransferString(goodsInfo.content));
                             console.log(description);
                             var video ='<video src="'+videoUrl+'" controls width="100%"></video>'
                             var synopsis='<div class="synopsis">'+
@@ -86,7 +86,7 @@
                             $('.share-content').append(video);
                             $('.share-content').append(synopsis);
 						}else{
-                            var description =JSON.parse(goodsInfo.content);
+                            var description =JSON.parse(TransferString(goodsInfo.content));
 							var title ='<div class="title">'+goodsInfo.title+'</div>'
                             $('.share-content').append(title);
 							console.log(description);
