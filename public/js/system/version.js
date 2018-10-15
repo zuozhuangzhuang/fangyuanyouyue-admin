@@ -144,8 +144,8 @@
             }
 
             formData.append("versionDesc", $detailForm.find('input[name="versionDesc"]').val()); 
-            formData.append("versionNo", $detailForm.find('input[name="versionDesc"]').val()); 
-            formData.append("versionName", $detailForm.find('input[name="versionDesc"]').val()); 
+            formData.append("versionNo", $detailForm.find('input[name="versionNo"]').val()); 
+            formData.append("versionName", $detailForm.find('input[name="versionName"]').val()); 
             formData.append("type", $detailForm.find('input[name="type"]').val()); 
             $.ajax({
                 url: SERVER_PATH + '/user/system/versionAdd',
